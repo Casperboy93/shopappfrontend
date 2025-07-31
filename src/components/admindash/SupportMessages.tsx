@@ -19,39 +19,49 @@ export default function SupportMessages() {
 
   useEffect(() => {
     api.get('/support')
-      .then(res => setMessages(res.data))
+      .then(res => {
+        if (Array.isArray(res.data)) {
+          setMessages(res.data);
+        } else {
+          throw new Error('Unexpected response format');
+        }
+      })
       .catch(err => {
-        setError('Failed to load support messages');
-        console.error(err);
+        setError('❌ Failed to load support messages.');
+        console.error('Support messages fetch error:', err);
       })
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <section className="bg-white shadow rounded-lg p-4 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Support Messages</h2>
+    <section className="bg-white shadow-lg rounded-xl p-6 mb-6 border border-gray-200">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Support Messages</h2>
 
       {loading ? (
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-500">⏳ Loading messages...</p>
       ) : error ? (
         <p className="text-red-600">{error}</p>
       ) : messages.length === 0 ? (
-        <p className="text-gray-600">No support messages.</p>
+        <p className="text-gray-500">✅ No support messages yet.</p>
       ) : (
         <div className="space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className="border border-gray-200 rounded p-3"
+              className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
             >
-              <div className="font-medium">{msg.title}</div>
-              <div className="text-sm text-gray-600 mb-2">
-                From: {msg.fullName} ({msg.email}) {msg.phone && `| 📞 ${msg.phone}`}
+              <h3 className="text-lg font-semibold text-gray-800">{msg.title}</h3>
+              <div className="text-sm text-gray-600 mt-1 mb-2">
+                From: <span className="font-medium">{msg.fullName}</span> ({msg.email})
+                {msg.phone && ` | 📞 ${msg.phone}`}
               </div>
-              <div className="text-gray-700 whitespace-pre-wrap">{msg.message}</div>
-              <div className="text-xs text-gray-400 mt-1">
-                Submitted: {new Date(msg.createdAt).toLocaleString()}
-              </div>
+              <p className="text-gray-700 whitespace-pre-wrap">{msg.message}</p>
+              <time className="block text-xs text-gray-400 mt-2">
+                {new Intl.DateTimeFormat('en-GB', {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                }).format(new Date(msg.createdAt))}
+              </time>
             </div>
           ))}
         </div>

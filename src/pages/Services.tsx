@@ -1,5 +1,6 @@
+// src/pages/Services.tsx
 import { useEffect, useState } from 'react';
-import api from '../lib/axios'; // ✅ uses your configured Axios instance
+import api from '../lib/axios';
 import ServiceCard from '../components/services/ServiceCard';
 import { MOROCCAN_CITIES } from '../consts/cities';
 
@@ -12,10 +13,17 @@ const Services = () => {
 
   const fetchServices = async () => {
     try {
-      const res = await api.get('/services'); // ✅ no localhost here
-      setServices(Array.isArray(res.data) ? res.data : []);
+      const res = await api.get('/services');
+      const data = res.data;
+      if (Array.isArray(data)) {
+        setServices(data);
+      } else {
+        console.error('Expected array but got:', data);
+        setServices([]);
+      }
     } catch (err) {
       console.error('Failed to fetch services:', err);
+      setServices([]);
     }
   };
 

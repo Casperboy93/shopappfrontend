@@ -10,6 +10,7 @@ interface ServiceCardProps {
     citiesCovered: string[];
     serviceImgs: string[];
   };
+  onUpdated?: () => void; // <- add this line
 }
 
 export default function ServiceCards({ service }: ServiceCardProps) {

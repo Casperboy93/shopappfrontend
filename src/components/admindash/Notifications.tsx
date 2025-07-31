@@ -13,24 +13,24 @@ interface Notification {
 export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const filterUnique = (notifications: Notification[]) =>
+    notifications.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
 
   useEffect(() => {
     api.get('/notifications')
-      .then(res => {
-        const unique = res.data.filter(
-          (v: Notification, i: number, a: Notification[]) =>
-            a.findIndex(t => t.id === v.id) === i
-        );
-        setNotifications(unique);
-      })
+      .then(res => setNotifications(filterUnique(res.data)))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
   const markAsRead = (id: number) => {
+    setDeletingId(id);
     api.delete(`/notifications/${id}`)
       .then(() => setNotifications((notes) => notes.filter((n) => n.id !== id)))
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setDeletingId(null));
   };
 
   return (
@@ -57,14 +57,18 @@ export default function Notifications() {
                 <h3 className="text-lg font-semibold text-gray-800">{note.title}</h3>
                 <p className="text-sm text-gray-600 mt-1">{note.message}</p>
                 <time className="block text-xs text-gray-400 mt-2">
-                  {new Date(note.createdAt).toLocaleString()}
+                  {new Intl.DateTimeFormat('en-GB', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  }).format(new Date(note.createdAt))}
                 </time>
               </div>
               <button
                 onClick={() => markAsRead(note.id)}
-                className="text-sm text-blue-600 hover:underline mt-1"
+                disabled={deletingId === note.id}
+                className="text-sm text-blue-600 hover:underline mt-1 disabled:opacity-50"
               >
-                Mark as read
+                {deletingId === note.id ? 'Removing...' : 'Mark as read'}
               </button>
             </li>
           ))}

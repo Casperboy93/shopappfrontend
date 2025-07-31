@@ -1,9 +1,8 @@
-// src/components/admindash/PendingRegistrationRequests.tsx
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
 import UserCard from './UserCard';
 
-interface Request {
+export interface RegistrationRequest {
   id: number;
   firstName: string;
   lastName: string;
@@ -19,7 +18,7 @@ interface Request {
 }
 
 export default function PendingRegistrationRequests() {
-  const [requests, setRequests] = useState<Request[]>([]);
+  const [requests, setRequests] = useState<RegistrationRequest[]>([]);
 
   useEffect(() => {
     api.get('/registration-requests')
@@ -58,18 +57,7 @@ export default function PendingRegistrationRequests() {
           {requests.map((req) => (
             <UserCard
               key={req.id}
-              id={req.id}
-              firstName={req.firstName}
-              lastName={req.lastName}
-              email={req.email}
-              phone={req.phone || 'N/A'}
-              dob={req.dob || 'N/A'}
-              city={req.city}
-              address={req.address || 'N/A'}
-              profileImg={req.profileImg || ''}
-              portfolio={req.portfolio || ''}
-              job={req.job}
-              description={req.description || ''}
+              request={req}
               onApprove={handleApprove}
               onReject={handleReject}
             />

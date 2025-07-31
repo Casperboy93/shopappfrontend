@@ -6,10 +6,19 @@ export default function TopUsers() {
   const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
-    api.get('/users/all-subs') // ✅ only users with role USER
-      .then(res => setUsers(res.data))
+    api.get('/users/all-subs')
+      .then(res => {
+        const data = res.data;
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          console.error('Expected an array but got:', data);
+          setUsers([]); // fallback to empty array
+        }
+      })
       .catch(err => console.error(err));
   }, []);
+  
 
   return (
     <div className="py-12 bg-black text-white">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/axios'; // ✅ use shared Axios instance
 
 type NewServiceFormProps = {
   onSuccess: () => Promise<void>;
@@ -23,7 +23,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/services', {
+      await api.post('/services', {
         serviceName: formData.serviceName,
         pricing: parseFloat(formData.pricing),
         description: formData.description,
@@ -61,7 +61,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="pricing"
         value={formData.pricing}
         onChange={handleChange}
-        placeholder="Pricing (€)"
+        placeholder="Pricing (MAD)"
         className="w-full border px-3 py-2 rounded"
         required
       />

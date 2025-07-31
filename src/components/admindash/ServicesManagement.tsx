@@ -1,6 +1,6 @@
 // src/components/admindash/ServicesManagement.tsx
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/axios'; // ✅ Use shared Axios instance
 import NewServiceForm from './NewServiceForm';
 import ServiceCard from './ServiceCards';
 
@@ -10,7 +10,7 @@ export default function ServicesManagement() {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/services');
+      const res = await api.get('/services'); // ✅ Use env-based baseURL
       setServices(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Failed to fetch services:', err);

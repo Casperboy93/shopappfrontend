@@ -1,6 +1,5 @@
-// src/pages/AdminDashboard.tsx
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../lib/axios'; // ✅ Using shared Axios instance
 
 import PendingRegistrationRequests from '../components/admindash/PendingRegistrationRequests';
 import Notifications from '../components/admindash/Notifications';
@@ -19,8 +18,8 @@ export default function AdminDashboard() {
 
   const fetchCounts = async () => {
     try {
-      const notifRes = await axios.get('http://localhost:3000/notifications/counts');
-      const notifCounts = notifRes.data as Record<string, number>; // 👈 Fix: type assertion
+      const notifRes = await api.get('/notifications/counts'); // ✅ Updated here
+      const notifCounts = notifRes.data as Record<string, number>;
 
       setCounts({
         pending: notifCounts['REGISTRATION'] ?? 0,
@@ -32,18 +31,15 @@ export default function AdminDashboard() {
     }
   };
 
-
-
   useEffect(() => {
-    fetchCounts(); // fetch initially
+    fetchCounts(); // initial fetch
 
     const interval = setInterval(() => {
       fetchCounts();
-    }, 10000); // refresh every 10 seconds
+    }, 10000); // refresh every 10s
 
-    return () => clearInterval(interval); // cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
-
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -53,8 +49,9 @@ export default function AdminDashboard() {
       <nav className="flex flex-wrap justify-center gap-3 mb-6">
         <button
           onClick={() => setActiveTab('pending')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${activeTab === 'pending' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+            activeTab === 'pending' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           Pending Requests
           <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -64,8 +61,9 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => setActiveTab('notifications')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+            activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           Notifications
           <span className="bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -75,8 +73,9 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => setActiveTab('support')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${activeTab === 'support' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+            activeTab === 'support' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           Support Messages
           <span className="bg-purple-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -86,24 +85,27 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => setActiveTab('subscriptions')}
-          className={`px-4 py-2 rounded-full text-sm ${activeTab === 'subscriptions' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`px-4 py-2 rounded-full text-sm ${
+            activeTab === 'subscriptions' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           Subscriptions
         </button>
 
         <button
           onClick={() => setActiveTab('services')}
-          className={`px-4 py-2 rounded-full text-sm ${activeTab === 'services' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`px-4 py-2 rounded-full text-sm ${
+            activeTab === 'services' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           Services Management
         </button>
 
         <button
           onClick={() => setActiveTab('newuser')}
-          className={`px-4 py-2 rounded-full text-sm ${activeTab === 'newuser' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+          className={`px-4 py-2 rounded-full text-sm ${
+            activeTab === 'newuser' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
         >
           ➕ Add New User
         </button>
@@ -117,7 +119,6 @@ export default function AdminDashboard() {
         {activeTab === 'subscriptions' && <SubscriptionsManagement />}
         {activeTab === 'services' && <ServicesManagement />}
         {activeTab === 'newuser' && <NewUserForm />}
-
       </div>
     </div>
   );

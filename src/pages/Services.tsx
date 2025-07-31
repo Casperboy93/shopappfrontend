@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../lib/axios'; // ✅ uses your configured Axios instance
 import ServiceCard from '../components/services/ServiceCard';
 import { MOROCCAN_CITIES } from '../consts/cities';
 
@@ -12,7 +12,7 @@ const Services = () => {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/services');
+      const res = await api.get('/services'); // ✅ no localhost here
       setServices(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error('Failed to fetch services:', err);

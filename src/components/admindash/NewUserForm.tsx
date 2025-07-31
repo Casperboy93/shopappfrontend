@@ -136,9 +136,11 @@ export default function NewUserForm() {
         <ul className="divide-y">
           {users.map((u) => (
             <li key={u.id} className="py-3">
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-1">
                 <span className="font-medium">{u.firstName} {u.lastName}</span>
-                <span className="text-sm text-gray-500">{u.email} — {u.job} ({u.city})</span>
+                <div className="text-sm text-gray-500">
+                  <span>{u.email}</span> — <span>{u.phone}</span> — <span>{u.job}</span> ({u.city})
+                </div>
               </div>
             </li>
           ))}

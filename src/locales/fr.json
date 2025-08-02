@@ -11,6 +11,7 @@
   },
   "common": {
     "loading": "Chargement...",
+    "to":"dans",
     "error": "Erreur",
     "success": "Succès",
     "cancel": "Annuler",
@@ -59,7 +60,7 @@
     "topUsers": "Meilleurs Utilisateurs",
     "featuredServices": "Services en Vedette"
   },
-  "search": {
+  "searchPage": {
     "searchPlaceholder": "Rechercher par nom, métier ou localisation...",
     "allCities": "Toutes les Villes",
     "allJobs": "Tous les Métiers",

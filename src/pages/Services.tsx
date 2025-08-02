@@ -177,7 +177,7 @@ const Services = () => {
 
               {/* City Filter */}
               <div className="space-y-2">
-                <label className="block font-medium text-high-contrast flex items-center gap-2">
+                <label className="font-medium text-high-contrast flex items-center gap-2">
                   <FaMapMarkerAlt className="text-emerald-custom-400" />
                   {t('services.location')}
                 </label>
@@ -197,7 +197,7 @@ const Services = () => {
 
               {/* Price Range */}
               <div className="space-y-2">
-                <label className="block font-medium text-high-contrast flex items-center gap-2">
+                <label className="font-medium text-high-contrast flex items-center gap-2">
                   <FaMoneyBillWave className="text-golden-400" />
                   {t('services.priceRangeLabel')}
                 </label>

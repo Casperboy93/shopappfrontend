@@ -169,29 +169,30 @@ export default function SubscriptionsManagement() {
       <h2 className="text-2xl font-bold mb-6 text-gray-800">📅 Subscriptions Management</h2>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 className="text-sm font-medium text-blue-600">Total Subscriptions</h3>
-          <p className="text-2xl font-bold text-blue-800">{stats.total}</p>
+      // Update the statistics cards section:
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6">
+        <div className="bg-blue-50 p-3 lg:p-4 rounded-lg border border-blue-200">
+          <h3 className="text-xs lg:text-sm font-medium text-blue-600">Total Subscriptions</h3>
+          <p className="text-lg lg:text-2xl font-bold text-blue-800">{stats.total}</p>
         </div>
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <h3 className="text-sm font-medium text-green-600">Active</h3>
-          <p className="text-2xl font-bold text-green-800">{stats.active}</p>
+        <div className="bg-green-50 p-3 lg:p-4 rounded-lg border border-green-200">
+          <h3 className="text-xs lg:text-sm font-medium text-green-600">Active</h3>
+          <p className="text-lg lg:text-2xl font-bold text-green-800">{stats.active}</p>
         </div>
-        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <h3 className="text-sm font-medium text-yellow-600">Expiring Soon</h3>
-          <p className="text-2xl font-bold text-yellow-800">{stats.expiring}</p>
+        <div className="bg-yellow-50 p-3 lg:p-4 rounded-lg border border-yellow-200">
+          <h3 className="text-xs lg:text-sm font-medium text-yellow-600">Expiring Soon</h3>
+          <p className="text-lg lg:text-2xl font-bold text-yellow-800">{stats.expiring}</p>
         </div>
-        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
-          <h3 className="text-sm font-medium text-red-600">Expired</h3>
-          <p className="text-2xl font-bold text-red-800">{stats.expired}</p>
+        <div className="bg-red-50 p-3 lg:p-4 rounded-lg border border-red-200">
+          <h3 className="text-xs lg:text-sm font-medium text-red-600">Expired</h3>
+          <p className="text-lg lg:text-2xl font-bold text-red-800">{stats.expired}</p>
         </div>
       </div>
-
-      {/* Add Subscription Form */}
-      <form onSubmit={handleAddSubscription} className="mb-8 p-4 bg-gray-50 rounded-lg">
+      
+      // Update the form section:
+      <form onSubmit={handleAddSubscription} className="mb-6 lg:mb-8 p-4 bg-gray-50 rounded-lg">
         <h3 className="text-lg font-semibold mb-4 text-gray-700">Add New Subscription</h3>
-        <div className="flex flex-wrap gap-4 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">User Phone</label>
             <input

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import api from '../lib/axios'; // ✅ Using shared Axios instance
+import api from '../lib/axios';
 
 import PendingRegistrationRequests from '../components/admindash/PendingRegistrationRequests';
-import Notifications from '../components/admindash/Notifications';
 import SupportMessages from '../components/admindash/SupportMessages';
 import ServicesManagement from '../components/admindash/ServicesManagement';
 import NewUserForm from '../components/admindash/NewUserForm';
@@ -12,109 +11,103 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('pending');
   const [counts, setCounts] = useState({
     pending: 0,
-    notifications: 0,
     support: 0,
   });
 
   const fetchCounts = async () => {
     try {
-      const notifRes = await api.get('/notifications/counts'); // ✅ Updated here
-      const notifCounts = notifRes.data as Record<string, number>;
-
+      // Remove notification counts fetching
+      // For now, we'll set static counts or fetch from other endpoints
       setCounts({
-        pending: notifCounts['REGISTRATION'] ?? 0,
-        support: notifCounts['SUPPORT'] ?? 0,
-        notifications: Object.values(notifCounts).reduce((sum, v) => sum + (typeof v === 'number' ? v : 0), 0),
+        pending: 0, // You can implement a separate endpoint for pending requests count
+        support: 0, // You can implement a separate endpoint for support messages count
       });
     } catch (err) {
-      console.error('Failed to fetch notification counts:', err);
+      console.error('Failed to fetch counts:', err);
     }
   };
 
   useEffect(() => {
-    fetchCounts(); // initial fetch
-
+    fetchCounts();
     const interval = setInterval(() => {
       fetchCounts();
-    }, 10000); // refresh every 10s
-
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">Admin Dashboard</h1>
+    <div className="flex max-w-7xl mx-auto p-6 gap-6">
+      {/* Vertical Navigation Sidebar */}
+      <nav className="w-64 bg-white shadow-lg rounded-xl p-4 h-fit">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Admin Dashboard</h1>
+        
+        <div className="space-y-2">
+          <button
+            onClick={() => setActiveTab('pending')}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm transition-colors ${
+              activeTab === 'pending' 
+                ? 'bg-blue-600 text-white shadow-md' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <span>Pending Requests</span>
+            <span className="bg-blue-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+              {counts.pending}
+            </span>
+          </button>
 
-      {/* Navigation Tabs */}
-      <nav className="flex flex-wrap justify-center gap-3 mb-6">
-        <button
-          onClick={() => setActiveTab('pending')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
-            activeTab === 'pending' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          Pending Requests
-          <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {counts.pending}
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('support')}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm transition-colors ${
+              activeTab === 'support' 
+                ? 'bg-blue-600 text-white shadow-md' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <span>Support Messages</span>
+            <span className="bg-purple-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+              {counts.support}
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('notifications')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
-            activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          Notifications
-          <span className="bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {counts.notifications}
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('subscriptions')}
+            className={`w-full px-4 py-3 rounded-lg text-sm transition-colors ${
+              activeTab === 'subscriptions' 
+                ? 'bg-blue-600 text-white shadow-md' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Subscriptions
+          </button>
 
-        <button
-          onClick={() => setActiveTab('support')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
-            activeTab === 'support' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          Support Messages
-          <span className="bg-purple-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {counts.support}
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('services')}
+            className={`w-full px-4 py-3 rounded-lg text-sm transition-colors ${
+              activeTab === 'services' 
+                ? 'bg-blue-600 text-white shadow-md' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Services Management
+          </button>
 
-        <button
-          onClick={() => setActiveTab('subscriptions')}
-          className={`px-4 py-2 rounded-full text-sm ${
-            activeTab === 'subscriptions' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          Subscriptions
-        </button>
-
-        <button
-          onClick={() => setActiveTab('services')}
-          className={`px-4 py-2 rounded-full text-sm ${
-            activeTab === 'services' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          Services Management
-        </button>
-
-        <button
-          onClick={() => setActiveTab('newuser')}
-          className={`px-4 py-2 rounded-full text-sm ${
-            activeTab === 'newuser' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          ➕ Add New User
-        </button>
+          <button
+            onClick={() => setActiveTab('newuser')}
+            className={`w-full px-4 py-3 rounded-lg text-sm transition-colors ${
+              activeTab === 'newuser' 
+                ? 'bg-green-600 text-white shadow-md' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            👥 Users Management
+          </button>
+        </div>
       </nav>
 
-      {/* Active Section */}
-      <div>
+      {/* Main Content Area */}
+      <div className="flex-1">
         {activeTab === 'pending' && <PendingRegistrationRequests />}
-        {activeTab === 'notifications' && <Notifications />}
         {activeTab === 'support' && <SupportMessages />}
         {activeTab === 'subscriptions' && <SubscriptionsManagement />}
         {activeTab === 'services' && <ServicesManagement />}

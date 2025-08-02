@@ -3,7 +3,7 @@ import api from '../../lib/axios';
 import UserCard from './UserCard';
 
 export interface RegistrationRequest {
-  id: number;
+  _id: string; // Changed from 'id: number' to '_id: string'
   firstName: string;
   lastName: string;
   email: string;
@@ -15,6 +15,7 @@ export interface RegistrationRequest {
   portfolio: string;
   job: string;
   description: string;
+  status: string; // Add status field
 }
 
 export default function PendingRegistrationRequests() {
@@ -29,19 +30,19 @@ export default function PendingRegistrationRequests() {
       .catch(console.error);
   }, []);
 
-  const handleApprove = async (id: number) => {
+  const handleApprove = async (id: string) => { // Changed parameter type to string
     try {
       await api.post(`/registration-requests/${id}/approve`);
-      setRequests(reqs => reqs.filter(r => r.id !== id));
+      setRequests(reqs => reqs.filter(r => r._id !== id)); // Use _id instead of id
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleReject = async (id: number) => {
+  const handleReject = async (id: string) => { // Changed parameter type to string
     try {
       await api.post(`/registration-requests/${id}/reject`);
-      setRequests(reqs => reqs.filter(r => r.id !== id));
+      setRequests(reqs => reqs.filter(r => r._id !== id)); // Use _id instead of id
     } catch (err) {
       console.error(err);
     }
@@ -56,7 +57,7 @@ export default function PendingRegistrationRequests() {
         <div className="space-y-6">
           {requests.map((req) => (
             <UserCard
-              key={req.id}
+              key={req._id} // Fixed: Use _id as key and ensure it exists
               request={req}
               onApprove={handleApprove}
               onReject={handleReject}

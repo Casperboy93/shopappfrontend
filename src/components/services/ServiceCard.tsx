@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ServiceCardProps {
   service: {
@@ -13,6 +14,7 @@ interface ServiceCardProps {
 }
 
 export default function ServiceCard({ service }: ServiceCardProps) {
+  const { t } = useTranslation();
   const [showDescription, setShowDescription] = useState(false);
 
   const createdDate = new Date(service.createdAt);
@@ -21,7 +23,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const daysSince = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="bg-white/10 border border-white/20 backdrop-blur-lg shadow-md rounded-xl flex flex-col md:flex-row overflow-hidden transition-all duration-300 hover:scale-[1.01] text-white">
+    <div className="bg-card-dark rounded-xl flex flex-col md:flex-row overflow-hidden transition-all duration-300 hover:scale-[1.01] text-white shadow-xl hover:shadow-golden-500/10">
       {/* Image */}
       <img
         src={service.serviceImgs[0]}
@@ -32,38 +34,38 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="text-2xl font-bold mb-1">{service.serviceName}</h3>
+          <h3 className="text-2xl font-bold mb-1 text-gradient-golden">{service.serviceName}</h3>
 
-          <p className="text-xs text-white/60 mb-2">
-            Created on {createdDate.toLocaleDateString()} — {daysSince} day{daysSince !== 1 ? 's' : ''} ago
+          <p className="text-xs text-gray-400 mb-2">
+            {t('serviceCard.createdOn')} {createdDate.toLocaleDateString()} — {daysSince} {daysSince !== 1 ? t('serviceCard.days') : t('serviceCard.day')} {t('serviceCard.ago')}
           </p>
 
           <p
-            className={`text-sm text-white/80 mb-3 transition-all duration-300 ease-in-out ${
+            className={`text-sm text-gray-300 mb-3 transition-all duration-300 ease-in-out ${
               showDescription ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0 overflow-hidden'
             }`}
           >
             {service.description}
           </p>
 
-          <p className="text-sm">
-            <strong>Delivery:</strong> {service.deliveryTime}
+          <p className="text-sm text-high-contrast">
+            <strong className="text-emerald-bright">{t('serviceCard.delivery')}</strong> {service.deliveryTime}
           </p>
-          <p className="text-sm">
-            <strong>Available in:</strong> {service.citiesCovered.join(', ')}
+          <p className="text-sm text-high-contrast">
+            <strong className="text-emerald-bright">{t('serviceCard.availableIn')}</strong> {service.citiesCovered.join(', ')}
           </p>
         </div>
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-4">
-          <span className="text-yellow-400 font-extrabold text-lg">
+          <span className="text-gradient-golden font-extrabold text-lg">
             {service.pricing.toFixed(2)} MAD
           </span>
           <button
             onClick={() => setShowDescription(prev => !prev)}
-            className="bg-yellow-400 text-black px-5 py-2 rounded-lg hover:bg-white hover:text-yellow-500 transition font-semibold"
+            className="btn-emerald-enhanced px-5 py-2 rounded-lg transition-all duration-200 font-semibold"
           >
-            {showDescription ? 'Hide' : 'Book Now'}
+            {showDescription ? t('serviceCard.hide') : t('serviceCard.bookNow')}
           </button>
         </div>
       </div>

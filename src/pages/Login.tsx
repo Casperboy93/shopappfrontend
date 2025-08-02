@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import api from '../lib/axios';
 
 interface LoginFormData {
-  email: string;
+  phone: string;
   password: string;
 }
 
 export default function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
+    phone: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -25,8 +25,8 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    if (!formData.email || !formData.password) {
-      setError('Email and Password are required.');
+    if (!formData.phone || !formData.password) {
+      setError('Phone and Password are required.');
       return;
     }
 
@@ -68,10 +68,10 @@ export default function Login() {
           )}
 
           <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
             onChange={handleChange}
             className="w-full border-b-2 border-gray-300 focus:border-yellow-400 outline-none py-2 px-1 placeholder:text-gray-500"
           />

@@ -1,12 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye } from 'react-icons/fa';
 import api from '../lib/axios';
 
 export default function UserProfile() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [user, setUser] = useState<any>(null);
   const [notFound, setNotFound] = useState(false);
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
 
   useEffect(() => {
     api
@@ -22,76 +25,100 @@ export default function UserProfile() {
       });
   }, [id]);
 
+  const handlePhoneClick = async () => {
+    if (!phoneRevealed) {
+      try {
+        // Increment phoneViews count
+        await api.patch(`/users/${id}/phoneviews`);
+        setPhoneRevealed(true);
+      } catch (error) {
+        console.error('Error incrementing phone views:', error);
+      }
+    } else {
+      // Make the call
+      window.open(`tel:${user.phone}`);
+    }
+  };
+
   if (notFound) {
-    return <p className="text-center text-red-400 mt-10">This user is not subscribed or doesn’t exist.</p>;
+    return <p className="text-center text-red-400 mt-10">{t('user.userNotFound')}</p>;
   }
 
   if (!user) {
-    return <p className="text-center mt-10 text-white">Loading...</p>;
+    return <p className="text-center mt-10 text-white">{t('user.loading')}</p>;
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-10">
-      <div className="max-w-3xl mx-auto backdrop-blur bg-white/10 border border-white/20 rounded-2xl overflow-hidden">
+    <div className="min-h-screen bg-gradient-dark text-white px-4 py-10">
+      <div className="max-w-3xl mx-auto backdrop-blur bg-white/5 border border-golden-600/20 rounded-2xl overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 p-6 bg-white/5">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 p-8 bg-gradient-to-br from-golden-500/5 to-emerald-custom-500/5 border-b border-golden-600/20">
           {/* Profile Image */}
           {user.profileImg ? (
             <img
               src={user.profileImg}
               alt={`${user.firstName} ${user.lastName}`}
-              className="w-32 h-32 rounded-full border border-white object-cover"
+              className="w-32 h-32 rounded-full border-2 border-golden-500/50 object-cover shadow-lg"
             />
           ) : (
-            <div className="w-32 h-32 rounded-full border border-white bg-gray-800 flex items-center justify-center text-white/50">
-              No Image
+            <div className="w-32 h-32 rounded-full border-2 border-golden-500/50 bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center text-golden-400/60 shadow-lg">
+              <span className="text-sm font-medium">{t('user.noImage')}</span>
             </div>
           )}
 
           {/* Info */}
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-yellow-400">
+            <h2 className="text-3xl font-bold bg-gradient-golden text-slate-800 pl-4">
               {user.firstName} {user.lastName}
             </h2>
 
-            <div className="flex items-center gap-2 mt-1 text-white/80 text-sm">
-              <FaMapMarkerAlt className="text-yellow-400" />
+            <div className="flex items-center gap-2 mt-2 text-gray-300 text-sm">
+              <FaMapMarkerAlt className="text-golden-400" />
               <span>{user.city}</span>
             </div>
 
-            <div className="mt-2 inline-block bg-yellow-400 text-black text-xs font-medium px-4 py-1 rounded-full">
+            <div className="mt-3 inline-block bg-gradient-emerald text-white text-sm font-medium px-4 py-2 rounded-full shadow-md">
               {user.job}
             </div>
 
-            <div className="flex items-center gap-2 text-yellow-300 mt-3 text-sm">
-              <FaStar />
-              <span>{user.rating} / 5.0</span>
+            <div className="flex items-center gap-2 text-golden-300 mt-4 text-sm">
+              <FaStar className="text-golden-400" />
+              <span className="font-semibold">{user.rating} / 5.0</span>
             </div>
 
-            <div className="text-white/60 text-xs mt-1">
-              <FaEye className="inline-block mr-1" />
-              Views: {user.views} &bull; Phone Views: {user.phoneViews}
+            <div className="text-gray-400 text-xs mt-2 flex items-center gap-4">
+              <div className="flex items-center gap-1">
+                <FaEye className="text-emerald-custom-400" />
+                <span>{t('user.viewsCount', { count: user.views })}</span>
+              </div>
+              {phoneRevealed && (
+                <div className="flex items-center gap-1">
+                  <FaPhoneAlt className="text-golden-400" />
+                  <span>{t('user.phoneViewsCount', { count: user.phoneViews })}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Description */}
-        <div className="p-6 border-t border-white/20 text-sm text-white/90 leading-relaxed">
-          {user.description}
+        <div className="p-8 border-t border-golden-600/20 text-gray-300 leading-relaxed">
+          <h3 className="text-lg font-semibold text-white mb-3">{t('user.about')}</h3>
+          <p className="text-gray-300">{user.description}</p>
         </div>
 
         {/* Contact */}
-        <div className="p-6 border-t border-white/20 bg-white/5 flex justify-end">
+        <div className="p-8 border-t border-golden-600/20 bg-gradient-to-r from-golden-500/5 to-emerald-custom-500/5 flex justify-end">
           {user.phone ? (
             <button
-              onClick={() => alert(`Calling ${user.phone}`)}
-              className="flex items-center gap-2 bg-yellow-400 text-black px-5 py-2 rounded-md text-sm font-semibold hover:bg-white hover:text-yellow-500 transition"
+              onClick={handlePhoneClick}
+              className="flex items-center gap-3 bg-gradient-golden text-dark-900 px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-200 shadow-lg"
             >
               <FaPhoneAlt />
-              Contact: {user.phone}
+              {phoneRevealed ? t('user.callPhone', { phone: user.phone }) : t('user.revealPhone')}
             </button>
           ) : (
-            <span className="text-white/50 italic text-sm">Phone not public</span>
+            <span className="text-gray-400 italic text-sm">{t('user.phoneNotPublic')}</span>
           )}
         </div>
       </div>

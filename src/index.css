@@ -1,1 +1,182 @@
 @import "tailwindcss";
+
+/* Font Face Declarations */
+@font-face {
+  font-family: 'Cairo';
+  src: url('./assets/fonts/Cairo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MPLUS Rounded 1c';
+  src: url('./assets/fonts/MPLUSRounded1c-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Set default font for the entire application */
+:root {
+  --font-primary: 'MPLUS Rounded 1c', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
+}
+
+:root[dir="rtl"] {
+  --font-current: var(--font-arabic);
+}
+
+:root[dir="ltr"] {
+  --font-current: var(--font-primary);
+}
+
+body {
+  font-family: var(--font-current, var(--font-primary));
+}
+
+/* Arabic text styling */
+[dir="rtl"], .arabic {
+  font-family: 'Cairo', sans-serif;
+}
+
+@theme {
+  --font-family-cairo: Cairo, sans-serif;
+  --font-family-mplus: 'MPLUS Rounded 1c', sans-serif;
+  --font-family-primary: 'MPLUS Rounded 1c', sans-serif;
+  --font-family-arabic: Cairo, sans-serif;
+  
+  --color-golden-50: #fffdf7;
+  --color-golden-100: #fffaeb;
+  --color-golden-200: #fff3c4;
+  --color-golden-300: #ffe888;
+  --color-golden-400: #ffd43b;
+  --color-golden-500: #ffbe0b;
+  --color-golden-600: #e8a317;
+  --color-golden-700: #d18700;
+  --color-golden-800: #a86f00;
+  --color-golden-900: #8b5a00;
+  
+  --color-emerald-custom-50: #ecfdf5;
+  --color-emerald-custom-100: #d1fae5;
+  --color-emerald-custom-200: #a7f3d0;
+  --color-emerald-custom-300: #6ee7b7;
+  --color-emerald-custom-400: #34d399;
+  --color-emerald-custom-500: #10b981;
+  --color-emerald-custom-600: #059669;
+  --color-emerald-custom-700: #047857;
+  --color-emerald-custom-800: #065f46;
+  --color-emerald-custom-900: #064e3b;
+  
+  --color-dark-50: #f8fafc;
+  --color-dark-100: #f1f5f9;
+  --color-dark-200: #e2e8f0;
+  --color-dark-300: #cbd5e1;
+  --color-dark-400: #94a3b8;
+  --color-dark-500: #64748b;
+  --color-dark-600: #475569;
+  --color-dark-700: #334155;
+  --color-dark-800: #1e293b;
+  --color-dark-900: #0f172a;
+  --color-dark-950: #020617;
+}
+
+/* Add these utility classes after the @theme block */
+@layer utilities {
+  .font-locale-ar {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+  }
+  
+  .font-locale-en,
+  .font-locale-fr {
+    font-family: 'MPLUS Rounded 1c', sans-serif;
+    direction: ltr;
+  }
+  
+  .bg-gradient-golden {
+    background: linear-gradient(135deg, #ffbe0b 0%, #d18700 100%);
+  }
+  
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  .bg-gradient-emerald {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  }
+  
+  .text-gradient-golden {
+    background: linear-gradient(135deg, #ffbe0b 0%, #d18700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-emerald {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Enhanced contrast utilities */
+  .text-high-contrast {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-golden-bright {
+    color: #ffd43b;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .text-emerald-bright {
+    color: #34d399;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .bg-dark-enhanced {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+  }
+  
+  .bg-card-dark {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 190, 11, 0.2);
+  }
+  
+  .bg-card-emerald {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  /* Button enhancements */
+  .btn-golden-enhanced {
+    background: linear-gradient(135deg, #ffd43b 0%, #ffbe0b 50%, #d18700 100%);
+    color: #0f172a;
+    font-weight: 600;
+    text-shadow: none;
+    box-shadow: 0 4px 12px rgba(255, 190, 11, 0.3);
+  }
+  
+  .btn-golden-enhanced:hover {
+    background: linear-gradient(135deg, #ffe888 0%, #ffd43b 50%, #e8a317 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 190, 11, 0.4);
+  }
+  
+  .btn-emerald-enhanced {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #047857 100%);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  .btn-emerald-enhanced:hover {
+    background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+  }
+}

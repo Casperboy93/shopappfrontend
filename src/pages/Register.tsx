@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import api from '../lib/axios';
 
 interface RegistrationFormData {
   firstName: string;
   lastName: string;
-  password: string;
   phone: string;
   city: string;
   address: string;
@@ -15,10 +15,10 @@ interface RegistrationFormData {
 }
 
 export default function Register() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<RegistrationFormData>({
     firstName: '',
     lastName: '',
-    password: '',
     phone: '',
     city: '',
     address: '',
@@ -40,14 +40,13 @@ export default function Register() {
   const validate = () => {
     const newErrors: string[] = [];
 
-    if (!formData.firstName) newErrors.push('First Name is required.');
-    if (!formData.lastName) newErrors.push('Last Name is required.');
-    if (!formData.password) newErrors.push('Password is required.');
-    if (!formData.phone) newErrors.push('Phone is required.');
-    if (!formData.city) newErrors.push('City is required.');
-    if (!formData.address) newErrors.push('Address is required.');
-    if (!formData.job) newErrors.push('Job is required.');
-    if (!formData.description) newErrors.push('Description is required.');
+    if (!formData.firstName) newErrors.push(t('register.validation.firstNameRequired'));
+    if (!formData.lastName) newErrors.push(t('register.validation.lastNameRequired'));
+    if (!formData.phone) newErrors.push(t('register.validation.phoneRequired'));
+    if (!formData.city) newErrors.push(t('register.validation.cityRequired'));
+    if (!formData.address) newErrors.push(t('register.validation.addressRequired'));
+    if (!formData.job) newErrors.push(t('register.validation.jobRequired'));
+    if (!formData.description) newErrors.push(t('register.validation.descriptionRequired'));
 
     return newErrors;
   };
@@ -71,7 +70,7 @@ export default function Register() {
         const message = error.response.data.message;
         setErrors(Array.isArray(message) ? message : [message]);
       } else {
-        setErrors(['Something went wrong. Please try again.']);
+        setErrors([t('register.somethingWentWrong')]);
       }
     } finally {
       setLoading(false);
@@ -84,16 +83,15 @@ export default function Register() {
   return (
     <div className="max-w-3xl mx-auto p-6 text-black">
       <h1 className="text-3xl font-bold text-center mb-4">
-        <span className="text-yellow-400">Join</span> Our Platform
+        <span className="text-yellow-400">{t('register.title')}</span>
       </h1>
       <p className="text-center text-gray-600 mb-6">
-        Please provide accurate and complete information. It will help us verify your profile
-        and connect you with the right opportunities.
+        {t('register.subtitle')}
       </p>
 
       {submitted ? (
         <div className="bg-green-100 border border-green-300 text-green-700 p-4 rounded text-center font-medium">
-          ✅ Your registration request has been submitted! We will contact you after reviewing your profile.
+          {t('register.success')}
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6 space-y-4">
@@ -108,19 +106,60 @@ export default function Register() {
           )}
 
           <div className="grid md:grid-cols-2 gap-4">
-            <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} className={inputClass} />
-            <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} className={inputClass} />
-            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className={inputClass} />
-            <input type="text" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} className={inputClass} />
-            <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} className={inputClass} />
-            <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} className={inputClass} />
+            <input 
+              type="text" 
+              name="firstName" 
+              placeholder={t('register.firstName')} 
+              value={formData.firstName} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
+            <input 
+              type="text" 
+              name="lastName" 
+              placeholder={t('register.lastName')} 
+              value={formData.lastName} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
+            <input 
+              type="text" 
+              name="phone" 
+              placeholder={t('register.phone')} 
+              value={formData.phone} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
+            <input 
+              type="text" 
+              name="city" 
+              placeholder={t('register.city')} 
+              value={formData.city} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
+            <input 
+              type="text" 
+              name="address" 
+              placeholder={t('register.address')} 
+              value={formData.address} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
           </div>
 
-          <input type="text" name="job" placeholder="Job Title" value={formData.job} onChange={handleChange} className={inputClass} />
+          <input 
+            type="text" 
+            name="job" 
+            placeholder={t('register.jobTitle')} 
+            value={formData.job} 
+            onChange={handleChange} 
+            className={inputClass} 
+          />
 
           <textarea
             name="description"
-            placeholder="Describe your services and experience"
+            placeholder={t('register.description')}
             value={formData.description}
             onChange={handleChange}
             className="border-b-2 border-gray-300 focus:border-yellow-400 outline-none px-3 py-2 w-full bg-transparent text-black placeholder:text-gray-500"
@@ -128,8 +167,22 @@ export default function Register() {
           />
 
           <div className="grid md:grid-cols-2 gap-4">
-            <input type="text" name="profileImg" placeholder="Profile Image URL (optional)" value={formData.profileImg} onChange={handleChange} className={inputClass} />
-            <input type="text" name="portfolio" placeholder="Portfolio or Social Media (optional)" value={formData.portfolio} onChange={handleChange} className={inputClass} />
+            <input 
+              type="text" 
+              name="profileImg" 
+              placeholder={t('register.profileImage')} 
+              value={formData.profileImg} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
+            <input 
+              type="text" 
+              name="portfolio" 
+              placeholder={t('register.portfolio')} 
+              value={formData.portfolio} 
+              onChange={handleChange} 
+              className={inputClass} 
+            />
           </div>
 
           <button
@@ -137,15 +190,14 @@ export default function Register() {
             type="submit"
             className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-black hover:text-yellow-400 border border-yellow-400 transition w-full font-semibold"
           >
-            {loading ? 'Submitting...' : 'Submit Registration Request'}
+            {loading ? t('register.submitting') : t('register.submit')}
           </button>
         </form>
       )}
 
       {!submitted && (
         <p className="mt-6 text-center text-sm text-gray-500">
-          Our team will review your profile and get in touch with you for any confirmation or
-          verification needed. Thank you for joining our platform!
+          {t('register.reviewMessage')}
         </p>
       )}
     </div>

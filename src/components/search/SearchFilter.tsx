@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MOROCCAN_CITIES } from '../../consts/cities';
 import { JOB_TYPES } from '../../consts/jobs';
 
 interface Props {
   onFilter: (filters: { city: string; job: string }) => void;
+  initialCity?: string;
+  initialJob?: string;
 }
 
-export default function SearchFilter({ onFilter }: Props) {
-  const [city, setCity] = useState('');
-  const [job, setJob] = useState('');
+export default function SearchFilter({ onFilter, initialCity = '', initialJob = '' }: Props) {
+  const [city, setCity] = useState(initialCity);
+  const [job, setJob] = useState(initialJob);
+
+  // Update local state when initial values change
+  useEffect(() => {
+    setCity(initialCity);
+  }, [initialCity]);
+
+  useEffect(() => {
+    setJob(initialJob);
+  }, [initialJob]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,12 +29,12 @@ export default function SearchFilter({ onFilter }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="backdrop-blur bg-white/10 border border-white/20 rounded-xl p-4 mb-6 flex flex-col sm:flex-row gap-4 text-white"
+      className="backdrop-blur bg-white/5 border border-golden-600/20 rounded-xl p-6 mb-8 flex flex-col sm:flex-row gap-4 text-white shadow-lg"
     >
       <select
         value={city}
         onChange={(e) => setCity(e.target.value)}
-        className="bg-black border border-white/30 rounded px-3 py-2 w-full sm:w-1/4 text-white"
+        className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full sm:w-1/3 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
         <option value="">All Cities</option>
         {MOROCCAN_CITIES.map((c) => (
@@ -36,7 +47,7 @@ export default function SearchFilter({ onFilter }: Props) {
       <select
         value={job}
         onChange={(e) => setJob(e.target.value)}
-        className="bg-black border border-white/30 rounded px-3 py-2 w-full sm:w-1/4 text-white"
+        className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full sm:w-1/3 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
         <option value="">All Jobs</option>
         {JOB_TYPES.map((j) => (
@@ -48,7 +59,7 @@ export default function SearchFilter({ onFilter }: Props) {
 
       <button
         type="submit"
-        className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-white hover:text-yellow-500 transition w-full sm:w-fit"
+        className="bg-gradient-golden text-dark-900 font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-all duration-200 w-full sm:w-fit shadow-md"
       >
         Apply
       </button>

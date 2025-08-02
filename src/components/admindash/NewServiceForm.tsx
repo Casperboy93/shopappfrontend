@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import api from '../../lib/axios'; // ✅ use shared Axios instance
 
 type NewServiceFormProps = {
@@ -6,6 +7,7 @@ type NewServiceFormProps = {
 };
 
 export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     serviceName: '',
     pricing: '',
@@ -52,7 +54,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="serviceName"
         value={formData.serviceName}
         onChange={handleChange}
-        placeholder="Service name"
+        placeholder={t('adminForms.newService.serviceName')}
         className="w-full border px-3 py-2 rounded"
         required
       />
@@ -61,7 +63,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="pricing"
         value={formData.pricing}
         onChange={handleChange}
-        placeholder="Pricing (MAD)"
+        placeholder={t('adminForms.newService.pricing')}
         className="w-full border px-3 py-2 rounded"
         required
       />
@@ -69,7 +71,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="description"
         value={formData.description}
         onChange={handleChange}
-        placeholder="Service description"
+        placeholder={t('adminForms.newService.description')}
         className="w-full border px-3 py-2 rounded"
         required
       />
@@ -78,7 +80,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="serviceImgs"
         value={formData.serviceImgs}
         onChange={handleChange}
-        placeholder="Image URLs (comma separated)"
+        placeholder={t('adminForms.newService.imageUrls')}
         className="w-full border px-3 py-2 rounded"
         required
       />
@@ -87,7 +89,7 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="deliveryTime"
         value={formData.deliveryTime}
         onChange={handleChange}
-        placeholder="Delivery time (e.g. 2-3 days)"
+        placeholder={t('adminForms.newService.deliveryTime')}
         className="w-full border px-3 py-2 rounded"
         required
       />
@@ -96,12 +98,12 @@ export default function NewServiceForm({ onSuccess }: NewServiceFormProps) {
         name="citiesCovered"
         value={formData.citiesCovered}
         onChange={handleChange}
-        placeholder="Cities Covered (comma separated)"
+        placeholder={t('adminForms.newService.citiesCovered')}
         className="w-full border px-3 py-2 rounded"
         required
       />
       <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        ➕ Add Service
+        {t('adminForms.newService.addService')}
       </button>
     </form>
   );

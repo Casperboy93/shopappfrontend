@@ -101,19 +101,19 @@ export default function Header() {
       </style>
       
       <header className="bg-dark-950/95 text-white sticky top-0 z-50 border-b border-golden-600/30 backdrop-blur-md shadow-lg transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
           {/* Logo with enhanced animation */}
           <Link 
             to="/" 
-            className="text-2xl font-bold text-golden-600 bg-clip-text hover:scale-110 transition-all duration-300 ease-out transform hover:rotate-1 hover:text-golden-400"
+            className="text-lg sm:text-xl lg:text-2xl font-bold text-golden-600 bg-clip-text hover:scale-110 transition-all duration-300 ease-out transform hover:rotate-1 hover:text-golden-400 flex-shrink-0"
           >
-            <span className="inline-block transition-all duration-300 hover:animate-pulse">
+            <span className="inline-block transition-all duration-300 hover:animate-pulse truncate">
               {t('home.title')}
             </span>
           </Link>
 
           {/* Desktop Navigation with enhanced animations */}
-          <div className="hidden md:flex items-center gap-6 flex-grow justify-end">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-grow justify-end">
             {allLinks.map((link, index) => {
               const isActive = location.pathname === link.to;
               const isHovered = hoveredLink === link.to;
@@ -130,7 +130,7 @@ export default function Header() {
                     animationDelay: `${index * 50}ms`
                   }}
                 >
-                  <span className="relative z-10 transition-all duration-300">
+                  <span className="relative z-10 transition-all duration-300 whitespace-nowrap">
                     {link.label}
                   </span>
                   
@@ -154,16 +154,18 @@ export default function Header() {
 
             <LanguageSwitcher />
             
-            <div className="ml-4 transform transition-all duration-300 hover:scale-105">
+            <div className="ml-2 xl:ml-4 transform transition-all duration-300 hover:scale-105">
               <Logged />
             </div>
           </div>
 
-          {/* Mobile menu button with enhanced animation */}
-          <div className="md:hidden">
+          {/* Tablet/Mobile Navigation - Language Switcher + Menu */}
+          <div className="lg:hidden flex items-center gap-2 sm:gap-3">
+            <LanguageSwitcher />
+            
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="relative text-2xl text-white hover:text-golden-400 focus:outline-none transition-all duration-300 transform hover:scale-110 hover:rotate-90"
+              className="relative text-xl sm:text-2xl text-white hover:text-golden-400 focus:outline-none transition-all duration-300 transform hover:scale-110 hover:rotate-90 p-2"
             >
               <span className={`absolute inset-0 transition-all duration-300 transform ${
                 menuOpen ? 'rotate-180 opacity-0' : 'rotate-0 opacity-100'
@@ -181,13 +183,13 @@ export default function Header() {
 
         {/* Mobile menu with enhanced animations */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
+          className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
             menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div
             ref={menuRef}
-            className="bg-dark-950/98 border-t border-golden-600/30 backdrop-blur-lg px-4 py-6 shadow-2xl"
+            className="bg-dark-950/98 border-t border-golden-600/30 backdrop-blur-lg px-3 sm:px-4 py-4 sm:py-6 shadow-2xl"
           >
             <nav className="flex flex-col space-y-1">
               {allLinks.map((link, index) => {
@@ -197,7 +199,7 @@ export default function Header() {
                     key={link.to}
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className={`group relative text-sm font-medium py-3 px-4 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105 ${
+                    className={`group relative text-sm font-medium py-2 sm:py-3 px-3 sm:px-4 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105 ${
                       isActive 
                         ? 'text-golden-400 font-semibold bg-golden-500/10 border-l-4 border-golden-400' 
                         : 'text-white/80 hover:text-golden-300 hover:bg-golden-500/5'
@@ -207,10 +209,10 @@ export default function Header() {
                     }}
                   >
                     <span className="relative z-10 flex items-center">
-                      <span className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
+                      <span className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 flex-shrink-0 ${
                         isActive ? 'bg-golden-400 scale-100' : 'bg-white/30 scale-75 group-hover:bg-golden-300 group-hover:scale-100'
                       }`} />
-                      {link.label}
+                      <span className="truncate">{link.label}</span>
                     </span>
                     
                     {/* Mobile hover effect */}
@@ -219,11 +221,8 @@ export default function Header() {
                 );
               })}
               
-              {/* Mobile Language Switcher and Logged component */}
-              <div className="mt-4 pt-4 border-t border-golden-600/20 space-y-3">
-                <div className="px-4">
-                  <LanguageSwitcher />
-                </div>
+              {/* Mobile Logged component */}
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-golden-600/20">
                 <div className="transform transition-all duration-300 hover:scale-105">
                   <Logged />
                 </div>

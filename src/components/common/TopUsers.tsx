@@ -172,41 +172,45 @@ export default function TopUsers() {
           </div>
         </div>
 
-        {/* Search and Filters */}
+        {/* Search and Filter Controls */}
         <div className="max-w-4xl mx-auto mb-8 px-4">
-          {/* Search Bar */}
-          <div className="relative mb-6">
-            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search professionals by name, city, or job..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-dark-800/50 border border-golden-600/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-golden-500 transition-colors backdrop-blur"
-            />
-          </div>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-golden-400 text-sm" />
+              <input
+                type="text"
+                placeholder="Search professionals..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg pl-10 pr-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
+              />
+            </div>
 
-          {/* Filter Toggle */}
-          <div className="text-center mb-4">
+            {/* Filter Toggle Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-dark-800/50 border border-golden-600/30 rounded-lg text-white hover:border-golden-500 transition-colors backdrop-blur"
+              className={`flex items-center gap-2 px-4 py-2 sm:py-3 rounded-lg border transition-all duration-200 whitespace-nowrap text-sm sm:text-base ${
+                showFilters
+                  ? 'bg-golden-500/20 border-golden-500 text-golden-400'
+                  : 'bg-dark-800/50 border-golden-600/30 text-white hover:border-golden-500'
+              }`}
             >
-              <FaFilter />
-              {showFilters ? 'Hide Filters' : 'Show Filters'}
+              <FaFilter className="text-sm" />
+              <span className="hidden sm:inline">Filters</span>
             </button>
           </div>
 
           {/* Filters */}
           {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
               {/* Sort Options */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">Sort By</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur"
+                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
                 >
                   <option value="rating">Highest Rating</option>
                   <option value="views">Most Views</option>
@@ -221,7 +225,7 @@ export default function TopUsers() {
                 <select
                   value={filterBy}
                   onChange={(e) => setFilterBy(e.target.value as FilterOption)}
-                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur"
+                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
                 >
                   <option value="all">All Professionals</option>
                   <option value="top-rated">Top Rated (4.5+)</option>
@@ -234,8 +238,8 @@ export default function TopUsers() {
         </div>
 
         {/* Results Info */}
-        <div className="text-center mb-8">
-          <p className="text-gray-400">
+        <div className="text-center mb-6 sm:mb-8 px-4">
+          <p className="text-gray-400 text-sm sm:text-base">
             Showing {displayedUsers.length} of {sortedUsers.length} professionals
             {(searchTerm || filterBy !== 'all') && (
               <span className="text-golden-400"> (filtered)</span>
@@ -245,11 +249,11 @@ export default function TopUsers() {
 
         {/* Users Grid */}
         {displayedUsers.length === 0 ? (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">
+          <div className="text-center py-8 sm:py-12 px-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-400 mb-2">
               {searchTerm || filterBy !== 'all' ? 'No professionals match your criteria' : 'No professionals found'}
             </h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 mb-4 text-sm sm:text-base">
               {searchTerm || filterBy !== 'all'
                 ? 'Try adjusting your search or filters'
                 : 'Check back later for new professionals'
@@ -261,7 +265,7 @@ export default function TopUsers() {
                   setSearchTerm('');
                   setFilterBy('all');
                 }}
-                className="btn-golden-enhanced px-6 py-2 rounded-lg"
+                className="btn-golden-enhanced px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base"
               >
                 Clear Filters
               </button>
@@ -269,18 +273,18 @@ export default function TopUsers() {
           </div>
         ) : (
           <>
-            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 mb-8">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6 px-4 mb-6 sm:mb-8">
               {displayedUsers.map((user) => (
                 <UserCard key={user._id || user.id} user={user} />
               ))}
             </div>
 
             {/* Action Buttons */}
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3 sm:space-y-4 px-4">
               {showCount < sortedUsers.length && (
                 <button
                   onClick={handleLoadMore}
-                  className="bg-dark-800/50 border border-golden-600/30 text-white px-8 py-3 rounded-xl hover:border-golden-500 transition-all duration-200 backdrop-blur mr-4"
+                  className="bg-dark-800/50 border border-golden-600/30 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl hover:border-golden-500 transition-all duration-200 backdrop-blur mr-0 sm:mr-4 mb-3 sm:mb-0 text-sm sm:text-base block sm:inline-block w-full sm:w-auto"
                 >
                   Load More ({sortedUsers.length - showCount} remaining)
                 </button>
@@ -288,7 +292,7 @@ export default function TopUsers() {
               
               <button
                 onClick={handleViewAll}
-                className="btn-golden-enhanced px-8 py-3 rounded-xl font-semibold"
+                className="btn-golden-enhanced px-6 sm:px-8 py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base block sm:inline-block w-full sm:w-auto"
               >
                 View All Professionals
               </button>

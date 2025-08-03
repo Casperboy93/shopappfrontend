@@ -11,6 +11,7 @@
   },
   "common": {
     "loading": "جاري التحميل...",
+    "find":"نجح",
     "to":"في",
     "error": "خطأ",
     "success": "نجح",
@@ -62,6 +63,7 @@
   },
   "search": {
     "searchPlaceholder": "البحث بالاسم أو المهنة أو الموقع...",
+    "searchButton":"بحث",
     "allCities": "جميع المدن",
     "allJobs": "جميع المهن",
     "cityFilter": "تصفية حسب المدينة",

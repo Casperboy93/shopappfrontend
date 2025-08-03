@@ -15,6 +15,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-golden-500/10 via-transparent to-emerald-custom-500/10"></div>
         <div className="relative z-10 max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <div className="flex justify-center items-center mb-4">
+              <img 
+                src="/logo/bslogo.png" 
+                alt="BS Logo" 
+                className="h-40 mb-4 w-auto md:h-20 lg:h-56 transition-all duration-300 ease-in-out transform hover:scale-110 hover:drop-shadow-[0_0_20px_rgba(255,215,0,0.6)] hover:brightness-110 filter drop-shadow-[0_0_10px_rgba(255,215,0,0.3)] animate-pulse"
+              />
+            </div>
             <span className=" bg-clip-text text-golden-500">{t('home.welcome')}</span> {t('common.to')}{' '}
             <span className="text-white">{t('home.title')}</span>
           </h1>

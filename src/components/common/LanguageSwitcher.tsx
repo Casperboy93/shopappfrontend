@@ -44,31 +44,31 @@ export default function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white/80 hover:text-golden-300 transition-colors duration-200 rounded-lg hover:bg-golden-500/10"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-sm font-medium text-white/80 hover:text-golden-300 transition-colors duration-200 rounded-lg hover:bg-golden-500/10 min-w-0"
       >
-        <FaGlobe className="text-golden-400" />
-        <span className="hidden sm:inline">{currentLanguage.flag}</span>
-        <span className="hidden md:inline">{currentLanguage.name}</span>
-        <FaChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <FaGlobe className="text-golden-400 text-base sm:text-sm flex-shrink-0" />
+        <span className="text-lg sm:text-base">{currentLanguage.flag}</span>
+        <span className="hidden lg:inline text-sm truncate">{currentLanguage.name}</span>
+        <FaChevronDown className={`transition-transform duration-200 text-xs sm:text-sm flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-dark-900 border border-golden-600/30 rounded-lg shadow-xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-dark-900 border border-golden-600/30 rounded-lg shadow-xl z-50 overflow-hidden">
           <div className="py-1">
             {languages.map((language) => (
               <button
                 key={language.code}
                 onClick={() => changeLanguage(language.code)}
-                className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors duration-200 ${
+                className={`w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 text-sm transition-colors duration-200 ${
                   i18n.language === language.code
                     ? 'bg-golden-500/20 text-golden-400'
                     : 'text-white/80 hover:bg-golden-500/10 hover:text-golden-300'
                 }`}
               >
-                <span className="text-lg">{language.flag}</span>
-                <span>{language.name}</span>
+                <span className="text-base sm:text-lg flex-shrink-0">{language.flag}</span>
+                <span className="truncate">{language.name}</span>
                 {i18n.language === language.code && (
-                  <span className="ml-auto text-golden-400">✓</span>
+                  <span className="ml-auto text-golden-400 flex-shrink-0">✓</span>
                 )}
               </button>
             ))}

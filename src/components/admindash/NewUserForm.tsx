@@ -1,6 +1,6 @@
 // src/components/admindash/NewUserForm.tsx
 import { useEffect, useState } from 'react';
-import api from '../../../lib/axios';
+import api from '../../lib/axios';
 import { FaUser, FaPhone, FaMapMarkerAlt, FaBriefcase, FaExclamationTriangle, FaSpinner, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 
 interface User {

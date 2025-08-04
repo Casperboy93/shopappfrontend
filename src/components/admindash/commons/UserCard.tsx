@@ -1,160 +1,148 @@
-import type { RegistrationRequest } from '../PendingRegistrationRequests';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaExternalLinkAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import { 
+  FaUser, 
+  FaPhone, 
+  FaMapMarkerAlt, 
+  FaBriefcase, 
+  FaEdit,
+  FaEye,
+  FaStar,
+  FaCalendarAlt,
+  FaEnvelope,
+} from 'react-icons/fa';
 
-interface UserCardProps {
-  request: RegistrationRequest;
-  onApprove: (id: string) => void;
-  onReject: (id: string) => void;
+interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+  city?: string;
+  job?: string;
+  role: string;
+  status: string;
+  views: number;
+  phoneViews: number;
+  rating: number;
+  createdAt?: string;
 }
 
-export default function UserCard({ request, onApprove, onReject }: UserCardProps) {
-  const {
-    _id,
-    firstName,
-    lastName,
-    email,
-    phone,
-    dob,
-    city,
-    address,
-    profileImg,
-    portfolio,
-    job,
-    description,
-  } = request;
+interface UserCardProps {
+  user: User;
+  onEdit: (user: User) => void;
+}
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+export default function UserCard({ user, onEdit }: UserCardProps) {
+  const getRoleBadgeStyle = (role: string) => {
+    switch (role) {
+      case 'ADMIN':
+        return 'bg-gradient-to-r from-purple-500 to-purple-600 text-white';
+      case 'SUPERADMIN':
+        return 'bg-gradient-to-r from-red-500 to-red-600 text-white';
+      default:
+        return 'bg-gradient-to-r from-green-500 to-green-600 text-white';
+    }
+  };
+
+  const getStatusBadgeStyle = (status: string) => {
+    return status === 'active' 
+      ? 'bg-green-100 text-green-800 border border-green-200' 
+      : 'bg-yellow-100 text-yellow-800 border border-yellow-200';
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl shadow-2xl border border-slate-700/50 hover:border-golden-500/30 transition-all duration-500 overflow-hidden group">
-      {/* Header with gradient overlay */}
-      <div className="relative bg-gradient-to-r from-golden-500/10 to-emerald-500/10 p-6 border-b border-slate-700/50">
-        <div className="flex items-start gap-6">
-          {/* Profile Image */}
-          <div className="relative">
-            <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden border-3 border-golden-500/30 shadow-xl group-hover:border-golden-500/50 transition-all duration-300">
-              <img
-                src={profileImg || '/placeholder.jpg'}
-                alt={`${firstName} ${lastName}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+    <div className="group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 opacity-50"></div>
+      
+      {/* Card Content */}
+      <div className="relative p-6">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+              {user.firstName.charAt(0)}{user.lastName.charAt(0)}
             </div>
-            <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-emerald-500 rounded-full border-2 border-slate-900 flex items-center justify-center">
-              <FaUser className="text-white text-xs" />
-            </div>
-          </div>
-
-          {/* Basic Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-golden-300 transition-colors duration-300">
-                  {firstName} {lastName}
-                </h3>
-                <div className="flex items-center gap-2 text-emerald-400 font-medium">
-                  <FaBriefcase className="text-sm" />
-                  <span>{job}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-slate-300">
-                <FaMapMarkerAlt className="text-golden-400" />
-                <span className="font-medium">{city}</span>
-              </div>
+            <div>
+              <h3 className="font-bold text-gray-800 text-lg leading-tight">
+                {user.firstName} {user.lastName}
+              </h3>
+              <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mt-1 ${getRoleBadgeStyle(user.role)}`}>
+                {user.role}
+              </span>
             </div>
           </div>
+          <button
+            onClick={() => onEdit(user)}
+            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 group-hover:scale-110"
+            title="Edit User"
+          >
+            <FaEdit className="text-lg" />
+          </button>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-6 space-y-6">
         {/* Contact Information */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-              <FaEnvelope className="text-golden-400 flex-shrink-0" />
-              <div className="min-w-0 flex-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wide font-medium">Email</p>
-                <p className="text-white font-medium truncate">{email}</p>
-              </div>
+        <div className="space-y-3 mb-4">
+          {user.email && (
+            <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
+              <FaEnvelope className="w-4 h-4 mr-3 text-blue-500" />
+              <span className="text-sm truncate">{user.email}</span>
             </div>
-            
-            <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-              <FaPhone className="text-emerald-400 flex-shrink-0" />
-              <div className="min-w-0 flex-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wide font-medium">Phone</p>
-                <p className="text-white font-medium">{phone}</p>
-              </div>
+          )}
+          {user.phone && (
+            <div className="flex items-center text-gray-600 hover:text-green-600 transition-colors">
+              <FaPhone className="w-4 h-4 mr-3 text-green-500" />
+              <span className="text-sm">{user.phone}</span>
             </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-              <FaCalendarAlt className="text-blue-400 flex-shrink-0" />
-              <div className="min-w-0 flex-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wide font-medium">Date of Birth</p>
-                <p className="text-white font-medium">{formatDate(dob)}</p>
-              </div>
+          )}
+          {user.city && (
+            <div className="flex items-center text-gray-600 hover:text-red-600 transition-colors">
+              <FaMapMarkerAlt className="w-4 h-4 mr-3 text-red-500" />
+              <span className="text-sm truncate">{user.city}</span>
             </div>
-            
-            <div className="flex items-start gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/30">
-              <FaMapMarkerAlt className="text-red-400 flex-shrink-0 mt-1" />
-              <div className="min-w-0 flex-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wide font-medium">Address</p>
-                <p className="text-white font-medium leading-relaxed">{address}</p>
-              </div>
+          )}
+          {user.job && (
+            <div className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
+              <FaBriefcase className="w-4 h-4 mr-3 text-purple-500" />
+              <span className="text-sm truncate">{user.job}</span>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Portfolio */}
-        {portfolio && (
-          <div className="p-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-lg border border-purple-500/20">
-            <div className="flex items-center gap-3">
-              <FaExternalLinkAlt className="text-purple-400" />
-              <div className="flex-1">
-                <p className="text-xs text-slate-400 uppercase tracking-wide font-medium mb-1">Portfolio</p>
-                <a 
-                  href={portfolio} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-purple-300 hover:text-purple-200 font-medium underline decoration-purple-500/50 hover:decoration-purple-300 transition-all duration-200 break-all"
-                >
-                  {portfolio}
-                </a>
-              </div>
+        {/* Status and Stats */}
+        <div className="border-t border-gray-100 pt-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeStyle(user.status)}`}>
+              {user.status}
+            </span>
+            <div className="flex items-center text-yellow-500">
+              <FaStar className="w-4 h-4 mr-1" />
+              <span className="text-sm font-medium">{user.rating || 0}</span>
             </div>
           </div>
-        )}
-
-        {/* Description */}
-        <div className="p-4 bg-slate-800/30 rounded-lg border border-slate-700/30">
-          <p className="text-xs text-slate-400 uppercase tracking-wide font-medium mb-2">Description</p>
-          <p className="text-slate-200 leading-relaxed">{description}</p>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-700/50">
-          <button
-            onClick={() => onApprove(_id)}
-            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-emerald-500/25 transform hover:scale-[1.02] transition-all duration-200 group/btn"
-          >
-            <FaCheck className="group-hover/btn:scale-110 transition-transform duration-200" />
-            <span>Approve Request</span>
-          </button>
           
-          <button
-            onClick={() => onReject(_id)}
-            className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-red-500/25 transform hover:scale-[1.02] transition-all duration-200 group/btn"
-          >
-            <FaTimes className="group-hover/btn:scale-110 transition-transform duration-200" />
-            <span>Reject Request</span>
-          </button>
+          <div className="grid grid-cols-2 gap-4 text-center">
+            <div className="bg-blue-50 rounded-lg p-2">
+              <div className="flex items-center justify-center text-blue-600 mb-1">
+                <FaEye className="w-4 h-4 mr-1" />
+              </div>
+              <div className="text-xs text-gray-600">Profile Views</div>
+              <div className="font-bold text-blue-600">{user.views || 0}</div>
+            </div>
+            <div className="bg-green-50 rounded-lg p-2">
+              <div className="flex items-center justify-center text-green-600 mb-1">
+                <FaPhone className="w-4 h-4 mr-1" />
+              </div>
+              <div className="text-xs text-gray-600">Phone Views</div>
+              <div className="font-bold text-green-600">{user.phoneViews || 0}</div>
+            </div>
+          </div>
+          
+          {user.createdAt && (
+            <div className="flex items-center justify-center text-gray-400 text-xs mt-3">
+              <FaCalendarAlt className="w-3 h-3 mr-1" />
+              <span>Joined {new Date(user.createdAt).toLocaleDateString()}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

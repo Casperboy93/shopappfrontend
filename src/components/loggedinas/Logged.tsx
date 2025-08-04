@@ -106,24 +106,24 @@ export default function Logged() {
       {/* Main User Button */}
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="group flex items-center gap-3 bg-gradient-to-r from-dark-800/80 to-dark-900/80 backdrop-blur-md border border-golden-600/30 hover:border-golden-500/50 px-4 py-2.5 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-golden-500/50"
+        className="group flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-dark-800/80 to-dark-900/80 backdrop-blur-md border border-golden-600/30 hover:border-golden-500/50 px-2 sm:px-3 lg:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-golden-500/50"
       >
         {/* Avatar Container */}
         <div className="relative">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-golden-400/20 to-emerald-custom-500/20 border border-golden-500/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-            <FaUserCircle className="text-golden-400 text-xl transition-all duration-300 group-hover:text-golden-300" />
+          <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-golden-400/20 to-emerald-custom-500/20 border border-golden-500/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+            <FaUserCircle className="text-golden-400 text-lg sm:text-xl transition-all duration-300 group-hover:text-golden-300" />
           </div>
           
           {/* Online Status Indicator */}
-          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-custom-500 border-2 border-dark-900 rounded-full animate-pulse"></div>
+          <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-custom-500 border-2 border-dark-900 rounded-full animate-pulse"></div>
         </div>
 
-        {/* User Info - Hidden on mobile */}
-        <div className="hidden lg:flex flex-col text-left min-w-0">
-          <span className="font-semibold text-white text-sm truncate max-w-[120px] transition-colors duration-300 group-hover:text-golden-300">
+        {/* User Info - Hidden on mobile, shown on tablet+ */}
+        <div className="hidden md:flex lg:flex flex-col text-left min-w-0">
+          <span className="font-semibold text-white text-xs sm:text-sm truncate max-w-[100px] lg:max-w-[120px] transition-colors duration-300 group-hover:text-golden-300">
             {getDisplayName()}
           </span>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 sm:gap-1.5">
             {getRoleIcon(loggedUser.role)}
             <span className="text-xs text-gray-300 capitalize transition-colors duration-300 group-hover:text-gray-200">
               {loggedUser.role.replace('_', ' ')}
@@ -141,12 +141,12 @@ export default function Logged() {
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <div className="absolute right-0 top-full mt-2 w-72 bg-dark-900/95 backdrop-blur-xl border border-golden-600/30 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 top-full mt-2 w-64 sm:w-72 bg-dark-900/95 backdrop-blur-xl border border-golden-600/30 rounded-xl sm:rounded-2xl shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
           {/* User Info Header */}
-          <div className="p-4 border-b border-golden-600/20 bg-gradient-to-r from-golden-500/5 to-emerald-custom-500/5">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-golden-400/20 to-emerald-custom-500/20 border border-golden-500/30 flex items-center justify-center">
-                <FaUserCircle className="text-golden-400 text-2xl" />
+          <div className="p-3 sm:p-4 border-b border-golden-600/20 bg-gradient-to-r from-golden-500/5 to-emerald-custom-500/5">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-golden-400/20 to-emerald-custom-500/20 border border-golden-500/30 flex items-center justify-center">
+                <FaUserCircle className="text-golden-400 text-xl sm:text-2xl" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-white text-sm truncate">
@@ -178,10 +178,10 @@ export default function Logged() {
                   console.log('Navigate to profile');
                 }
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-golden-500/10 hover:to-emerald-custom-500/10 rounded-xl transition-all duration-200 group"
+              className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 text-left text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-golden-500/10 hover:to-emerald-custom-500/10 rounded-lg sm:rounded-xl transition-all duration-200 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                <FaUser className="text-blue-400 text-sm" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <FaUser className="text-blue-400 text-xs sm:text-sm" />
               </div>
               <div>
                 <div className="text-sm font-medium">
@@ -197,13 +197,13 @@ export default function Logged() {
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-red-400 hover:text-red-300 hover:bg-gradient-to-r hover:from-red-500/10 hover:to-red-600/10 rounded-xl transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+              className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 text-left text-red-400 hover:text-red-300 hover:bg-gradient-to-r hover:from-red-500/10 hover:to-red-600/10 rounded-lg sm:rounded-xl transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed mt-1"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                 {isLoggingOut ? (
-                  <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"></div>
                 ) : (
-                  <FaSignOutAlt className="text-red-400 text-sm" />
+                  <FaSignOutAlt className="text-red-400 text-xs sm:text-sm" />
                 )}
               </div>
               <div>

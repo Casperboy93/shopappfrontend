@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
 import UserCard from './commons/UserCard';
+import RequestCard from './commons/RequestCard';
 
 export interface RegistrationRequest {
   _id: string;
@@ -84,7 +85,7 @@ export default function PendingRegistrationRequests() {
       ) : (
         <div className="space-y-4 lg:space-y-6">
           {requests.map((req) => (
-            <UserCard
+            <RequestCard
               key={req._id}
               request={req}
               onApprove={handleApprove}

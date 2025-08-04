@@ -15,8 +15,8 @@ import {
 import PendingRegistrationRequests from '../components/admindash/PendingRegistrationRequests';
 import SupportMessages from '../components/admindash/SupportMessages';
 import ServicesManagement from '../components/admindash/ServicesManagement';
-import NewUserForm from '../components/admindash/commons/NewUserForm';
 import SubscriptionsManagement from '../components/admindash/SubscriptionsManagement';
+import UsersManagement from '../components/admindash/UsersManagement';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('pending');
@@ -310,7 +310,7 @@ export default function AdminDashboard() {
             {activeTab === 'support' && <SupportMessages />}
             {activeTab === 'subscriptions' && <SubscriptionsManagement />}
             {activeTab === 'services' && <ServicesManagement />}
-            {activeTab === 'newuser' && <NewUserForm />}
+            {activeTab === 'newuser' && <UsersManagement />}
           </div>
         </div>
       </div>

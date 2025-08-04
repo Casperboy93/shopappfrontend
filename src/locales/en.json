@@ -11,6 +11,7 @@
   },
   "common": {
     "loading": "Loading...",
+    "find": "Find",
     "to": "to",
     "error": "Error",
     "success": "Success",

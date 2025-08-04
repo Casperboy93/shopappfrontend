@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
-import UserCard from './UserCard';
+import UserCard from './commons/UserCard';
 
 export interface RegistrationRequest {
   _id: string;

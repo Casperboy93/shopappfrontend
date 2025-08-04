@@ -1,4 +1,4 @@
-import type { RegistrationRequest } from './PendingRegistrationRequests';
+import type { RegistrationRequest } from '../PendingRegistrationRequests';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaExternalLinkAlt, FaCheck, FaTimes } from 'react-icons/fa';
 
 interface UserCardProps {

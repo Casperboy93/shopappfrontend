@@ -1,6 +1,8 @@
 // src/components/admindash/SupportMessages.tsx
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
+import MessageCard from './commons/MessageCard';
+import { FaSearch, FaFilter, FaSync, FaInbox } from 'react-icons/fa';
 
 interface SupportMessage {
   _id: string;
@@ -21,7 +23,7 @@ export default function SupportMessages() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMessage, setSelectedMessage] = useState<SupportMessage | null>(null);
+  const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   
   const messagesPerPage = 5;
@@ -70,7 +72,7 @@ export default function SupportMessages() {
     }
 
     setFilteredMessages(filtered);
-    setCurrentPage(1); // Reset to first page when filtering
+    setCurrentPage(1);
   };
 
   const updateMessageStatus = async (messageId: string, newStatus: string) => {
@@ -81,7 +83,7 @@ export default function SupportMessages() {
       ));
     } catch (err) {
       console.error('Failed to update message status:', err);
-      alert('Failed to update message status');
+      throw new Error('Failed to update message status');
     }
   };
 
@@ -96,200 +98,160 @@ export default function SupportMessages() {
     }
   };
 
+  const handleToggleExpand = (messageId: string) => {
+    setExpandedMessage(prev => prev === messageId ? null : messageId);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+  };
+
   // Pagination
   const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
   const startIndex = (currentPage - 1) * messagesPerPage;
   const paginatedMessages = filteredMessages.slice(startIndex, startIndex + messagesPerPage);
 
-  const getStatusColor = (status: string = 'pending') => {
-    switch (status) {
-      case 'resolved': return 'bg-green-100 text-green-800';
-      case 'in-progress': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-red-100 text-red-800';
-    }
-  };
-
-  const getStatusIcon = (status: string = 'pending') => {
-    switch (status) {
-      case 'resolved': return '✅';
-      case 'in-progress': return '⏳';
-      default: return '🔴';
-    }
-  };
-
   return (
     <section className="bg-white shadow-lg rounded-xl p-6 mb-6 border border-gray-200">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Support Messages</h2>
-        <div className="text-sm text-gray-600">
-          Total: {filteredMessages.length} messages
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
+            <FaInbox className="text-blue-600" />
+            Support Messages
+          </h2>
+          <p className="text-sm text-gray-600 mt-1">
+            Manage and respond to customer support requests
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
+          <span className="font-medium">Total:</span>
+          <span className="text-blue-600 font-semibold">{filteredMessages.length}</span>
+          <span>messages</span>
         </div>
       </div>
 
       {/* Search and Filter Controls */}
-      <div className="mb-6 space-y-4 md:space-y-0 md:flex md:gap-4">
-        <div className="flex-1">
-          <input
-            type="text"
-            placeholder="Search messages by name, email, title, or content..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+      <div className="bg-gray-50 rounded-lg p-4 mb-6">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by name, email, title, or message content..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+          
+          <div className="flex gap-3">
+            <div className="relative">
+              <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="pl-10 pr-8 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white min-w-[140px]"
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+            
+            <button
+              onClick={fetchMessages}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+              <FaSync className="text-sm" />
+              Refresh
+            </button>
+          </div>
         </div>
-        <div className="md:w-48">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="in-progress">In Progress</option>
-            <option value="resolved">Resolved</option>
-          </select>
-        </div>
-        <button
-          onClick={fetchMessages}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          🔄 Refresh
-        </button>
       </div>
 
+      {/* Content */}
       {loading ? (
-        <div className="flex items-center justify-center py-8">
+        <div className="flex items-center justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <span className="ml-2 text-gray-500">Loading messages...</span>
+          <span className="ml-3 text-gray-500">Loading messages...</span>
         </div>
       ) : error ? (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-600">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <p className="text-red-600 mb-4">{error}</p>
           <button
             onClick={fetchMessages}
-            className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Try Again
           </button>
         </div>
       ) : filteredMessages.length === 0 ? (
-        <div className="text-center py-8">
-          <p className="text-gray-500 text-lg">📭 No support messages found.</p>
+        <div className="text-center py-12">
+          <FaInbox className="mx-auto text-4xl text-gray-300 mb-4" />
+          <p className="text-gray-500 text-lg mb-2">No support messages found</p>
           {searchTerm || statusFilter !== 'all' ? (
             <button
-              onClick={() => {
-                setSearchTerm('');
-                setStatusFilter('all');
-              }}
-              className="mt-2 text-blue-600 hover:text-blue-800 underline"
+              onClick={clearFilters}
+              className="text-blue-600 hover:text-blue-800 underline font-medium"
             >
-              Clear filters
+              Clear filters to see all messages
             </button>
-          ) : null}
+          ) : (
+            <p className="text-gray-400 text-sm">Messages will appear here when customers contact support</p>
+          )}
         </div>
       ) : (
         <>
           {/* Messages List */}
           <div className="space-y-4">
-            {paginatedMessages.map((msg) => (
-              <div
-                key={msg._id}
-                className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{msg.title}</h3>
-                    <div className="text-sm text-gray-600">
-                      From: <span className="font-medium">{msg.fullName}</span> ({msg.email})
-                      {msg.phone && (
-                        <span className="ml-2">📞 {msg.phone}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(msg.status)}`}>
-                      {getStatusIcon(msg.status)} {(msg.status || 'pending').replace('-', ' ').toUpperCase()}
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 whitespace-pre-wrap mb-3 line-clamp-3">
-                  {msg.message.length > 200 ? (
-                    <>
-                      {selectedMessage?._id === msg._id ? msg.message : `${msg.message.substring(0, 200)}...`}
-                      <button
-                        onClick={() => setSelectedMessage(selectedMessage?._id === msg._id ? null : msg)}
-                        className="ml-2 text-blue-600 hover:text-blue-800 underline text-sm"
-                      >
-                        {selectedMessage?._id === msg._id ? 'Show less' : 'Read more'}
-                      </button>
-                    </>
-                  ) : (
-                    msg.message
-                  )}
-                </p>
-
-                <div className="flex justify-between items-center">
-                  <time className="text-xs text-gray-400">
-                    {new Intl.DateTimeFormat('en-GB', {
-                      dateStyle: 'medium',
-                      timeStyle: 'short',
-                    }).format(new Date(msg.createdAt))}
-                  </time>
-                  
-                  <div className="flex gap-2">
-                    {/* Status Update Buttons */}
-                    {msg.status !== 'resolved' && (
-                      <>
-                        {msg.status !== 'in-progress' && (
-                          <button
-                            onClick={() => updateMessageStatus(msg._id, 'in-progress')}
-                            className="px-3 py-1 bg-yellow-600 text-white text-xs rounded hover:bg-yellow-700 transition-colors"
-                          >
-                            Mark In Progress
-                          </button>
-                        )}
-                        <button
-                          onClick={() => updateMessageStatus(msg._id, 'resolved')}
-                          className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors"
-                        >
-                          Mark Resolved
-                        </button>
-                      </>
-                    )}
-                    
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => setShowDeleteConfirm(msg._id)}
-                      className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
-                    >
-                      🗑️ Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
+            {paginatedMessages.map((message) => (
+              <MessageCard
+                key={message._id}
+                message={message}
+                isExpanded={expandedMessage === message._id}
+                onToggleExpand={() => handleToggleExpand(message._id)}
+                onUpdateStatus={updateMessageStatus}
+                onDelete={(id) => setShowDeleteConfirm(id)}
+              />
             ))}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center mt-6 gap-2">
+            <div className="flex justify-center items-center mt-8 gap-2">
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
               >
                 ← Previous
               </button>
               
-              <span className="px-4 py-1 text-sm text-gray-600">
-                Page {currentPage} of {totalPages}
-              </span>
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 rounded-lg transition-colors ${
+                      currentPage === page
+                        ? 'bg-blue-600 text-white'
+                        : 'border border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
               
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
               >
                 Next →
               </button>
@@ -301,7 +263,7 @@ export default function SupportMessages() {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Confirm Delete</h3>
             <p className="text-gray-600 mb-6">
               Are you sure you want to delete this support message? This action cannot be undone.
@@ -309,13 +271,13 @@ export default function SupportMessages() {
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => deleteMessage(showDeleteConfirm)}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 Delete
               </button>

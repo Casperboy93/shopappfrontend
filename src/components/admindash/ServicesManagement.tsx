@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
 import { FaCog, FaPlus, FaSpinner, FaExclamationTriangle, FaSearch } from 'react-icons/fa';
-import NewServiceForm from './NewServiceForm';
-import ServiceCard from './ServiceCards';
+import NewServiceForm from './commons/NewServiceForm';
+import ServiceCard from './commons/ServiceCards';
 
 interface Service {
   _id: string;

@@ -15,7 +15,7 @@ import {
 import PendingRegistrationRequests from '../components/admindash/PendingRegistrationRequests';
 import SupportMessages from '../components/admindash/SupportMessages';
 import ServicesManagement from '../components/admindash/ServicesManagement';
-import NewUserForm from '../components/admindash/NewUserForm';
+import NewUserForm from '../components/admindash/commons/NewUserForm';
 import SubscriptionsManagement from '../components/admindash/SubscriptionsManagement';
 
 export default function AdminDashboard() {

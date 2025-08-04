@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import api from '../../lib/axios'; // ✅ use shared Axios instance
-
+import api from '../../../lib/axios';
 type NewServiceFormProps = {
   onSuccess: () => Promise<void>;
 };

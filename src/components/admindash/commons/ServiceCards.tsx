@@ -1,6 +1,6 @@
 // src/components/admindash/ServiceCard.tsx
 import { useState } from 'react';
-import api from '../../lib/axios';
+import api from '../../../lib/axios';
 import { FaEdit, FaTrash, FaSave, FaTimes, FaSpinner, FaMapMarkerAlt, FaClock, FaTag } from 'react-icons/fa';
 
 interface ServiceCardProps {

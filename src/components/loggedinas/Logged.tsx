@@ -1,7 +1,6 @@
 import { FaUserCircle, FaSignOutAlt, FaCrown, FaUser, FaChevronDown } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 interface UserInfo {
   email: string;

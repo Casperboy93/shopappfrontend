@@ -11,7 +11,6 @@ interface UserInfo {
 }
 
 export default function Logged() {
-  const { t } = useTranslation();
   const [loggedUser, setLoggedUser] = useState<UserInfo | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);

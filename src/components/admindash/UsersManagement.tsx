@@ -306,7 +306,7 @@ export default function UsersManagement() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-wrap lg:gap-6 xl:flex-nowrap xl:overflow-x-auto xl:gap-8 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredUsers.map((user) => (
                 <UserCard
                   key={user._id}

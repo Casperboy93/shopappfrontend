@@ -320,7 +320,7 @@ export default function SubscriptionsManagement() {
             <p className="text-gray-500 text-base sm:text-lg">Try adjusting your search or filter criteria</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-wrap lg:gap-6 xl:flex-nowrap xl:overflow-x-auto xl:gap-8 gap-4 sm:gap-6">
             {filteredSubscriptions.map((subscription) => (
               <SubscriptionCard
                 key={subscription._id}

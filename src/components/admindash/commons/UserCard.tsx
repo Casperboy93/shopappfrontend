@@ -1,4 +1,4 @@
-import {  
+import { 
   FaPhone, 
   FaMapMarkerAlt, 
   FaBriefcase, 

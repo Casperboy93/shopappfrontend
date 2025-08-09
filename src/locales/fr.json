@@ -75,8 +75,9 @@
     "topUsers": "Meilleurs Utilisateurs",
     "featuredServices": "Services en Vedette"
   },
-  "searchPage": {
+  "search": {
     "searchPlaceholder": "Rechercher par nom, métier ou localisation...",
+    "searchButton": "Rechercher",
     "allCities": "Toutes les Villes",
     "allJobs": "Tous les Métiers",
     "cityFilter": "Filtrer par Ville",
@@ -104,11 +105,17 @@
     "viewDetails": "Voir les Détails",
     "revealPhone": "Révéler le Téléphone",
     "call": "Appeler",
+    "callPhone": "Appeler: {{phone}}",
     "views": "Vues",
     "phoneViews": "Vues Téléphone",
+    "viewsCount": "Vues: {{count}}",
+    "phoneViewsCount": "Vues Téléphone: {{count}}",
     "rating": "Note",
     "userNotFound": "Cet utilisateur n'est pas abonné ou n'existe pas.",
-    "bookNow": "Réserver Maintenant"
+    "bookNow": "Réserver Maintenant",
+    "noImage": "Pas d'image",
+    "phoneNotPublic": "Téléphone non public",
+    "loading": "Chargement..."
   },
   "register": {
     "title": "Rejoignez Notre Plateforme",
@@ -277,11 +284,44 @@
       "professionals": "professionnels",
       "filtered": "(filtré)"
     },
-    "noResults": {
-      "noProfessionalsMatch": "Aucun professionnel ne correspond à vos critères",
-      "noProfessionalsFound": "Aucun professionnel trouvé",
-      "tryAdjusting": "Essayez d'ajuster votre recherche ou vos filtres",
-      "checkBackLater": "Revenez plus tard pour de nouveaux professionnels"
+    "topUsers": {
+      "title": {
+        "ourTop": "Nos Meilleurs",
+        "professionals": "Professionnels"
+      },
+      "subtitle": "Découvrez des professionnels qualifiés dans votre région",
+      "loadingMessage": "Chargement des meilleurs professionnels...",
+      "errorMessage": "Échec du chargement des professionnels. Veuillez réessayer plus tard.",
+      "searchPlaceholder": "Rechercher des professionnels...",
+      "sortBy": "Trier par",
+      "filterBy": "Filtrer par",
+      "sortOptions": {
+        "highestRating": "Note la plus élevée",
+        "mostViews": "Plus de vues",
+        "mostPhoneViews": "Plus de vues téléphone",
+        "newest": "Plus récent"
+      },
+      "filterOptions": {
+        "allProfessionals": "Tous les professionnels",
+        "topRated": "Mieux notés (4.5+)",
+        "mostViewed": "Plus vus (100+)",
+        "recent": "Récents (30 derniers jours)"
+      },
+      "stats": {
+        "totalProfessionals": "Total des professionnels",
+        "topRated": "Mieux notés (4.5+)",
+        "citiesCovered": "Villes couvertes"
+      },
+      "showingResults": "Affichage de {{displayed}} sur {{total}} professionnels",
+      "filtered": "(filtré)",
+      "noResults": {
+        "noProfessionalsMatch": "Aucun professionnel ne correspond à vos critères",
+        "noProfessionalsFound": "Aucun professionnel trouvé",
+        "tryAdjusting": "Essayez d'ajuster votre recherche ou vos filtres",
+        "checkBackLater": "Revenez plus tard pour de nouveaux professionnels"
+      },
+      "loadMore": "Charger plus ({{remaining}} restants)",
+      "viewAllProfessionals": "Voir tous les professionnels"
     },
     "pagination": {
       "previous": "Précédent",
@@ -305,11 +345,6 @@
     "hide": "Masquer",
     "bookNow": "Réserver Maintenant"
   },
-  "search": {
-    "allCities": "Toutes les Villes",
-    "allJobs": "Tous les Métiers",
-    "searchButton": "Rechercher"
-  },
   "adminForms": {
     "newService": {
       "serviceName": "Nom du service",
@@ -320,5 +355,122 @@
       "citiesCovered": "Villes Couvertes (séparées par des virgules)",
       "addService": "➕ Ajouter un Service"
     }
+  },
+  "jobs": {
+    "electrician": "Électricien",
+    "plumber": "Plombier",
+    "carpenter": "Charpentier",
+    "painter": "Peintre",
+    "cleaner": "Nettoyeur",
+    "gardener": "Jardinier",
+    "mechanic": "Mécanicien",
+    "acTechnician": "Technicien Climatisation",
+    "mover": "Déménageur",
+    "welder": "Soudeur",
+    "hairdresser": "Coiffeur",
+    "makeupArtist": "Maquilleur",
+    "tailor": "Tailleur",
+    "baker": "Boulanger",
+    "cook": "Cuisinier",
+    "babysitter": "Baby-sitter",
+    "securityGuard": "Agent de Sécurité",
+    "mason": "Maçon",
+    "driver": "Chauffeur",
+    "delivery": "Livraison",
+    "itTechnician": "Technicien IT",
+    "photographer": "Photographe",
+    "videographer": "Vidéographe",
+    "dj": "DJ",
+    "eventPlanner": "Organisateur d'Événements",
+    "interiorDesigner": "Décorateur d'Intérieur",
+    "housekeeper": "Femme de Ménage",
+    "dogWalker": "Promeneur de Chiens",
+    "tutor": "Tuteur",
+    "personalTrainer": "Entraîneur Personnel",
+    "laundryService": "Service de Blanchisserie",
+    "nanny": "Nounou",
+    "constructionWorker": "Ouvrier du Bâtiment",
+    "tileInstaller": "Poseur de Carrelage",
+    "roofer": "Couvreur",
+    "windowCleaner": "Nettoyeur de Vitres",
+    "carWasher": "Laveur de Voitures",
+    "mobileRepair": "Réparation Mobile",
+    "electricGateInstaller": "Installateur de Portails Électriques",
+    "glassInstaller": "Installateur de Verre",
+    "swimmingPoolCleaner": "Nettoyeur de Piscine",
+    "ironworker": "Ferronnier",
+    "refrigeratorRepair": "Réparation de Réfrigérateur",
+    "shoeRepair": "Réparation de Chaussures",
+    "locksmith": "Serrurier",
+    "carUpholsterer": "Tapissier Automobile",
+    "seamstress": "Couturière",
+    "massageTherapist": "Massothérapeute",
+    "manicurist": "Manucure",
+    "barber": "Barbier"
+  },
+  "searchFilter": {
+    "allCities": "Toutes les villes",
+    "allJobs": "Tous les emplois",
+    "apply": "Appliquer"
+  },
+   "subscriptionCard": {
+    "chooseTitle": "Choisissez",
+    "yourPlan": "Votre Plan",
+    "description": "Sélectionnez le plan d'abonnement parfait qui correspond à vos objectifs professionnels et à votre budget. Chaque plan est conçu pour vous aider à développer votre entreprise et à vous connecter avec plus de clients.",
+    "features": {
+      "flexible": "Plans mensuels flexibles",
+      "noHiddenFees": "Aucun frais caché",
+      "cancelAnytime": "Annuler à tout moment"
+    },
+    "subscribe": "S'abonner",
+    "plans": {
+      "starter": {
+        "tag": "Pack Débutant",
+        "title": "Abonnement de Base",
+        "description": "Commencez à obtenir de petits emplois et construisez vos premiers avis.",
+        "duration": "/1 mois",
+        "benefits": {
+          "0": "1 mois d'abonnement",
+          "1": "Accès aux emplois de base",
+          "2": "1 annonce par semaine"
+        }
+      },
+      "professional": {
+        "tag": "Pack Lancement",
+        "title": "Abonnement Professionnel",
+        "description": "Prenez plus d'emplois et construisez votre réputation rapidement.",
+        "duration": "/3 mois",
+        "benefits": {
+          "0": "3 mois d'abonnement",
+          "1": "1 service VIP",
+          "2": "Placement en vedette sur la page d'accueil"
+        }
+      },
+      "premium": {
+        "tag": "Pack Élite",
+        "title": "Abonnement Premium",
+        "description": "Dominez les résultats de recherche et obtenez des offres d'emploi premium.",
+        "duration": "/8 mois",
+        "benefits": {
+          "0": "8 mois d'abonnement",
+          "1": "Annonces illimitées",
+          "2": "Alertes d'emploi prioritaires"
+        }
+      }
+    }
+  },
+  "paymentMethods": {
+    "title": "Méthodes de Paiement",
+    "description": "Nous supportons plusieurs méthodes de paiement sécurisées via des banques marocaines de confiance. Choisissez votre banque préférée pour des paiements d'abonnement rapides et fiables.",
+    "featuresTitle": "Fonctionnalités de Paiement",
+    "features": {
+      "secure": "Chiffrement SSL sécurisé",
+      "fast": "Temps de traitement rapides",
+      "multipleBank": "Support de plusieurs banques",
+      "mobileFriendly": "Paiements adaptés aux mobiles"
+    },
+    "validation": "Validation",
+    "available": "Disponible",
+    "additionalInfo": "Les temps de traitement peuvent varier selon les procédures de vérification de votre banque. Toutes les transactions sont sécurisées et surveillées pour votre protection."
   }
 }

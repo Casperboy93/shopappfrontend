@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import UserCard from '../user/UserCard';
 import api from '../../lib/axios';
 import { FaSearch, FaFilter, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
@@ -9,6 +10,7 @@ type SortOption = 'rating' | 'views' | 'phoneViews' | 'newest';
 type FilterOption = 'all' | 'top-rated' | 'most-viewed' | 'recent';
 
 export default function TopUsers() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export default function TopUsers() {
       }
     } catch (err) {
       console.error('Error fetching users:', err);
-      setError('Failed to load professionals. Please try again later.');
+      setError(t('topUsers.errorMessage'));
       setUsers([]);
     } finally {
       setLoading(false);
@@ -115,7 +117,7 @@ export default function TopUsers() {
         <div className="absolute inset-0 bg-gradient-to-br from-golden-500/5 via-transparent to-emerald-custom-500/5"></div>
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[400px]">
           <FaSpinner className="animate-spin text-golden-500 text-4xl mb-4" />
-          <p className="text-gray-300 text-lg">Loading top professionals...</p>
+          <p className="text-gray-300 text-lg">{t('topUsers.loadingMessage')}</p>
         </div>
       </div>
     );
@@ -132,7 +134,7 @@ export default function TopUsers() {
             onClick={fetchUsers}
             className="btn-golden-enhanced px-6 py-2 rounded-lg"
           >
-            Try Again
+            {t('common.tryAgain')}
           </button>
         </div>
       </div>
@@ -146,28 +148,28 @@ export default function TopUsers() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
-            <span className=" bg-clip-text text-emerald-600">Our Top</span>{' '}
-            <span className="text-white">Professionals</span>
+            <span className=" bg-clip-text text-emerald-600">{t('topUsers.title.ourTop')}</span>{' '}
+            <span className="text-white">{t('topUsers.title.professionals')}</span>
           </h2>
-          <p className="text-gray-400 text-lg mb-6">Discover skilled professionals in your area</p>
+          <p className="text-gray-400 text-lg mb-6">{t('topUsers.subtitle')}</p>
           
           {/* Stats */}
           <div className="flex justify-center gap-8 mb-8">
             <div className="text-center">
               <div className="text-2xl font-bold text-golden-400">{users.length}</div>
-              <div className="text-sm text-gray-400">Total Professionals</div>
+              <div className="text-sm text-gray-400">{t('topUsers.stats.totalProfessionals')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-emerald-400">
                 {users.filter(u => u.rating >= 4.5).length}
               </div>
-              <div className="text-sm text-gray-400">Top Rated (4.5+)</div>
+              <div className="text-sm text-gray-400">{t('topUsers.stats.topRated')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-400">
                 {new Set(users.map(u => u.city)).size}
               </div>
-              <div className="text-sm text-gray-400">Cities Covered</div>
+              <div className="text-sm text-gray-400">{t('topUsers.stats.citiesCovered')}</div>
             </div>
           </div>
         </div>
@@ -180,7 +182,7 @@ export default function TopUsers() {
               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-golden-400 text-sm" />
               <input
                 type="text"
-                placeholder="Search professionals..."
+                placeholder={t('topUsers.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg pl-10 pr-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
@@ -197,7 +199,7 @@ export default function TopUsers() {
               }`}
             >
               <FaFilter className="text-sm" />
-              <span className="hidden sm:inline">Filters</span>
+              <span className="hidden sm:inline">{t('common.filter')}</span>
             </button>
           </div>
 
@@ -206,31 +208,31 @@ export default function TopUsers() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
               {/* Sort Options */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Sort By</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('topUsers.sortBy')}</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
                   className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
                 >
-                  <option value="rating">Highest Rating</option>
-                  <option value="views">Most Views</option>
-                  <option value="phoneViews">Most Phone Views</option>
-                  <option value="newest">Newest</option>
+                  <option value="rating">{t('topUsers.sortOptions.highestRating')}</option>
+                  <option value="views">{t('topUsers.sortOptions.mostViews')}</option>
+                  <option value="phoneViews">{t('topUsers.sortOptions.mostPhoneViews')}</option>
+                  <option value="newest">{t('topUsers.sortOptions.newest')}</option>
                 </select>
               </div>
 
               {/* Filter Options */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Filter By</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('topUsers.filterBy')}</label>
                 <select
                   value={filterBy}
                   onChange={(e) => setFilterBy(e.target.value as FilterOption)}
                   className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
                 >
-                  <option value="all">All Professionals</option>
-                  <option value="top-rated">Top Rated (4.5+)</option>
-                  <option value="most-viewed">Most Viewed (100+)</option>
-                  <option value="recent">Recent (Last 30 days)</option>
+                  <option value="all">{t('topUsers.filterOptions.allProfessionals')}</option>
+                  <option value="top-rated">{t('topUsers.filterOptions.topRated')}</option>
+                  <option value="most-viewed">{t('topUsers.filterOptions.mostViewed')}</option>
+                  <option value="recent">{t('topUsers.filterOptions.recent')}</option>
                 </select>
               </div>
             </div>
@@ -240,9 +242,12 @@ export default function TopUsers() {
         {/* Results Info */}
         <div className="text-center mb-6 sm:mb-8 px-4">
           <p className="text-gray-400 text-sm sm:text-base">
-            Showing {displayedUsers.length} of {sortedUsers.length} professionals
+            {t('topUsers.showingResults', { 
+              displayed: displayedUsers.length, 
+              total: sortedUsers.length 
+            })}
             {(searchTerm || filterBy !== 'all') && (
-              <span className="text-golden-400"> (filtered)</span>
+              <span className="text-golden-400"> {t('topUsers.filtered')}</span>
             )}
           </p>
         </div>
@@ -251,12 +256,12 @@ export default function TopUsers() {
         {displayedUsers.length === 0 ? (
           <div className="text-center py-8 sm:py-12 px-4">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-400 mb-2">
-              {searchTerm || filterBy !== 'all' ? 'No professionals match your criteria' : 'No professionals found'}
+              {searchTerm || filterBy !== 'all' ? t('topUsers.noResults.noProfessionalsMatch') : t('topUsers.noResults.noProfessionalsFound')}
             </h3>
             <p className="text-gray-500 mb-4 text-sm sm:text-base">
               {searchTerm || filterBy !== 'all'
-                ? 'Try adjusting your search or filters'
-                : 'Check back later for new professionals'
+                ? t('topUsers.noResults.tryAdjusting')
+                : t('topUsers.noResults.checkBackLater')
               }
             </p>
             {(searchTerm || filterBy !== 'all') && (
@@ -267,7 +272,7 @@ export default function TopUsers() {
                 }}
                 className="btn-golden-enhanced px-4 sm:px-6 py-2 rounded-lg text-sm sm:text-base"
               >
-                Clear Filters
+                {t('common.clearFilters')}
               </button>
             )}
           </div>
@@ -286,7 +291,7 @@ export default function TopUsers() {
                   onClick={handleLoadMore}
                   className="bg-dark-800/50 border border-golden-600/30 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-xl hover:border-golden-500 transition-all duration-200 backdrop-blur mr-0 sm:mr-4 mb-3 sm:mb-0 text-sm sm:text-base block sm:inline-block w-full sm:w-auto"
                 >
-                  Load More ({sortedUsers.length - showCount} remaining)
+                  {t('topUsers.loadMore', { remaining: sortedUsers.length - showCount })}
                 </button>
               )}
               
@@ -294,7 +299,7 @@ export default function TopUsers() {
                 onClick={handleViewAll}
                 className="btn-golden-enhanced px-6 sm:px-8 py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base block sm:inline-block w-full sm:w-auto"
               >
-                View All Professionals
+                {t('topUsers.viewAllProfessionals')}
               </button>
             </div>
           </>

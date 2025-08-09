@@ -95,7 +95,8 @@
     "noProfessionalsMatch": "No professionals match your criteria",
     "noProfessionalsFound": "No professionals found",
     "tryDifferentFilters": "Try adjusting your search criteria or clearing some filters",
-    "getStartedMessage": "Get started by searching for professionals in your area"
+    "getStartedMessage": "Get started by searching for professionals in your area",
+    "searchButton": "Search"
   },
   "user": {
     "profile": "Profile",
@@ -289,6 +290,45 @@
       "tryAdjusting": "Try adjusting your search or filters",
       "checkBackLater": "Check back later for new professionals"
     },
+    "topUsers": {
+      "title": {
+        "ourTop": "Our Top",
+        "professionals": "Professionals"
+      },
+      "subtitle": "Discover skilled professionals in your area",
+      "loadingMessage": "Loading top professionals...",
+      "errorMessage": "Failed to load professionals. Please try again later.",
+      "searchPlaceholder": "Search professionals...",
+      "sortBy": "Sort by",
+      "filterBy": "Filter by",
+      "sortOptions": {
+        "highestRating": "Highest Rating",
+        "mostViews": "Most Views",
+        "mostPhoneViews": "Most Phone Views",
+        "newest": "Newest"
+      },
+      "filterOptions": {
+        "allProfessionals": "All Professionals",
+        "topRated": "Top Rated (4.5+)",
+        "mostViewed": "Most Viewed (100+)",
+        "recent": "Recent (Last 30 days)"
+      },
+      "stats": {
+        "totalProfessionals": "Total Professionals",
+        "topRated": "Top Rated (4.5+)",
+        "citiesCovered": "Cities Covered"
+      },
+      "showingResults": "Showing {{displayed}} of {{total}} professionals",
+      "filtered": "(filtered)",
+      "noResults": {
+        "noProfessionalsMatch": "No professionals match your criteria",
+        "noProfessionalsFound": "No professionals found",
+        "tryAdjusting": "Try adjusting your search or filters",
+        "checkBackLater": "Check back later for new professionals"
+      },
+      "loadMore": "Load More ({{remaining}} remaining)",
+      "viewAllProfessionals": "View All Professionals"
+    },
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -310,11 +350,6 @@
     "availableIn": "Available in:",
     "hide": "Hide",
     "bookNow": "Book Now"
-  },
-  "searchPage": {
-    "allCities": "All Cities",
-    "allJobs": "All Jobs",
-    "searchButton": "Search"
   },
   "adminForms": {
     "newService": {
@@ -378,5 +413,70 @@
     "massageTherapist": "Massage Therapist",
     "manicurist": "Manicurist",
     "barber": "Barber"
+  },
+   "searchFilter": {
+    "allCities": "All Cities",
+    "allJobs": "All Jobs",
+    "apply": "Apply"
+  },
+  "subscriptionCard": {
+    "chooseTitle": "Choose",
+    "yourPlan": "Your Plan",
+    "description": "Select the perfect subscription plan that matches your professional goals and budget. Each plan is designed to help you grow your business and connect with more clients.",
+    "features": {
+      "flexible": "Flexible monthly plans",
+      "noHiddenFees": "No hidden fees",
+      "cancelAnytime": "Cancel anytime"
+    },
+    "subscribe": "Subscribe",
+    "plans": {
+      "starter": {
+        "tag": "Starter Pack",
+        "title": "Basic Subscription",
+        "description": "Start getting small jobs and build your first reviews.",
+        "duration": "/1 month",
+        "benefits": {
+          "0": "1 month of subscription",
+          "1": "Access to basic jobs",
+          "2": "1 ad per week"
+        }
+      },
+      "professional": {
+        "tag": "Launch Pack",
+        "title": "Professional Subscription",
+        "description": "Take over more jobs and make your reputation fast.",
+        "duration": "/3 months",
+        "benefits": {
+          "0": "3 months of subscription",
+          "1": "1 VIP service",
+          "2": "Featured placement on homepage"
+        }
+      },
+      "premium": {
+        "tag": "Elite Pack",
+        "title": "Premium Subscription",
+        "description": "Dominate search results and get premium job offers.",
+        "duration": "/8 months",
+        "benefits": {
+          "0": "8 months of subscription",
+          "1": "Unlimited ads",
+          "2": "Priority job alerts"
+        }
+      }
+    }
+  },
+  "paymentMethods": {
+    "title": "Payment Methods",
+    "description": "We support multiple secure payment methods through trusted Moroccan banks. Choose your preferred bank for fast and reliable subscription payments.",
+    "featuresTitle": "Payment Features",
+    "features": {
+      "secure": "Secure SSL encryption",
+      "fast": "Fast processing times",
+      "multipleBank": "Multiple bank support",
+      "mobileFriendly": "Mobile-friendly payments"
+    },
+    "validation": "Validation",
+    "available": "Available",
+    "additionalInfo": "Processing times may vary depending on your bank's verification procedures. All transactions are secured and monitored for your protection."
   }
 }

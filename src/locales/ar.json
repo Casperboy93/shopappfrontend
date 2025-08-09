@@ -77,7 +77,7 @@
   },
   "search": {
     "searchPlaceholder": "البحث بالاسم أو المهنة أو الموقع...",
-    "searchButton":"بحث",
+    "searchButton": "بحث",
     "allCities": "جميع المدن",
     "allJobs": "جميع المهن",
     "cityFilter": "تصفية حسب المدينة",
@@ -98,6 +98,53 @@
     "tryDifferentFilters": "حاول تعديل معايير البحث أو مسح بعض المرشحات",
     "getStartedMessage": "ابدأ بالبحث عن محترفين في منطقتك"
   },
+   "topUsers": {
+    "loadingMessage": "جاري تحميل أفضل المحترفين...",
+    "errorMessage": "حدث خطأ أثناء تحميل المحترفين. يرجى المحاولة مرة أخرى.",
+    "searchPlaceholder": "البحث بالاسم أو المهنة أو المدينة...",
+    "sortBy": "ترتيب حسب",
+    "filterBy": "تصفية حسب",
+    "showingResults": "عرض {{displayed}} من {{total}} محترف",
+    "filtered": "(مفلتر)",
+    "loadMore": "تحميل المزيد",
+    "viewAllProfessionals": "عرض جميع المحترفين",
+    "title": {
+      "ourTop": "أفضل",
+      "professionals": "المحترفين"
+    },
+    "subtitle": "اكتشف أفضل المحترفين المتاحين في منطقتك",
+    "stats": {
+      "totalProfessionals": "إجمالي المحترفين",
+      "averageRating": "متوسط التقييم",
+      "totalViews": "إجمالي المشاهدات"
+    },
+    "sortOptions": {
+      "rating": "التقييم",
+      "mostViews": "المشاهدات",
+      "mostPhoneViews": "مشاهدات الهاتف",
+      "newest": "الأحدث",
+      "highestRating": "أعلى تقييم"
+    },
+    "filterOptions": {
+      "all": "الكل",
+      "allProfessionals": "جميع المحترفين",
+      "topRated": "الأعلى تقييماً",
+      "mostViewed": "الأكثر مشاهدة",
+      "recent": "الأحدث"
+    },
+    "actions": {
+      "loadMore": "تحميل المزيد",
+      "viewAll": "عرض جميع المحترفين",
+      "viewAllProfessionals": "عرض جميع المحترفين"
+    },
+    "noResults": {
+      "title": "لم يتم العثور على محترفين",
+      "message": "لا يوجد محترفون يطابقون معايير البحث الحالية.",
+      "suggestion": "حاول تعديل مصطلحات البحث أو المرشحات.",
+      "noProfessionalsMatch": "لا يوجد محترفون يطابقون معاييرك",
+      "noProfessionalsFound": "لم يتم العثور على محترفين"
+    }
+  },
   "user": {
     "profile": "الملف الشخصي",
     "about": "حول",
@@ -105,11 +152,17 @@
     "viewDetails": "عرض التفاصيل",
     "revealPhone": "كشف الهاتف",
     "call": "اتصال",
+    "callPhone": "اتصال: {{phone}}",
     "views": "المشاهدات",
     "phoneViews": "مشاهدات الهاتف",
+    "viewsCount": "المشاهدات: {{count}}",
+    "phoneViewsCount": "مشاهدات الهاتف: {{count}}",
     "rating": "التقييم",
     "userNotFound": "هذا المستخدم غير مشترك أو غير موجود.",
-    "bookNow": "احجز الآن"
+    "bookNow": "احجز الآن",
+    "noImage": "لا توجد صورة",
+    "phoneNotPublic": "الهاتف غير عام",
+    "loading": "جاري التحميل..."
   },
   "register": {
     "title": "انضم إلى منصتنا",
@@ -321,5 +374,122 @@
       "citiesCovered": "المدن المغطاة (مفصولة بفواصل)",
       "addService": "➕ إضافة خدمة"
     }
+  },
+  "jobs": {
+    "electrician": "كهربائي",
+    "plumber": "سباك",
+    "carpenter": "نجار",
+    "painter": "دهان",
+    "cleaner": "منظف",
+    "gardener": "بستاني",
+    "mechanic": "ميكانيكي",
+    "acTechnician": "فني تكييف",
+    "mover": "نقال",
+    "welder": "لحام",
+    "hairdresser": "مصفف شعر",
+    "makeupArtist": "خبير تجميل",
+    "tailor": "خياط",
+    "baker": "خباز",
+    "cook": "طباخ",
+    "babysitter": "جليسة أطفال",
+    "securityGuard": "حارس أمن",
+    "mason": "بناء",
+    "driver": "سائق",
+    "delivery": "توصيل",
+    "itTechnician": "فني حاسوب",
+    "photographer": "مصور",
+    "videographer": "مصور فيديو",
+    "dj": "دي جي",
+    "eventPlanner": "منظم فعاليات",
+    "interiorDesigner": "مصمم داخلي",
+    "housekeeper": "مدبرة منزل",
+    "dogWalker": "مشي الكلاب",
+    "tutor": "مدرس خصوصي",
+    "personalTrainer": "مدرب شخصي",
+    "laundryService": "خدمة غسيل",
+    "nanny": "مربية",
+    "constructionWorker": "عامل بناء",
+    "tileInstaller": "مركب بلاط",
+    "roofer": "عامل أسقف",
+    "windowCleaner": "منظف نوافذ",
+    "carWasher": "غسيل سيارات",
+    "mobileRepair": "إصلاح هواتف",
+    "electricGateInstaller": "مركب بوابات كهربائية",
+    "glassInstaller": "مركب زجاج",
+    "swimmingPoolCleaner": "منظف مسابح",
+    "ironworker": "حداد",
+    "refrigeratorRepair": "إصلاح ثلاجات",
+    "shoeRepair": "إصلاح أحذية",
+    "locksmith": "صانع أقفال",
+    "carUpholsterer": "تنجيد سيارات",
+    "seamstress": "خياطة",
+    "massageTherapist": "معالج تدليك",
+    "manicurist": "خبير أظافر",
+    "barber": "حلاق"
+  },
+  "searchFilter": {
+    "allCities": "جميع المدن",
+    "allJobs": "جميع الوظائف",
+    "apply": "تطبيق"
+  },
+   "subscriptionCard": {
+    "chooseTitle": "اختر",
+    "yourPlan": "خطتك",
+    "description": "اختر خطة الاشتراك المثالية التي تناسب أهدافك المهنية وميزانيتك. كل خطة مصممة لمساعدتك في تنمية عملك والتواصل مع المزيد من العملاء.",
+    "features": {
+      "flexible": "خطط شهرية مرنة",
+      "noHiddenFees": "بدون رسوم خفية",
+      "cancelAnytime": "إلغاء في أي وقت"
+    },
+    "subscribe": "اشترك",
+    "plans": {
+      "starter": {
+        "tag": "حزمة المبتدئين",
+        "title": "الاشتراك الأساسي",
+        "description": "الحصول على وظائف صغيرة وبناء تقييماتك الأولى.",
+        "duration": "/شهر واحد",
+        "benefits": {
+          "0": "شهر واحد من الاشتراك",
+          "1": "الوصول إلى الوظائف الأساسية",
+          "2": "إعلان واحد في الأسبوع"
+        }
+      },
+      "professional": {
+        "tag": "حزمة الانطلاق",
+        "title": "الاشتراك المهني",
+        "description": "احصل على المزيد من الوظائف وبناء سمعتك بسرعة.",
+        "duration": "/ ثلاثة أشهر",
+        "benefits": {
+          "0": "3 أشهر من الاشتراك",
+          "1": "خدمة VIP واحدة",
+          "2": "موضع مميز في الصفحة الرئيسية"
+        }
+      },
+      "premium": {
+        "tag": "الحزمة المتميزة",
+        "title": "الاشتراك المميز",
+        "description": "هيمن على نتائج البحث واحصل على عروض عمل مميزة.",
+        "duration": "/ ثمانية أشهر",
+        "benefits": {
+          "0": "8 أشهر من الاشتراك",
+          "1": "إعلانات غير محدودة",
+          "2": "تنبيهات وظائف ذات أولوية"
+        }
+      }
+    }
+  },
+  "paymentMethods": {
+    "title": "طرق الدفع",
+    "description": "ندعم طرق دفع آمنة متعددة من خلال البنوك المغربية الموثوقة. اختر البنك المفضل لديك للحصول على مدفوعات اشتراك سريعة وموثوقة.",
+    "featuresTitle": "ميزات الدفع",
+    "features": {
+      "secure": "تشفير SSL آمن",
+      "fast": "أوقات معالجة سريعة",
+      "multipleBank": "دعم بنوك متعددة",
+      "mobileFriendly": "مدفوعات متوافقة مع الهاتف المحمول"
+    },
+    "validation": "التحقق",
+    "available": "متاح",
+    "additionalInfo": "قد تختلف أوقات المعالجة حسب إجراءات التحقق الخاصة ببنكك. جميع المعاملات آمنة ومراقبة لحمايتك."
   }
 }

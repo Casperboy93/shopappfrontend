@@ -1,43 +1,46 @@
 import { FaUserFriends, FaRocket, FaStar } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
 export default function SubscriptionCard() {
+  const { t } = useTranslation();
+  
   const plans = [
     {
-      tag: "Starter Pack",
-      title: "Basic Subscription",
-      description: "Start getting small jobs and build your first reviews.",
+      tag: t('subscriptionCard.plans.starter.tag'),
+      title: t('subscriptionCard.plans.starter.title'),
+      description: t('subscriptionCard.plans.starter.description'),
       price: "100 DH",
-      duration: "/1 mois",
+      duration: t('subscriptionCard.plans.starter.duration'),
       benefits: [
-        "1 month of subscription",
-        "Access to basic jobs",
-        "1 annonce /semaine",
+        t('subscriptionCard.plans.starter.benefits.0'),
+        t('subscriptionCard.plans.starter.benefits.1'),
+        t('subscriptionCard.plans.starter.benefits.2'),
       ],
       icon: <FaRocket />,
     },
     {
-      tag: "Launch Pack",
-      title: "Professional Subscription",
-      description: "Take over more jobs and make your reputation fast.",
+      tag: t('subscriptionCard.plans.professional.tag'),
+      title: t('subscriptionCard.plans.professional.title'),
+      description: t('subscriptionCard.plans.professional.description'),
       price: "200 DH",
-      duration: "/3 mois",
+      duration: t('subscriptionCard.plans.professional.duration'),
       benefits: [
-        "3 months of subscription",
-        "1 service VIP",
-        "Featured placement on homepage",
+        t('subscriptionCard.plans.professional.benefits.0'),
+        t('subscriptionCard.plans.professional.benefits.1'),
+        t('subscriptionCard.plans.professional.benefits.2'),
       ],
       icon: <FaUserFriends />,
     },
     {
-      tag: "Elite Pack",
-      title: "Premium Subscription",
-      description: "Dominate search results and get premium job offers.",
-      price: "400 DH",
-      duration: "/8 mois",
+      tag: t('subscriptionCard.plans.premium.tag'),
+      title: t('subscriptionCard.plans.premium.title'),
+      description: t('subscriptionCard.plans.premium.description'),
+      price: "500 DH",
+      duration: t('subscriptionCard.plans.premium.duration'),
       benefits: [
-        "8 months of subscription",
-        "Unlimited annonces",
-        "Priority job alerts",
+        t('subscriptionCard.plans.premium.benefits.0'),
+        t('subscriptionCard.plans.premium.benefits.1'),
+        t('subscriptionCard.plans.premium.benefits.2'),
       ],
       icon: <FaStar />,
     },
@@ -46,28 +49,27 @@ export default function SubscriptionCard() {
   return (
     <div className="max-w-6xl mt-10 mx-auto px-4">
       <h2 className="text-3xl font-bold text-center mb-6">
-        <span className="text-gradient-golden">Choose</span>{" "}
-        <span className="text-white">Your Plan</span>
+        <span className="text-gradient-golden">{t('subscriptionCard.chooseTitle')}</span>{" "}
+        <span className="text-white">{t('subscriptionCard.yourPlan')}</span>
       </h2>
       
       {/* Enhanced Description Section */}
       <div className="text-center mb-10">
         <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed mb-4">
-          Select the perfect subscription plan that matches your professional goals and budget. 
-          Each plan is designed to help you grow your business and connect with more clients.
+          {t('subscriptionCard.description')}
         </p>
         <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-golden-400 rounded-full"></span>
-            <span>Flexible monthly plans</span>
+            <span>{t('subscriptionCard.features.flexible')}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-emerald-custom-400 rounded-full"></span>
-            <span>No hidden fees</span>
+            <span>{t('subscriptionCard.features.noHiddenFees')}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-golden-400 rounded-full"></span>
-            <span>Cancel anytime</span>
+            <span>{t('subscriptionCard.features.cancelAnytime')}</span>
           </div>
         </div>
       </div>
@@ -106,7 +108,7 @@ export default function SubscriptionCard() {
 
             {/* Button */}
             <button className="bg-golden-600 hover:bg-golden-500 w-full py-2 rounded-lg text-white font-semibold transition-colors">
-              Subscribe
+              {t('subscriptionCard.subscribe')}
             </button>
 
             {/* Divider */}

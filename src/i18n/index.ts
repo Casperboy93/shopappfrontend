@@ -12,11 +12,18 @@ const resources = {
   ar: { translation: ar },
 };
 
+// Set Arabic as default only if no language is stored
+const defaultLanguage = localStorage.getItem('i18nextLng') || 'ar';
+if (!localStorage.getItem('i18nextLng')) {
+  localStorage.setItem('i18nextLng', 'ar');
+}
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
+    lng: defaultLanguage,
     fallbackLng: 'ar',
     debug: false,
     interpolation: {

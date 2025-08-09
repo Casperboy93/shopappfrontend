@@ -16,19 +16,36 @@ import UserProfile from './pages/UserProfile';
 function App() {
   const { i18n, t } = useTranslation();
   
-  // Apply font class based on current language
+  // Apply font class and direction based on current language
   useEffect(() => {
     const root = document.documentElement;
+    
     if (i18n.language === 'ar') {
       root.classList.add('font-arabic');
       root.classList.remove('font-primary');
       root.setAttribute('dir', 'rtl');
+      root.setAttribute('lang', 'ar');
+      document.title = 'منصة BS - اربط مع العمال المهرة في مدينتك';
     } else {
       root.classList.add('font-primary');
       root.classList.remove('font-arabic');
       root.setAttribute('dir', 'ltr');
+      root.setAttribute('lang', i18n.language);
+      if (i18n.language === 'en') {
+        document.title = 'BS Platform - Connect with skilled workers in your city';
+      } else if (i18n.language === 'fr') {
+        document.title = 'Plateforme BS - Connectez-vous avec des travailleurs qualifiés dans votre ville';
+      }
     }
   }, [i18n.language]);
+  
+  // Initial setup - only set Arabic if no language preference exists
+  useEffect(() => {
+    if (!localStorage.getItem('i18nextLng')) {
+      localStorage.setItem('i18nextLng', 'ar');
+      i18n.changeLanguage('ar');
+    }
+  }, []);
   
   return (
     <Router>

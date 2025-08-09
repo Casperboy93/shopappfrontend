@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { MOROCCAN_CITIES } from '../../consts/cities';
-import { JOB_TYPES } from '../../consts/jobs';
+import { MOROCCAN_CITIES, useTranslatedCities } from '../../consts/cities';
+import { JOB_TYPES, useTranslatedJobTypes } from '../../consts/jobs';
 
 export default function Search() {
   const { t } = useTranslation();
   const [city, setCity] = useState('');
   const [job, setJob] = useState('');
   const navigate = useNavigate();
+  const translatedCities = useTranslatedCities();
+  const translatedJobs = useTranslatedJobTypes();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,10 +33,10 @@ export default function Search() {
         onChange={(e) => setCity(e.target.value)}
         className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full md:w-1/2 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
-        <option value="">{t('search.allCities')}</option>
-        {MOROCCAN_CITIES.map((c) => (
-          <option key={c} value={c}>
-            {c}
+        <option value="">{t('searchFilter.allCities')}</option>
+        {MOROCCAN_CITIES.map((cityKey, index) => (
+          <option key={cityKey} value={cityKey}>
+            {translatedCities[index]}
           </option>
         ))}
       </select>
@@ -44,10 +46,10 @@ export default function Search() {
         onChange={(e) => setJob(e.target.value)}
         className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full md:w-1/2 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
-        <option value="">{t('search.allJobs')}</option>
-        {JOB_TYPES.map((j) => (
-          <option key={j} value={j}>
-            {j}
+        <option value="">{t('searchFilter.allJobs')}</option>
+        {JOB_TYPES.map((jobKey, index) => (
+          <option key={jobKey} value={jobKey}>
+            {translatedJobs[index]}
           </option>
         ))}
       </select>

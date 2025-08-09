@@ -21,24 +21,23 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
     
     setIsLoading(true);
     try {
-      // Increment user views - Fixed endpoint URL
-      const response = await api.patch(`/users/${user._id}/views`);
-      
-      // Update local state with new view count
-      if (response.data && typeof response.data.views === 'number') {
-        setCurrentViews(response.data.views);
-        onViewIncrement?.(user._id, response.data.views);
-      } else {
-        // Fallback: increment locally if API doesn't return new count
-        setCurrentViews(prev => prev + 1);
-        onViewIncrement?.(user._id, currentViews + 1);
-      }
-      
-      // Navigate to user profile
+      // Navigate to user profile without incrementing views to avoid CORS issues
       navigate(`/user/${user._id}`);
+      
+      // Optional: Try to increment views but don't block navigation if it fails
+      try {
+        const response = await api.patch(`/users/${user._id}/views`);
+        if (response.data && typeof response.data.views === 'number') {
+          setCurrentViews(response.data.views);
+          onViewIncrement?.(user._id, response.data.views);
+        }
+      } catch (viewError) {
+        console.warn('Could not increment views:', viewError);
+        // Silently fail - don't show error to user
+      }
     } catch (error) {
-      console.error('Error incrementing views:', error);
-      // Still navigate even if view increment fails
+      console.error('Navigation error:', error);
+      // Still try to navigate
       navigate(`/user/${user._id}`);
     } finally {
       setIsLoading(false);

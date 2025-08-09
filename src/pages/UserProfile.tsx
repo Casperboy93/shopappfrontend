@@ -28,11 +28,19 @@ export default function UserProfile() {
   const handlePhoneClick = async () => {
     if (!phoneRevealed) {
       try {
-        // Increment phoneViews count
+        // Try to increment phoneViews count
         await api.patch(`/users/${id}/phoneviews`);
         setPhoneRevealed(true);
+        
+        // Update local user state to reflect the increment
+        setUser((prev: any) => ({
+          ...prev,
+          phoneViews: (prev.phoneViews || 0) + 1
+        }));
       } catch (error) {
         console.error('Error incrementing phone views:', error);
+        // Still reveal the phone number even if API call fails
+        setPhoneRevealed(true);
       }
     } else {
       // Make the call

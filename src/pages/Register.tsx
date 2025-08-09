@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/axios';
 import { MOROCCAN_CITIES } from '../consts/cities';
-import { JOB_TYPES, useTranslatedJobTypes } from '../consts/jobs';
+import {  useTranslatedJobTypes } from '../consts/jobs';
 
 interface RegistrationFormData {
   firstName: string;

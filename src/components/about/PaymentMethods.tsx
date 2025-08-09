@@ -20,7 +20,7 @@ const banks = [
   {
     name: "Banque Populaire",
     time: "24 hours",
-    img: "/banks/populaire.png",
+    img: "/banks/bpm.png",
   },
 ];
 

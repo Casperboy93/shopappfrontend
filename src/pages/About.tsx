@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import SubscriptionCard from '../components/about/SubscriptionCard';
+import PaymentMethods from '../components/about/PaymentMethods';
 
 const About = () => {
   const { t } = useTranslation();
@@ -6,16 +8,16 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gradient-dark text-white py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
+         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4">
-            <span className="bg-gradient-golden bg-clip-text text-transparent">{t('about.title').split(' ')[0]}</span>{' '}
+            <span className=" bg-clip-text text-white">{t('about.title').split(' ')[0]}</span>{' '}
+
             <span className="text-white">{t('about.title').split(' ')[1]}</span>
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             {t('about.subtitle')}
           </p>
         </div>
-        
         <div className="grid md:grid-cols-2 gap-12">
           <div className="backdrop-blur bg-white/5 border border-golden-600/20 rounded-xl p-8">
             <h2 className="text-3xl font-semibold text-white mb-6 flex items-center gap-3">
@@ -54,6 +56,13 @@ const About = () => {
             </div>
           </div>
         </div>
+       
+        <SubscriptionCard />
+        <PaymentMethods />
+
+       
+        
+        
       </div>
     </div>
   );

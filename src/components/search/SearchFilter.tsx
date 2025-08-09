@@ -39,9 +39,9 @@ export default function SearchFilter({ onFilter, initialCity = '', initialJob = 
         className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full sm:w-1/3 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
         <option value="">{t('searchFilter.allCities')}</option>
-        {MOROCCAN_CITIES.map((c) => (
-          <option key={c} value={c}>
-            {c}
+        {MOROCCAN_CITIES.map((cityKey) => (
+          <option key={cityKey} value={t(cityKey)}>
+            {t(cityKey)}
           </option>
         ))}
       </select>
@@ -52,9 +52,9 @@ export default function SearchFilter({ onFilter, initialCity = '', initialJob = 
         className="bg-dark-800 border border-golden-600/30 rounded-lg px-4 py-3 w-full sm:w-1/3 text-white focus:border-golden-400 focus:outline-none transition-colors"
       >
         <option value="">{t('searchFilter.allJobs')}</option>
-        {JOB_TYPES.map((j) => (
-          <option key={j} value={j}>
-            {j}
+        {JOB_TYPES.map((jobKey) => (
+          <option key={jobKey} value={t(jobKey)}>
+            {t(jobKey)}
           </option>
         ))}
       </select>

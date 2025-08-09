@@ -1,14 +1,20 @@
+import { useTranslation } from 'react-i18next';
+
 export const MOROCCAN_CITIES = [
-    'Casablanca', 'Rabat', 'Fes', 'Marrakech', 'Agadir', 'Tangier',
-    'Oujda', 'Kenitra', 'Tetouan', 'Safi', 'Mohammedia', 'El Jadida',
-    'Beni Mellal', 'Nador', 'Taza', 'Khouribga', 'Errachidia', 'Settat',
-    'Berrechid', 'Khemisset', 'Ksar El Kebir', 'Larache', 'Guelmim',
-    'Ouarzazate', 'Berkane', 'Taourirt', 'Sidi Kacem', 'Sidi Slimane',
-    'Khénifra', 'Al Hoceima', 'Azrou', 'Midelt', 'Tiflet', 'Temara',
-    'Skhirat', 'Ifrane', 'Essaouira', 'Laâyoune', 'Dakhla', 'Tan-Tan',
-    'Tiznit', 'Sefrou', 'Chefchaouen', 'Ait Melloul', 'Zagora',
-    'Boujdour', 'Smara', 'Fquih Ben Salah', 'Youssoufia', 'Meknes',
-    'Taroudant', 'Jerada', 'Aklim', 'Aourir', 'Bouznika', 'Ouazzane',
-    'Demnate', 'Guercif', 'Ben Guerir', 'Azilal'
-  ];
-  
+  'cities.casablanca', 'cities.rabat', 'cities.fes', 'cities.marrakech', 'cities.agadir', 'cities.tangier',
+  'cities.oujda', 'cities.kenitra', 'cities.tetouan', 'cities.safi', 'cities.mohammedia', 'cities.elJadida',
+  'cities.beniMellal', 'cities.nador', 'cities.taza', 'cities.khouribga', 'cities.errachidia', 'cities.settat',
+  'cities.berrechid', 'cities.khemisset', 'cities.ksarElKebir', 'cities.larache', 'cities.guelmim',
+  'cities.ouarzazate', 'cities.berkane', 'cities.taourirt', 'cities.sidiKacem', 'cities.sidiSlimane',
+  'cities.khenifra', 'cities.alHoceima', 'cities.azrou', 'cities.midelt', 'cities.tiflet', 'cities.temara',
+  'cities.skhirat', 'cities.ifrane', 'cities.essaouira', 'cities.laayoune', 'cities.dakhla', 'cities.tanTan',
+  'cities.tiznit', 'cities.sefrou', 'cities.chefchaouen', 'cities.aitMelloul', 'cities.zagora',
+  'cities.boujdour', 'cities.smara', 'cities.fquihBenSalah', 'cities.youssoufia', 'cities.meknes',
+  'cities.taroudant', 'cities.jerada', 'cities.aklim', 'cities.aourir', 'cities.bouznika', 'cities.ouazzane',
+  'cities.demnate', 'cities.guercif', 'cities.benGuerir', 'cities.azilal'
+];
+
+export const useTranslatedCities = () => {
+  const { t } = useTranslation();
+  return MOROCCAN_CITIES.map(cityKey => t(cityKey));
+};

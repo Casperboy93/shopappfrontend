@@ -46,54 +46,58 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
   };
 
   // Truncate description if too long
-  const truncateDescription = (text: string, maxLength: number = 100) => {
+  const truncateDescription = (text: string, maxLength: number = 80) => {
     if (!text) return t('userCard.noDescription');
     return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
   };
 
   return (
-    <div className="bg-card-dark rounded-xl shadow-2xl p-6 hover:shadow-golden-500/10 transition-all duration-300 transform hover:-translate-y-1 border border-golden-600/10">
-      {/* Profile Image */}
-      <div className="flex justify-center mb-4">
+    <div className="bg-card-dark rounded-xl shadow-2xl overflow-hidden hover:shadow-golden-500/10 transition-all duration-300 transform hover:-translate-y-1 border border-golden-600/10">
+      {/* Profile Image - Full Width */}
+      <div className="w-full h-48 relative">
         {user.profileImg ? (
           <img
             src={user.profileImg}
             alt={`${user.firstName} ${user.lastName}`}
-            className="w-20 h-20 rounded-full object-cover border-2 border-golden-500/30 shadow-lg"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-20 h-20 rounded-full border-2 border-golden-500/30 bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center text-golden-400/60 shadow-lg">
-            <span className="text-sm font-medium">
+          <div className="w-full h-full bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center text-golden-400/60">
+            <span className="text-3xl font-bold">
               {user.firstName.charAt(0)}{user.lastName.charAt(0)}
             </span>
           </div>
         )}
+        
+        {/* Rating Badge - Overlay */}
+        <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1">
+          <FaStar className="text-golden-400 text-xs" />
+          <span className="text-white text-xs font-semibold">{(user.rating || 0).toFixed(1)}</span>
+        </div>
       </div>
 
-      {/* User Info */}
-      <div className="text-center">
-        <h3 className="text-lg font-bold text-high-contrast mb-1">
-          {user.firstName} {user.lastName}
-        </h3>
-        
-        <div className="flex items-center justify-center gap-1 text-gray-300 text-sm mb-2">
-          <FaMapMarkerAlt className="text-golden-400" />
-          <span>{user.city || t('userCard.locationNotSpecified')}</span>
+      {/* Content Section */}
+      <div className="p-4">
+        {/* Name and Location */}
+        <div className="mb-3">
+          <h3 className="text-lg font-bold text-high-contrast mb-1 leading-tight">
+            {user.firstName} {user.lastName}
+          </h3>
+          <div className="flex items-center gap-1 text-gray-300 text-sm">
+            <FaMapMarkerAlt className="text-golden-400 text-xs" />
+            <span>{user.city || t('userCard.locationNotSpecified')}</span>
+          </div>
         </div>
 
-        <div className="inline-block bg-gradient-emerald text-white text-xs font-medium px-3 py-1 rounded-full mb-3">
-          {user.job || t('userCard.jobNotSpecified')}
+        {/* Job Badge */}
+        <div className="mb-3">
+          <div className="inline-block bg-gradient-emerald text-white text-xs font-medium px-3 py-1 rounded-full">
+            {user.job || t('userCard.jobNotSpecified')}
+          </div>
         </div>
 
-        {/* Rating */}
-        <div className="flex items-center justify-center gap-1 text-golden-300 mb-2">
-          <FaStar className="text-golden-400" />
-          <span className="font-semibold">{(user.rating || 0).toFixed(1)}</span>
-          <span className="text-gray-400 text-xs">/5.0</span>
-        </div>
-
-        {/* Stats */}
-        <div className="flex justify-center gap-4 text-xs text-gray-400 mb-4">
+        {/* Stats Row */}
+        <div className="flex justify-between items-center text-xs text-gray-400 mb-3">
           <div className="flex items-center gap-1">
             <FaEye className="text-emerald-custom-400" />
             <span>{currentViews}</span>
@@ -102,16 +106,19 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
             <FaPhoneAlt className="text-golden-400" />
             <span>{user.phoneViews || 0}</span>
           </div>
+          {/* <div className="text-gray-400">
+            <span className="text-xs">/5.0</span>
+          </div> */}
         </div>
 
-        {/* Enhanced Description */}
+        {/* Description */}
         <div className="mb-4">
-          <p className="text-gray-300 text-sm leading-relaxed min-h-[2.5rem] flex items-center justify-center">
+          <p className="text-gray-300 text-sm leading-relaxed">
             {truncateDescription(user.description)}
           </p>
         </div>
 
-        {/* Enhanced View Details Button */}
+        {/* View Details Button */}
         <button
           onClick={handleDetailsClick}
           disabled={isLoading}

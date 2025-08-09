@@ -143,7 +143,9 @@
       "descriptionRequired": "Description is required."
     },
     "reviewMessage": "Our team will review your profile and get in touch with you for any confirmation or verification needed. Thank you for joining our platform!",
-    "somethingWentWrong": "Something went wrong. Please try again."
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "selectCity": "Select a city",
+    "selectJob": "Select a job"
   },
   "login": {
     "title": "Welcome Back",
@@ -290,45 +292,14 @@
       "tryAdjusting": "Try adjusting your search or filters",
       "checkBackLater": "Check back later for new professionals"
     },
-    "topUsers": {
-      "title": {
-        "ourTop": "Our Top",
-        "professionals": "Professionals"
-      },
-      "subtitle": "Discover skilled professionals in your area",
-      "loadingMessage": "Loading top professionals...",
-      "errorMessage": "Failed to load professionals. Please try again later.",
-      "searchPlaceholder": "Search professionals...",
-      "sortBy": "Sort by",
-      "filterBy": "Filter by",
-      "sortOptions": {
-        "highestRating": "Highest Rating",
-        "mostViews": "Most Views",
-        "mostPhoneViews": "Most Phone Views",
-        "newest": "Newest"
-      },
-      "filterOptions": {
-        "allProfessionals": "All Professionals",
-        "topRated": "Top Rated (4.5+)",
-        "mostViewed": "Most Viewed (100+)",
-        "recent": "Recent (Last 30 days)"
-      },
-      "stats": {
-        "totalProfessionals": "Total Professionals",
-        "topRated": "Top Rated (4.5+)",
-        "citiesCovered": "Cities Covered"
-      },
-      "showingResults": "Showing {{displayed}} of {{total}} professionals",
-      "filtered": "(filtered)",
-      "noResults": {
-        "noProfessionalsMatch": "No professionals match your criteria",
-        "noProfessionalsFound": "No professionals found",
-        "tryAdjusting": "Try adjusting your search or filters",
-        "checkBackLater": "Check back later for new professionals"
-      },
-      "loadMore": "Load More ({{remaining}} remaining)",
-      "viewAllProfessionals": "View All Professionals"
+    "stats": {
+      "totalProfessionals": "Total Professionals",
+      "averageRating": "Average Rating",
+      "totalViews": "Total Views",
+      "topRated": "Top Rated",
+      "citiesCovered": "Cities Covered"
     },
+
     "pagination": {
       "previous": "Previous",
       "next": "Next"
@@ -415,68 +386,68 @@
     "barber": "Barber"
   },
   "cities": {
-  "casablanca": "Casablanca",
-  "rabat": "Rabat",
-  "fes": "Fes",
-  "marrakech": "Marrakech",
-  "agadir": "Agadir",
-  "tangier": "Tangier",
-  "oujda": "Oujda",
-  "kenitra": "Kenitra",
-  "tetouan": "Tetouan",
-  "safi": "Safi",
-  "mohammedia": "Mohammedia",
-  "elJadida": "El Jadida",
-  "beniMellal": "Beni Mellal",
-  "nador": "Nador",
-  "taza": "Taza",
-  "khouribga": "Khouribga",
-  "errachidia": "Errachidia",
-  "settat": "Settat",
-  "berrechid": "Berrechid",
-  "khemisset": "Khemisset",
-  "ksarElKebir": "Ksar El Kebir",
-  "larache": "Larache",
-  "guelmim": "Guelmim",
-  "ouarzazate": "Ouarzazate",
-  "berkane": "Berkane",
-  "taourirt": "Taourirt",
-  "sidiKacem": "Sidi Kacem",
-  "sidiSlimane": "Sidi Slimane",
-  "khenifra": "Khénifra",
-  "alHoceima": "Al Hoceima",
-  "azrou": "Azrou",
-  "midelt": "Midelt",
-  "tiflet": "Tiflet",
-  "temara": "Temara",
-  "skhirat": "Skhirat",
-  "ifrane": "Ifrane",
-  "essaouira": "Essaouira",
-  "laayoune": "Laâyoune",
-  "dakhla": "Dakhla",
-  "tanTan": "Tan-Tan",
-  "tiznit": "Tiznit",
-  "sefrou": "Sefrou",
-  "chefchaouen": "Chefchaouen",
-  "aitMelloul": "Ait Melloul",
-  "zagora": "Zagora",
-  "boujdour": "Boujdour",
-  "smara": "Smara",
-  "fquihBenSalah": "Fquih Ben Salah",
-  "youssoufia": "Youssoufia",
-  "meknes": "Meknes",
-  "taroudant": "Taroudant",
-  "jerada": "Jerada",
-  "aklim": "Aklim",
-  "aourir": "Aourir",
-  "bouznika": "Bouznika",
-  "ouazzane": "Ouazzane",
-  "demnate": "Demnate",
-  "guercif": "Guercif",
-  "benGuerir": "Ben Guerir",
-  "azilal": "Azilal"
-},
-   "searchFilter": {
+    "casablanca": "Casablanca",
+    "rabat": "Rabat",
+    "fes": "Fes",
+    "marrakech": "Marrakech",
+    "agadir": "Agadir",
+    "tangier": "Tangier",
+    "oujda": "Oujda",
+    "kenitra": "Kenitra",
+    "tetouan": "Tetouan",
+    "safi": "Safi",
+    "mohammedia": "Mohammedia",
+    "elJadida": "El Jadida",
+    "beniMellal": "Beni Mellal",
+    "nador": "Nador",
+    "taza": "Taza",
+    "khouribga": "Khouribga",
+    "errachidia": "Errachidia",
+    "settat": "Settat",
+    "berrechid": "Berrechid",
+    "khemisset": "Khemisset",
+    "ksarElKebir": "Ksar El Kebir",
+    "larache": "Larache",
+    "guelmim": "Guelmim",
+    "ouarzazate": "Ouarzazate",
+    "berkane": "Berkane",
+    "taourirt": "Taourirt",
+    "sidiKacem": "Sidi Kacem",
+    "sidiSlimane": "Sidi Slimane",
+    "khenifra": "Khénifra",
+    "alHoceima": "Al Hoceima",
+    "azrou": "Azrou",
+    "midelt": "Midelt",
+    "tiflet": "Tiflet",
+    "temara": "Temara",
+    "skhirat": "Skhirat",
+    "ifrane": "Ifrane",
+    "essaouira": "Essaouira",
+    "laayoune": "Laâyoune",
+    "dakhla": "Dakhla",
+    "tanTan": "Tan-Tan",
+    "tiznit": "Tiznit",
+    "sefrou": "Sefrou",
+    "chefchaouen": "Chefchaouen",
+    "aitMelloul": "Ait Melloul",
+    "zagora": "Zagora",
+    "boujdour": "Boujdour",
+    "smara": "Smara",
+    "fquihBenSalah": "Fquih Ben Salah",
+    "youssoufia": "Youssoufia",
+    "meknes": "Meknes",
+    "taroudant": "Taroudant",
+    "jerada": "Jerada",
+    "aklim": "Aklim",
+    "aourir": "Aourir",
+    "bouznika": "Bouznika",
+    "ouazzane": "Ouazzane",
+    "demnate": "Demnate",
+    "guercif": "Guercif",
+    "benGuerir": "Ben Guerir",
+    "azilal": "Azilal"
+  },
+  "searchFilter": {
     "allCities": "All Cities",
     "allJobs": "All Jobs",
     "apply": "Apply"
@@ -540,5 +511,54 @@
     "validation": "Validation",
     "available": "Available",
     "additionalInfo": "Processing times may vary depending on your bank's verification procedures. All transactions are secured and monitored for your protection."
-  }
+  },
+  "topUsers": {
+      "loadingMessage": "Loading top professionals...",
+      "errorMessage": "Failed to load professionals. Please try again later.",
+      "searchPlaceholder": "Search by name, profession, or city...",
+      "sortBy": "Sort by",
+      "filterBy": "Filter by",
+      "showingResults": "Showing {{displayed}} of {{total}} professionals",
+      "filtered": "(filtered)",
+      "loadMore": "Load More",
+      "viewAllProfessionals": "View All Professionals",
+      "title": {
+        "ourTop": "Our Top",
+        "professionals": "Professionals"
+      },
+      "subtitle": "Discover the best professionals available in your area",
+      "stats": {
+        "totalProfessionals": "Total Professionals",
+        "averageRating": "Average Rating",
+        "totalViews": "Total Views",
+        "topRated": "Top Rated (4.5+)",
+        "citiesCovered": "Cities Covered"
+      },
+      "sortOptions": {
+        "rating": "Rating",
+        "mostViews": "Most Views",
+        "mostPhoneViews": "Most Phone Views",
+        "newest": "Newest",
+        "highestRating": "Highest Rating"
+      },
+      "filterOptions": {
+        "all": "All",
+        "allProfessionals": "All Professionals",
+        "topRated": "Top Rated",
+        "mostViewed": "Most Viewed",
+        "recent": "Recent"
+      },
+      "actions": {
+        "loadMore": "Load More",
+        "viewAll": "View All Professionals",
+        "viewAllProfessionals": "View All Professionals"
+      },
+      "noResults": {
+        "title": "No professionals found",
+        "message": "No professionals match the current search criteria.",
+        "suggestion": "Try adjusting your search terms or filters.",
+        "noProfessionalsMatch": "No professionals match your criteria",
+        "noProfessionalsFound": "No professionals found"
+      }
+    }
 }

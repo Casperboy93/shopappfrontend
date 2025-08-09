@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../lib/axios';
+import { MOROCCAN_CITIES } from '../consts/cities';
+import { JOB_TYPES, useTranslatedJobTypes } from '../consts/jobs';
 
 interface RegistrationFormData {
   firstName: string;
@@ -16,6 +18,7 @@ interface RegistrationFormData {
 
 export default function Register() {
   const { t } = useTranslation();
+  const translatedJobTypes = useTranslatedJobTypes();
   const [formData, setFormData] = useState<RegistrationFormData>({
     firstName: '',
     lastName: '',
@@ -32,9 +35,28 @@ export default function Register() {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    if (name === 'phone') {
+      // Format phone number as user types
+      const formatted = formatPhoneNumber(value);
+      setFormData((prev) => ({ ...prev, [name]: formatted }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '');
+    
+    // Format as XX XX XX XX XX
+    if (digits.length <= 2) return digits;
+    if (digits.length <= 4) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
+    if (digits.length <= 6) return `${digits.slice(0, 2)} ${digits.slice(2, 4)} ${digits.slice(4)}`;
+    if (digits.length <= 8) return `${digits.slice(0, 2)} ${digits.slice(2, 4)} ${digits.slice(4, 6)} ${digits.slice(6)}`;
+    return `${digits.slice(0, 2)} ${digits.slice(2, 4)} ${digits.slice(4, 6)} ${digits.slice(6, 8)} ${digits.slice(8, 10)}`;
   };
 
   const validate = () => {
@@ -79,6 +101,9 @@ export default function Register() {
 
   const inputClass =
     'border-0 border-b-2 border-gray-300 focus:border-yellow-400 outline-none px-3 py-2 w-full bg-transparent text-black placeholder:text-gray-500';
+  
+  const selectClass =
+    'border-0 border-b-2 border-gray-300 focus:border-yellow-400 outline-none px-3 py-2 w-full bg-transparent text-black';
 
   return (
     <div className="max-w-3xl mx-auto p-6 text-black">
@@ -125,19 +150,25 @@ export default function Register() {
             <input 
               type="text" 
               name="phone" 
-              placeholder={t('register.phone')} 
+              placeholder={`${t('register.phone')} (ex: 06 69 12 50 45)`}
               value={formData.phone} 
               onChange={handleChange} 
-              className={inputClass} 
+              className={inputClass}
+              maxLength={14}
             />
-            <input 
-              type="text" 
-              name="city" 
-              placeholder={t('register.city')} 
-              value={formData.city} 
-              onChange={handleChange} 
-              className={inputClass} 
-            />
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className={selectClass}
+            >
+              <option value="">{t('register.selectCity')}</option>
+              {MOROCCAN_CITIES.map((cityKey) => (
+                <option key={cityKey} value={t(cityKey)}>
+                  {t(cityKey)}
+                </option>
+              ))}
+            </select>
             <input 
               type="text" 
               name="address" 
@@ -148,14 +179,19 @@ export default function Register() {
             />
           </div>
 
-          <input 
-            type="text" 
-            name="job" 
-            placeholder={t('register.jobTitle')} 
-            value={formData.job} 
-            onChange={handleChange} 
-            className={inputClass} 
-          />
+          <select
+            name="job"
+            value={formData.job}
+            onChange={handleChange}
+            className={selectClass}
+          >
+            <option value="">{t('register.selectJob')}</option>
+            {translatedJobTypes.map((job) => (
+              <option key={job} value={job}>
+                {job}
+              </option>
+            ))}
+          </select>
 
           <textarea
             name="description"

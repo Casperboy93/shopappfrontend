@@ -76,7 +76,7 @@ export default function PaymentMethods() {
               alt={bank.name}
               className="w-24 h-24 object-contain rounded-full border border-gray-700 mb-4"
             />
-            <h3 className="text-white text-lg font-semibold">{bank.name}</h3>
+            <h3 className="text-white text-lg font-semibold">{bank.name} x</h3>
             <p className="text-gray-400 text-sm">{t('paymentMethods.validation')}: {bank.time}</p>
             <div className="mt-3 px-3 py-1 bg-golden-600/20 rounded-full">
               <span className="text-golden-400 text-xs font-medium">{t('paymentMethods.available')}</span>

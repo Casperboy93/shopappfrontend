@@ -153,7 +153,8 @@ export default function Register() {
               placeholder={`${t('register.phone')} (ex: 06 69 12 50 45)`}
               value={formData.phone} 
               onChange={handleChange} 
-              className={inputClass}
+              className={`${inputClass} ltr`}
+              style={{ direction: 'ltr' }}
               maxLength={14}
             />
             <select

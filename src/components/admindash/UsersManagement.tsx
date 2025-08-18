@@ -32,6 +32,8 @@ interface User {
   phoneViews: number;
   rating: number;
   createdAt?: string;
+  profileImg?: string;
+  portfolio?: string;
 }
 
 interface EditFormData {
@@ -42,6 +44,8 @@ interface EditFormData {
   city: string;
   job: string;
   status: string;
+  profileImg: string;
+  portfolio: string;
 }
 
 export default function UsersManagement() {
@@ -58,7 +62,9 @@ export default function UsersManagement() {
     phone: '',
     city: '',
     job: '',
-    status: ''
+    status: '',
+    profileImg: '',
+    portfolio: ''
   });
   const [updateLoading, setUpdateLoading] = useState(false);
 
@@ -91,7 +97,9 @@ export default function UsersManagement() {
       phone: user.phone || '',
       city: user.city || '',
       job: user.job || '',
-      status: user.status
+      status: user.status,
+      profileImg: user.profileImg || '',
+      portfolio: user.portfolio || ''
     });
   };
 
@@ -126,7 +134,9 @@ export default function UsersManagement() {
       phone: '',
       city: '',
       job: '',
-      status: ''
+      status: '',
+      profileImg: '',
+      portfolio: ''
     });
   };
 
@@ -454,6 +464,36 @@ export default function UsersManagement() {
                   <option value="active">Active</option>
                   <option value="notapproved">Not Approved</option>
                 </select>
+              </div>
+
+              {/* Profile Image URL */}
+              <div className="mt-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaUser className="inline mr-2 text-blue-500" />
+                  Profile Image URL
+                </label>
+                <input
+                  type="url"
+                  value={editFormData.profileImg}
+                  onChange={(e) => setEditFormData({...editFormData, profileImg: e.target.value})}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter profile image URL"
+                />
+              </div>
+
+              {/* Portfolio URL */}
+              <div className="mt-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaBriefcase className="inline mr-2 text-purple-500" />
+                  Portfolio URL
+                </label>
+                <input
+                  type="url"
+                  value={editFormData.portfolio}
+                  onChange={(e) => setEditFormData({...editFormData, portfolio: e.target.value})}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Enter portfolio URL"
+                />
               </div>
 
               {/* Role Display (Read-only) */}

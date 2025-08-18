@@ -1,8 +1,16 @@
-import { FaUserFriends, FaRocket, FaStar } from "react-icons/fa";
+import { FaUserFriends, FaRocket, FaStar, FaWhatsapp } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 
 export default function SubscriptionCard() {
   const { t } = useTranslation();
+  
+  // WhatsApp function to handle subscription
+  const handleWhatsAppSubscription = (planTitle: string, planPrice: string) => {
+    const phoneNumber = "+212675927607"; // Replace with your actual WhatsApp business number
+    const message = `Hello! I'm interested in subscribing to the ${planTitle} plan for ${planPrice}. Could you please provide more information about the subscription process?`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
   
   const plans = [
     {
@@ -106,8 +114,12 @@ export default function SubscriptionCard() {
               <span className="text-sm font-medium"> {plan.duration}</span>
             </p>
 
-            {/* Button */}
-            <button className="bg-golden-600 hover:bg-golden-500 w-full py-2 rounded-lg text-white font-semibold transition-colors">
+            {/* Updated Button with WhatsApp functionality */}
+            <button 
+              onClick={() => handleWhatsAppSubscription(plan.title, plan.price)}
+              className="bg-golden-600 hover:bg-golden-500 w-full py-2 rounded-lg text-white font-semibold transition-colors flex items-center justify-center gap-2"
+            >
+              <span><FaWhatsapp className="text-lg" /></span>
               {t('subscriptionCard.subscribe')}
             </button>
 

@@ -108,7 +108,21 @@ export default function UsersManagement() {
     
     try {
       setUpdateLoading(true);
-      const res = await api.patch(`/users/${editingUser._id}`, editFormData);
+      
+      // Clean the form data - convert empty strings to undefined for optional fields
+      const cleanedData = {
+        firstName: editFormData.firstName,
+        lastName: editFormData.lastName,
+        email: editFormData.email || undefined,
+        phone: editFormData.phone || undefined,
+        city: editFormData.city || undefined,
+        job: editFormData.job || undefined,
+        status: editFormData.status,
+        profileImg: editFormData.profileImg || undefined,
+        portfolio: editFormData.portfolio || undefined
+      };
+      
+      const res = await api.patch(`/users/${editingUser._id}`, cleanedData);
       
       // Update the user in the local state
       setUsers(users.map(user => 

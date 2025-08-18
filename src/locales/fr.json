@@ -115,7 +115,9 @@
     "bookNow": "Réserver Maintenant",
     "noImage": "Pas d'image",
     "phoneNotPublic": "Téléphone non public",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "portfolio": "Portfolio",
+    "noPortfolio": "Pas de Portfolio"
   },
   "register": {
     "title": "Rejoignez Notre Plateforme",

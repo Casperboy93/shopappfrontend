@@ -164,7 +164,9 @@
     "bookNow": "احجز الآن",
     "noImage": "لا توجد صورة",
     "phoneNotPublic": "الهاتف غير عام",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "portfolio": "معرض الأعمال",
+    "noPortfolio": "لا يوجد معرض أعمال"
   },
   "register": {
     "title": "انضم إلى منصتنا",

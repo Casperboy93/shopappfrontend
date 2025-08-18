@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye } from 'react-icons/fa';
 import api from '../lib/axios';
 
 export default function UserProfile() {
@@ -115,20 +115,30 @@ export default function UserProfile() {
           <p className="text-gray-300">{user.description}</p>
         </div>
 
-        {/* Portfolio Section - Centered */}
+        {/* Portfolio Section - Centered Image Display */}
         {user.portfolio && (
           <div className="p-8 border-t border-golden-600/20 text-center">
             <h3 className="text-lg font-semibold text-white mb-4">{t('user.portfolio')}</h3>
             <div className="flex justify-center">
-              <a
-                href={user.portfolio}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-golden-500/20 to-emerald-custom-500/20 border border-golden-500/30 hover:border-golden-400/50 px-6 py-3 rounded-xl text-golden-300 hover:text-golden-200 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                <FaExternalLinkAlt className="text-sm" />
-                {t('user.viewPortfolio')}
-              </a>
+              {user.portfolio ? (
+                <img
+                  src={user.portfolio}
+                  alt={`${user.firstName} ${user.lastName} Portfolio`}
+                  className="max-w-full max-h-96 rounded-xl border-2 border-golden-500/50 object-contain shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+              ) : (
+                <div className="w-full max-w-md h-48 rounded-xl border-2 border-golden-500/50 bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center text-golden-400/60 shadow-lg">
+                  <span className="text-sm font-medium">{t('user.noPortfolio')}</span>
+                </div>
+              )}
+              {/* Fallback message for broken images */}
+              <div className="hidden w-full max-w-md h-48 rounded-xl border-2 border-golden-500/50 bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center text-golden-400/60 shadow-lg">
+                <span className="text-sm font-medium">{t('user.noPortfolio')}</span>
+              </div>
             </div>
           </div>
         )}

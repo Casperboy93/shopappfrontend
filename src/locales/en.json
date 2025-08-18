@@ -115,7 +115,9 @@
     "bookNow": "Book Now",
     "noImage": "No Image",
     "phoneNotPublic": "Phone not public",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "portfolio": "Portfolio",
+    "noPortfolio": "No Portfolio"
   },
   "register": {
     "title": "Join Our Platform",

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye } from 'react-icons/fa';
+import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye, FaExternalLinkAlt } from 'react-icons/fa';
 import api from '../lib/axios';
 
 export default function UserProfile() {
@@ -114,6 +114,24 @@ export default function UserProfile() {
           <h3 className="text-lg font-semibold text-white mb-3">{t('user.about')}</h3>
           <p className="text-gray-300">{user.description}</p>
         </div>
+
+        {/* Portfolio Section - Centered */}
+        {user.portfolio && (
+          <div className="p-8 border-t border-golden-600/20 text-center">
+            <h3 className="text-lg font-semibold text-white mb-4">{t('user.portfolio')}</h3>
+            <div className="flex justify-center">
+              <a
+                href={user.portfolio}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-golden-500/20 to-emerald-custom-500/20 border border-golden-500/30 hover:border-golden-400/50 px-6 py-3 rounded-xl text-golden-300 hover:text-golden-200 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <FaExternalLinkAlt className="text-sm" />
+                {t('user.viewPortfolio')}
+              </a>
+            </div>
+          </div>
+        )}
 
         {/* Contact */}
         <div className="p-8 border-t border-golden-600/20 bg-gradient-to-r from-golden-500/5 to-emerald-custom-500/5 flex justify-end">

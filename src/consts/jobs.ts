@@ -7,7 +7,8 @@ export const JOB_TYPES = [
   'jobs.ironworker', 'jobs.inoxWorker', 'jobs.aluminumWorker', 'jobs.glassInstaller',
   'jobs.electricGateInstaller', 'jobs.locksmith', 'jobs.architect', 'jobs.civilEngineer',
   'jobs.surveyor', 'jobs.demolitionWorker', 'jobs.scaffolder', 'jobs.plasterer',
-  'jobs.flooring', 'jobs.insulationWorker', 'jobs.waterproofing',
+  'jobs.flooring', 'jobs.insulationWorker', 'jobs.waterproofing', 'jobs.interiorCarpenter',
+  'jobs.marbleTileInstaller', 'jobs.aluminumRepair',
   
   // Automotive & Transportation
   'jobs.mechanic', 'jobs.driver', 'jobs.delivery', 'jobs.carWasher', 'jobs.carUpholsterer',

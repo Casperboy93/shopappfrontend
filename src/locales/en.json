@@ -493,7 +493,10 @@
     "silversmith": "Silversmith",
     "traditionalBuilder": "Traditional Builder",
     "zellijArtisan": "Zellij Artisan",
-    "plasterCarver": "Plaster Carver"
+    "plasterCarver": "Plaster Carver",
+    "interiorCarpenter": "Interior Carpenter",
+    "marbleTileInstaller": "Marble & Tile Installer",
+    "aluminumRepair": "Aluminum Repair Specialist"
   },
   "cities": {
     "casablanca": "Casablanca",

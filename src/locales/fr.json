@@ -479,7 +479,10 @@
     "silversmith": "Orfèvre",
     "traditionalBuilder": "Constructeur Traditionnel",
     "zellijArtisan": "Artisan Zellige",
-    "plasterCarver": "Sculpteur Plâtre"
+    "plasterCarver": "Sculpteur Plâtre",
+    "interiorCarpenter": "Menuisier Décoration Intérieure",
+    "marbleTileInstaller": "Poseur Carrelage et Marbre",
+    "aluminumRepair": "Réparateur Aluminium"
   },
   "cities": {
     "casablanca": "Casablanca",
@@ -596,7 +599,9 @@
     "madagh": "Madagh",
     "saidia": "Saidia",
     "ahfirBerkane": "Ahfir Berkane",
-    "zegzel": "Zegzel"
+    "zegzel": "Zegzel",
+    "talsint": "Talsint",
+    "kelaaatSraghna": "Kelaat Sraghna"
   },
   "searchFilter": {
     "allCities": "Toutes les villes",

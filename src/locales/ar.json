@@ -539,7 +539,10 @@
     "silversmith": "صائغ فضة",
     "traditionalBuilder": "بناء تقليدي",
     "zellijArtisan": "صانع زليج",
-    "plasterCarver": "نحات جبس"
+    "plasterCarver": "نحات جبس",
+    "interiorCarpenter": "نجار ديكور داخلي",
+    "marbleTileInstaller": "مبلّط (زليج رخّام)",
+    "aluminumRepair": "مصلّح الألمنيوم"
   },
   "cities": {
     "casablanca": "الدار البيضاء",

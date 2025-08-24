@@ -8,6 +8,9 @@ import {
   FaCalendarAlt,
   FaEnvelope,
 } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import { MOROCCAN_CITIES } from '../../../consts/cities';
+import { JOB_TYPES } from '../../../consts/jobs';
 
 interface User {
   _id: string;
@@ -31,6 +34,36 @@ interface UserCardProps {
 }
 
 export default function UserCard({ user, onEdit }: UserCardProps) {
+  const { t } = useTranslation();
+
+  // Helper function to get translated city name
+  const getTranslatedCity = (cityValue: string) => {
+    if (!cityValue) return cityValue;
+    
+    // Try to find the city key that matches the stored value
+    const cityKey = MOROCCAN_CITIES.find(key => {
+      const keyWithoutPrefix = key.replace('cities.', '');
+      return keyWithoutPrefix.toLowerCase() === cityValue.toLowerCase() || 
+             t(key).toLowerCase() === cityValue.toLowerCase();
+    });
+    
+    return cityKey ? t(cityKey) : cityValue;
+  };
+
+  // Helper function to get translated job name
+  const getTranslatedJob = (jobValue: string) => {
+    if (!jobValue) return jobValue;
+    
+    // Try to find the job key that matches the stored value
+    const jobKey = JOB_TYPES.find(key => {
+      const keyWithoutPrefix = key.replace('jobs.', '');
+      return keyWithoutPrefix.toLowerCase() === jobValue.toLowerCase() || 
+             t(key).toLowerCase() === jobValue.toLowerCase();
+    });
+    
+    return jobKey ? t(jobKey) : jobValue;
+  };
+
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
       case 'ADMIN':
@@ -96,13 +129,13 @@ export default function UserCard({ user, onEdit }: UserCardProps) {
           {user.city && (
             <div className="flex items-center text-gray-600 hover:text-red-600 transition-colors">
               <FaMapMarkerAlt className="w-4 h-4 mr-3 text-red-500" />
-              <span className="text-sm truncate">{user.city}</span>
+              <span className="text-sm truncate">{getTranslatedCity(user.city)}</span>
             </div>
           )}
           {user.job && (
             <div className="flex items-center text-gray-600 hover:text-purple-600 transition-colors">
               <FaBriefcase className="w-4 h-4 mr-3 text-purple-500" />
-              <span className="text-sm truncate">{user.job}</span>
+              <span className="text-sm truncate">{getTranslatedJob(user.job)}</span>
             </div>
           )}
         </div>

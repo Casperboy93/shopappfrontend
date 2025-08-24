@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaPhoneAlt, FaMapMarkerAlt, FaStar, FaEye } from 'react-icons/fa';
+import { MOROCCAN_CITIES } from '../consts/cities';
+import { JOB_TYPES } from '../consts/jobs';
 import api from '../lib/axios';
 
 export default function UserProfile() {
@@ -10,6 +12,34 @@ export default function UserProfile() {
   const [user, setUser] = useState<any>(null);
   const [notFound, setNotFound] = useState(false);
   const [phoneRevealed, setPhoneRevealed] = useState(false);
+
+  // Helper function to get translated city name
+  const getTranslatedCity = (cityValue: string) => {
+    if (!cityValue) return '';
+    
+    // Try to find the city key that matches the stored value
+    const cityKey = MOROCCAN_CITIES.find(key => {
+      const keyWithoutPrefix = key.replace('cities.', '');
+      return keyWithoutPrefix.toLowerCase() === cityValue.toLowerCase() || 
+             t(key).toLowerCase() === cityValue.toLowerCase();
+    });
+    
+    return cityKey ? t(cityKey) : cityValue;
+  };
+
+  // Helper function to get translated job name
+  const getTranslatedJob = (jobValue: string) => {
+    if (!jobValue) return '';
+    
+    // Try to find the job key that matches the stored value
+    const jobKey = JOB_TYPES.find(key => {
+      const keyWithoutPrefix = key.replace('jobs.', '');
+      return keyWithoutPrefix.toLowerCase() === jobValue.toLowerCase() || 
+             t(key).toLowerCase() === jobValue.toLowerCase();
+    });
+    
+    return jobKey ? t(jobKey) : jobValue;
+  };
 
   useEffect(() => {
     api
@@ -82,11 +112,11 @@ export default function UserProfile() {
 
             <div className="flex items-center gap-2 mt-2 text-gray-300 text-sm">
               <FaMapMarkerAlt className="text-golden-400" />
-              <span>{user.city}</span>
+              <span>{getTranslatedCity(user.city)}</span>
             </div>
 
             <div className="mt-3 inline-block bg-gradient-emerald text-white text-sm font-medium px-4 py-2 rounded-full shadow-md">
-              {user.job}
+              {getTranslatedJob(user.job)}
             </div>
 
             <div className="flex items-center gap-2 text-golden-300 mt-4 text-sm">

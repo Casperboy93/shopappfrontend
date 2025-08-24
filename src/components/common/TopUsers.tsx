@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import UserCard from '../user/UserCard';
 import api from '../../lib/axios';
 import { FaSearch, FaFilter, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
+import { MOROCCAN_CITIES } from '../../consts/cities';
+import { JOB_TYPES } from '../../consts/jobs';
 import type { User } from '../../types/user';
 
 type SortOption = 'rating' | 'views' | 'phoneViews' | 'newest';
@@ -50,11 +52,32 @@ export default function TopUsers() {
   // Filter and search users
   const filteredUsers = useMemo(() => {
     let filtered = users.filter(user => {
+      // Helper function to check if search term matches any translation of a city or job
+      const matchesTranslatedCity = (searchTerm: string) => {
+        return MOROCCAN_CITIES.some(cityKey => {
+          const translatedCity = t(cityKey).toLowerCase();
+          return translatedCity.includes(searchTerm.toLowerCase()) && 
+                 (user.city.toLowerCase().includes(cityKey.replace('cities.', '')) || 
+                  user.city.toLowerCase().includes(translatedCity));
+        });
+      };
+      
+      const matchesTranslatedJob = (searchTerm: string) => {
+        return JOB_TYPES.some(jobKey => {
+          const translatedJob = t(jobKey).toLowerCase();
+          return translatedJob.includes(searchTerm.toLowerCase()) && 
+                 (user.job.toLowerCase().includes(jobKey.replace('jobs.', '')) || 
+                  user.job.toLowerCase().includes(translatedJob));
+        });
+      };
+      
       const matchesSearch = searchTerm === '' || 
         user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.job.toLowerCase().includes(searchTerm.toLowerCase());
+        user.job.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        matchesTranslatedCity(searchTerm) ||
+        matchesTranslatedJob(searchTerm);
       
       return matchesSearch;
     });

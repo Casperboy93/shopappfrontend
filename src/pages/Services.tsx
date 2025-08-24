@@ -47,7 +47,9 @@ const Services = () => {
 
   const filteredServices = services.filter((service) => {
     const matchesCity =
-      !selectedCity || service.citiesCovered?.includes(selectedCity);
+      !selectedCity || 
+      service.citiesCovered?.includes(selectedCity) ||
+      service.citiesCovered?.includes(t(selectedCity));
     const matchesName = service.serviceName
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -143,7 +145,7 @@ const Services = () => {
                 >
                   <option value="">{t("services.allCities")}</option>
                   {MOROCCAN_CITIES.map((cityKey) => (
-                    <option key={cityKey} value={t(cityKey)}>
+                    <option key={cityKey} value={cityKey}>
                       {t(cityKey)}
                     </option>
                   ))}

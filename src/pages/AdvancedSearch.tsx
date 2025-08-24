@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import UserCard from '../components/user/UserCard';
 import SearchFilter from '../components/search/SearchFilter';
 import api from '../lib/axios';
-import { FaSearch, FaSortAmountDown, FaSortAmountUp, FaFilter } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { MOROCCAN_CITIES } from '../consts/cities';
+import { JOB_TYPES } from '../consts/jobs';
 import type { User } from '../types/user';
 
 type SortOption = 'rating' | 'views' | 'phoneViews' | 'name' | 'newest';
@@ -15,11 +17,11 @@ export default function AdvancedSearch() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+
   const [sortBy, setSortBy] = useState<SortOption>('rating');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [showFilters, setShowFilters] = useState(false);
+
   const [cityFilter, setCityFilter] = useState('');
   const [jobFilter, setJobFilter] = useState('');
   
@@ -66,19 +68,21 @@ export default function AdvancedSearch() {
   // Filter and search users
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
-      const matchesSearch = searchTerm === '' || 
-        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.job.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.description.toLowerCase().includes(searchTerm.toLowerCase());
+
       
-      const matchesCity = cityFilter === '' || user.city.toLowerCase().includes(cityFilter.toLowerCase());
-      const matchesJob = jobFilter === '' || user.job.toLowerCase().includes(jobFilter.toLowerCase());
+      // For city filtering, check if the user's city matches the selected city key
+      const matchesCity = cityFilter === '' || 
+        user.city.toLowerCase() === cityFilter.replace('cities.', '').toLowerCase() ||
+        user.city.toLowerCase().includes(t(cityFilter).toLowerCase());
       
-      return matchesSearch && matchesCity && matchesJob;
+      // For job filtering, check if the user's job matches the selected job key
+      const matchesJob = jobFilter === '' || 
+        user.job.toLowerCase() === jobFilter.replace('jobs.', '').toLowerCase() ||
+        user.job.toLowerCase().includes(t(jobFilter).toLowerCase());
+      
+      return matchesCity && matchesJob;
     });
-  }, [users, searchTerm, cityFilter, jobFilter]);
+  }, [users, cityFilter, jobFilter]);
 
   // Sort users
   const sortedUsers = useMemo(() => {
@@ -177,39 +181,14 @@ export default function AdvancedSearch() {
 
         {/* Search and Filters */}
         <div className="mb-8 space-y-4">
-          {/* Search Bar */}
-          <div className="relative max-w-md mx-auto">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder={t('advancedSearch.searchPlaceholder')}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-golden-600/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-golden-500 transition-colors"
-            />
-          </div>
-
-          {/* Filter Toggle */}
-          <div className="text-center">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-dark-800 border border-golden-600/30 rounded-lg text-white hover:border-golden-500 transition-colors"
-            >
-              <FaFilter />
-              {showFilters ? t('advancedSearch.hideFilters') : t('advancedSearch.showFilters')}
-            </button>
-          </div>
-
           {/* Filters */}
-          {showFilters && (
-            <div className="max-w-2xl mx-auto">
-              <SearchFilter
-                onFilter={handleFilter}
-                initialCity={cityFilter}
-                initialJob={jobFilter}
-              />
-            </div>
-          )}
+          <div className="max-w-2xl mx-auto">
+            <SearchFilter
+              onFilter={handleFilter}
+              initialCity={cityFilter}
+              initialJob={jobFilter}
+            />
+           </div>
 
           {/* Sort Options */}
           <div className="flex flex-wrap justify-center gap-2">
@@ -242,7 +221,7 @@ export default function AdvancedSearch() {
         <div className="text-center mb-6">
           <p className="text-gray-400">
             {t('advancedSearch.resultsInfo.showing')} {paginatedUsers.length} {t('advancedSearch.resultsInfo.of')} {sortedUsers.length} {t('advancedSearch.resultsInfo.professionals')}
-            {(cityFilter || jobFilter || searchTerm) && (
+            {(cityFilter || jobFilter) && (
               <span className="text-golden-400"> {t('advancedSearch.resultsInfo.filtered')}</span>
             )}
           </p>
@@ -252,10 +231,10 @@ export default function AdvancedSearch() {
         {paginatedUsers.length === 0 ? (
           <div className="text-center py-12">
             <h3 className="text-xl font-semibold text-gray-400 mb-2">
-              {searchTerm || cityFilter || jobFilter ? t('advancedSearch.noResults.noProfessionalsMatch') : t('advancedSearch.noResults.noProfessionalsFound')}
+              {cityFilter || jobFilter ? t('advancedSearch.noResults.noProfessionalsMatch') : t('advancedSearch.noResults.noProfessionalsFound')}
             </h3>
             <p className="text-gray-500">
-              {searchTerm || cityFilter || jobFilter
+              {cityFilter || jobFilter
                 ? t('advancedSearch.noResults.tryAdjusting')
                 : t('advancedSearch.noResults.checkBackLater')
               }

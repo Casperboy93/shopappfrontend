@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaStar, FaEye, FaPhoneAlt, FaSpinner } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { MOROCCAN_CITIES } from '../../consts/cities';
+import { JOB_TYPES } from '../../consts/jobs';
 import type { User } from '../../types/user';
 import api from '../../lib/axios';
 
@@ -14,7 +16,35 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentViews, setCurrentViews] = useState(user.views);
+  const [currentViews, setCurrentViews] = useState(user.views || 0);
+
+  // Helper function to get translated city name
+  const getTranslatedCity = (cityValue: string) => {
+    if (!cityValue) return t('userCard.locationNotSpecified');
+    
+    // Try to find the city key that matches the stored value
+    const cityKey = MOROCCAN_CITIES.find(key => {
+      const keyWithoutPrefix = key.replace('cities.', '');
+      return keyWithoutPrefix.toLowerCase() === cityValue.toLowerCase() || 
+             t(key).toLowerCase() === cityValue.toLowerCase();
+    });
+    
+    return cityKey ? t(cityKey) : cityValue;
+  };
+
+  // Helper function to get translated job name
+  const getTranslatedJob = (jobValue: string) => {
+    if (!jobValue) return t('userCard.jobNotSpecified');
+    
+    // Try to find the job key that matches the stored value
+    const jobKey = JOB_TYPES.find(key => {
+      const keyWithoutPrefix = key.replace('jobs.', '');
+      return keyWithoutPrefix.toLowerCase() === jobValue.toLowerCase() || 
+             t(key).toLowerCase() === jobValue.toLowerCase();
+    });
+    
+    return jobKey ? t(jobKey) : jobValue;
+  };
 
   const handleDetailsClick = async () => {
     if (isLoading) return;
@@ -84,14 +114,14 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
           </h3>
           <div className="flex items-center gap-1 text-gray-300 text-sm">
             <FaMapMarkerAlt className="text-golden-400 text-xs" />
-            <span>{user.city || t('userCard.locationNotSpecified')}</span>
+            <span>{getTranslatedCity(user.city)}</span>
           </div>
         </div>
 
         {/* Job Badge */}
         <div className="mb-3">
           <div className="inline-block bg-gradient-emerald text-white text-xs font-medium px-3 py-1 rounded-full">
-            {user.job || t('userCard.jobNotSpecified')}
+            {getTranslatedJob(user.job)}
           </div>
         </div>
 

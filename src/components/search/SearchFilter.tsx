@@ -40,7 +40,7 @@ export default function SearchFilter({ onFilter, initialCity = '', initialJob = 
       >
         <option value="">{t('searchFilter.allCities')}</option>
         {MOROCCAN_CITIES.map((cityKey) => (
-          <option key={cityKey} value={t(cityKey)}>
+          <option key={cityKey} value={cityKey}>
             {t(cityKey)}
           </option>
         ))}
@@ -53,7 +53,7 @@ export default function SearchFilter({ onFilter, initialCity = '', initialJob = 
       >
         <option value="">{t('searchFilter.allJobs')}</option>
         {JOB_TYPES.map((jobKey) => (
-          <option key={jobKey} value={t(jobKey)}>
+          <option key={jobKey} value={jobKey}>
             {t(jobKey)}
           </option>
         ))}

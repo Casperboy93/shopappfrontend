@@ -5,8 +5,6 @@ import UserCard from '../components/user/UserCard';
 import SearchFilter from '../components/search/SearchFilter';
 import api from '../lib/axios';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import { MOROCCAN_CITIES } from '../consts/cities';
-import { JOB_TYPES } from '../consts/jobs';
 import type { User } from '../types/user';
 
 type SortOption = 'rating' | 'views' | 'phoneViews' | 'name' | 'newest';

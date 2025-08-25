@@ -5,8 +5,7 @@ import UserCard from './commons/UserCard';
 import UserEditForm from '../common/UserEditForm';
 import { 
   FaExclamationTriangle, 
-  FaSpinner, 
-  FaEdit, 
+  FaSpinner,  
   FaSearch,
   FaFilter,
   FaUserCircle,

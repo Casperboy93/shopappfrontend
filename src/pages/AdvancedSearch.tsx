@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import UserCard from '../components/user/UserCard';
 import SearchFilter from '../components/search/SearchFilter';
+
 import api from '../lib/axios';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import type { User } from '../types/user';
@@ -71,12 +72,18 @@ export default function AdvancedSearch() {
       // For city filtering, check if the user's city matches the selected city key
       const matchesCity = cityFilter === '' || 
         user.city.toLowerCase() === cityFilter.replace('cities.', '').toLowerCase() ||
-        user.city.toLowerCase().includes(t(cityFilter).toLowerCase());
+        user.city.toLowerCase().includes(t(cityFilter).toLowerCase()) ||
+        // Additional check for normalized comparison (removes accents)
+        user.city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === 
+        t(cityFilter).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       
       // For job filtering, check if the user's job matches the selected job key
       const matchesJob = jobFilter === '' || 
         user.job.toLowerCase() === jobFilter.replace('jobs.', '').toLowerCase() ||
-        user.job.toLowerCase().includes(t(jobFilter).toLowerCase());
+        user.job.toLowerCase().includes(t(jobFilter).toLowerCase()) ||
+        // Additional check for normalized comparison (removes accents)
+        user.job.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === 
+        t(jobFilter).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       
       return matchesCity && matchesJob;
     });

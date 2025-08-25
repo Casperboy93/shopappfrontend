@@ -7,8 +7,14 @@ import {
   FaStar,
   FaCalendarAlt,
   FaEnvelope,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaClock,
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import api from '../../../lib/axios';
 import { MOROCCAN_CITIES } from '../../../consts/cities';
 import { JOB_TYPES } from '../../../consts/jobs';
 
@@ -35,6 +41,21 @@ interface User {
   createdAt?: string;
 }
 
+interface Subscription {
+  _id: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    job?: string;
+    email?: string;
+    city?: string;
+  };
+  startDate: string;
+  endDate: string;
+}
+
 interface UserCardProps {
   user: User;
   onEdit: (user: User) => void;
@@ -42,6 +63,82 @@ interface UserCardProps {
 
 export default function UserCard({ user, onEdit }: UserCardProps) {
   const { t } = useTranslation();
+  const [subscriptionStatus, setSubscriptionStatus] = useState<'active' | 'expiring' | 'expired' | 'none'>('none');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkUserSubscription();
+  }, [user._id]);
+
+  const checkUserSubscription = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/subscriptions');
+      const subscriptions: Subscription[] = response.data;
+      
+      // Find subscription for this user
+      const userSubscription = subscriptions.find(sub => sub.user._id === user._id);
+      
+      if (userSubscription) {
+        const status = getSubscriptionStatus(userSubscription.endDate);
+        setSubscriptionStatus(status);
+      } else {
+        setSubscriptionStatus('none');
+      }
+    } catch (error) {
+      console.error('Error fetching subscription status:', error);
+      setSubscriptionStatus('none');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getSubscriptionStatus = (endDate: string): 'active' | 'expiring' | 'expired' => {
+    const today = dayjs();
+    const end = dayjs(endDate);
+    const remainingDays = end.diff(today, 'day');
+    
+    if (remainingDays < 0) return 'expired';
+    if (remainingDays <= 7) return 'expiring';
+    return 'active';
+  };
+
+  const getSubscriptionBadgeConfig = () => {
+    switch (subscriptionStatus) {
+      case 'active':
+        return {
+          icon: FaCheckCircle,
+          text: 'Subscribed',
+          bgColor: 'bg-orange-100',
+          textColor: 'text-orange-800',
+          borderColor: 'border-orange-200'
+        };
+      case 'expiring':
+        return {
+          icon: FaClock,
+          text: 'Expiring',
+          bgColor: 'bg-yellow-100',
+          textColor: 'text-yellow-800',
+          borderColor: 'border-yellow-200'
+        };
+      case 'expired':
+        return {
+          icon: FaTimesCircle,
+          text: 'Expired',
+          bgColor: 'bg-red-100',
+          textColor: 'text-red-800',
+          borderColor: 'border-red-200'
+        };
+      default:
+        return {
+          icon: FaTimesCircle,
+          text: 'No Subscription',
+          bgColor: 'bg-gray-100',
+          textColor: 'text-gray-600',
+          borderColor: 'border-gray-200'
+        };
+    }
+  };
 
   // Helper function to get translated city name
   const getTranslatedCity = (cityValue: string) => {
@@ -104,13 +201,23 @@ export default function UserCard({ user, onEdit }: UserCardProps) {
             <h3 className="font-semibold text-gray-800 text-lg leading-tight truncate">
               {user.firstName} {user.lastName}
             </h3>
-            <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
               <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeStyle(user.role)}`}>
                 {user.role}
               </span>
               <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeStyle(user.status)}`}>
                 {user.status}
               </span>
+              {!loading && (() => {
+                const badgeConfig = getSubscriptionBadgeConfig();
+                const IconComponent = badgeConfig.icon;
+                return (
+                  <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${badgeConfig.bgColor} ${badgeConfig.textColor} ${badgeConfig.borderColor}`}>
+                    <IconComponent className="w-3 h-3" />
+                    <span>{badgeConfig.text}</span>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>

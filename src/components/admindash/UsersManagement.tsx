@@ -3,13 +3,16 @@ import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
 import UserCard from './commons/UserCard';
 import UserEditForm from '../common/UserEditForm';
+import dayjs from 'dayjs';
 import { 
   FaExclamationTriangle, 
   FaSpinner,  
   FaSearch,
-  FaFilter,
   FaUserCircle,
-  FaUser
+  FaUser,
+  FaMapMarkerAlt,
+  FaBriefcase,
+  FaCrown
 } from 'react-icons/fa';
 
 interface User {
@@ -30,6 +33,15 @@ interface User {
   portfolio?: string;
 }
 
+interface Subscription {
+  _id: string;
+  user: {
+    _id: string;
+  };
+  startDate: string;
+  endDate: string;
+}
+
 interface EditFormData {
   firstName: string;
   lastName: string;
@@ -46,10 +58,13 @@ interface EditFormData {
 
 export default function UsersManagement() {
   const [users, setUsers] = useState<User[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState('all');
+  const [filterCity, setFilterCity] = useState('all');
+  const [filterJob, setFilterJob] = useState('all');
+  const [filterSubscription, setFilterSubscription] = useState('all');
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editFormData, setEditFormData] = useState<EditFormData>({
     firstName: '',
@@ -70,17 +85,27 @@ export default function UsersManagement() {
     try {
       setLoading(true);
       setError(null);
-      const res = await api.get('/users');
+      const [usersRes, subscriptionsRes] = await Promise.all([
+        api.get('/users'),
+        api.get('/subscriptions')
+      ]);
       
-      if (Array.isArray(res.data)) {
-        setUsers(res.data);
+      if (Array.isArray(usersRes.data)) {
+        setUsers(usersRes.data);
       } else {
-        throw new Error('Invalid response format');
+        throw new Error('Invalid users response format');
+      }
+      
+      if (Array.isArray(subscriptionsRes.data)) {
+        setSubscriptions(subscriptionsRes.data);
+      } else {
+        setSubscriptions([]);
       }
     } catch (err: any) {
-      console.error('Failed to fetch users:', err);
-      setError(err.response?.data?.message || 'Failed to load users. Please try again.');
+      console.error('Failed to fetch data:', err);
+      setError(err.response?.data?.message || 'Failed to load data. Please try again.');
       setUsers([]);
+      setSubscriptions([]);
     } finally {
       setLoading(false);
     }
@@ -167,6 +192,20 @@ export default function UsersManagement() {
     fetchUsers();
   }, []);
 
+  // Helper function to check if user has active subscription
+  const getUserSubscriptionStatus = (userId: string): 'subscribed' | 'not_subscribed' => {
+    const userSubscription = subscriptions.find(sub => sub.user._id === userId);
+    if (!userSubscription) return 'not_subscribed';
+    
+    const today = dayjs();
+    const endDate = dayjs(userSubscription.endDate);
+    return endDate.isAfter(today) ? 'subscribed' : 'not_subscribed';
+  };
+
+  // Get unique cities and jobs for filter options
+  const uniqueCities = [...new Set(users.map(user => user.city).filter(Boolean))].sort();
+  const uniqueJobs = [...new Set(users.map(user => user.job).filter(Boolean))].sort();
+
   const filteredUsers = users.filter(user => {
     const matchesSearch = 
       user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -174,9 +213,16 @@ export default function UsersManagement() {
       (user.phone && user.phone.includes(searchTerm)) ||
       (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    const matchesRole = filterRole === 'all' || user.role === filterRole;
+    const matchesCity = filterCity === 'all' || user.city === filterCity;
+    const matchesJob = filterJob === 'all' || user.job === filterJob;
     
-    return matchesSearch && matchesRole;
+    let matchesSubscription = true;
+    if (filterSubscription !== 'all') {
+      const subscriptionStatus = getUserSubscriptionStatus(user._id);
+      matchesSubscription = subscriptionStatus === filterSubscription;
+    }
+    
+    return matchesSearch && matchesCity && matchesJob && matchesSubscription;
   });
 
   const handleRefresh = () => {
@@ -184,11 +230,12 @@ export default function UsersManagement() {
   };
 
   const getUserStats = () => {
+    const subscribedUsers = users.filter(u => getUserSubscriptionStatus(u._id) === 'subscribed').length;
     return {
       total: users.length,
       active: users.filter(u => u.status === 'active').length,
-      admins: users.filter(u => u.role === 'ADMIN').length,
-      superAdmins: users.filter(u => u.role === 'SUPERADMIN').length
+      subscribed: subscribedUsers,
+      cities: uniqueCities.length
     };
   };
 
@@ -251,19 +298,19 @@ export default function UsersManagement() {
         <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm">Admins</p>
-              <p className="text-2xl font-bold">{stats.admins}</p>
+              <p className="text-purple-100 text-sm">Subscribed Users</p>
+              <p className="text-2xl font-bold">{stats.subscribed}</p>
             </div>
-            <FaUser className="text-3xl text-purple-200" />
+            <FaCrown className="text-3xl text-purple-200" />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 text-white">
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-red-100 text-sm">Super Admins</p>
-              <p className="text-2xl font-bold">{stats.superAdmins}</p>
+              <p className="text-orange-100 text-sm">Cities</p>
+              <p className="text-2xl font-bold">{stats.cities}</p>
             </div>
-            <FaUser className="text-3xl text-red-200" />
+            <FaMapMarkerAlt className="text-3xl text-orange-200" />
           </div>
         </div>
       </div>
@@ -282,7 +329,7 @@ export default function UsersManagement() {
 
       {/* Search and Filters */}
       <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <FaSearch className="inline mr-2" />
@@ -299,18 +346,49 @@ export default function UsersManagement() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              <FaFilter className="inline mr-2" />
-              Filter by Role
+              <FaMapMarkerAlt className="inline mr-2" />
+              Filter by City
             </label>
             <select
-              value={filterRole}
-              onChange={(e) => setFilterRole(e.target.value)}
+              value={filterCity}
+              onChange={(e) => setFilterCity(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
             >
-              <option value="all">All Roles</option>
-              <option value="USER">Users</option>
-              <option value="ADMIN">Admins</option>
-              <option value="SUPERADMIN">Super Admins</option>
+              <option value="all">All Cities</option>
+              {uniqueCities.map(city => (
+                <option key={city} value={city}>{city}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <FaBriefcase className="inline mr-2" />
+              Filter by Job
+            </label>
+            <select
+              value={filterJob}
+              onChange={(e) => setFilterJob(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            >
+              <option value="all">All Jobs</option>
+              {uniqueJobs.map(job => (
+                <option key={job} value={job}>{job}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <FaCrown className="inline mr-2" />
+              Filter by Subscription
+            </label>
+            <select
+              value={filterSubscription}
+              onChange={(e) => setFilterSubscription(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            >
+              <option value="all">All Users</option>
+              <option value="subscribed">Subscribed</option>
+              <option value="not_subscribed">No Subscription</option>
             </select>
           </div>
         </div>
@@ -341,10 +419,10 @@ export default function UsersManagement() {
           <div className="text-center py-12">
             <FaUserCircle className="mx-auto text-gray-400 text-6xl mb-4" />
             <h3 className="text-xl font-medium text-gray-600 mb-2">
-              {searchTerm || filterRole !== 'all' ? 'No users match your filters' : 'No users found'}
+              {searchTerm || filterCity !== 'all' || filterJob !== 'all' || filterSubscription !== 'all' ? 'No users match your filters' : 'No users found'}
             </h3>
             <p className="text-gray-500">
-              {searchTerm || filterRole !== 'all' 
+              {searchTerm || filterCity !== 'all' || filterJob !== 'all' || filterSubscription !== 'all'
                 ? 'Try adjusting your search criteria'
                 : 'Users will appear here once they are registered'
               }
@@ -366,7 +444,7 @@ export default function UsersManagement() {
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600 text-center">
                 Showing {filteredUsers.length} of {users.length} users
-                {(searchTerm || filterRole !== 'all') && ' (filtered)'}
+                {(searchTerm || filterCity !== 'all' || filterJob !== 'all' || filterSubscription !== 'all') && ' (filtered)'}
               </p>
             </div>
           </>

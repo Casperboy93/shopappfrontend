@@ -71,7 +71,6 @@ function App() {
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-center justify-center gap-2 text-sm">
               <span className="text-golden-400 font-semibold">{t('home.title')}</span>
-              <span className="text-gray-400">test</span>
               <span className="text-gray-300">&copy; {new Date().getFullYear()} {t('footer.allRightsReserved')}</span>
             </div>
           </div>

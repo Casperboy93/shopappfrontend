@@ -346,7 +346,9 @@
     "acTechnician": "Air Conditioning & Refrigeration",
     "applianceRepair": "Home Appliance Repair",
     "upholsterer": "Upholsterer",
-    "interiorDesigner": "Interior Decorator"
+    "interiorDesigner": "Interior Decorator",
+    "construction": "Construction Worker",
+    "gypsumWorker": "Gypsum Worker"
   },
   "cities": {
     "casablanca": "Casablanca",

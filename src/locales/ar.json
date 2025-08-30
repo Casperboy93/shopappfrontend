@@ -392,7 +392,9 @@
     "acTechnician": "التكييف والتبريد",
     "applianceRepair": "إصلاح الأجهزة المنزلية",
     "upholsterer": "أثاث منزلي",
-    "interiorDesigner": "الديكور الداخلي"
+    "interiorDesigner": "الديكور الداخلي",
+    "construction": "بناء",
+    "gypsumWorker": "جباص"
   },
   "cities": {
     "casablanca": "الدار البيضاء",

@@ -11,7 +11,9 @@ export const JOB_TYPES = [
   'jobs.acTechnician',
   'jobs.applianceRepair',
   'jobs.upholsterer',
-  'jobs.interiorDesigner'
+  'jobs.interiorDesigner',
+  'jobs.construction',
+  'jobs.gypsumWorker'
 ];
 
 export const useTranslatedJobTypes = () => {

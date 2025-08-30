@@ -332,7 +332,9 @@
     "acTechnician": "Climatisation et Froid",
     "applianceRepair": "Réparation Électroménager",
     "upholsterer": "Tapissier",
-    "interiorDesigner": "Décoration Interne"
+    "interiorDesigner": "Décoration Interne",
+    "construction": "Ouvrier du Bâtiment",
+    "gypsumWorker": "Plâtrier"
   },
   "cities": {
     "casablanca": "Casablanca",

@@ -257,7 +257,7 @@ export default function TopUsers() {
 
           {/* Filters */}
           {showFilters && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-6">
               {/* Sort Options */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">{t('topUsers.sortBy')}</label>
@@ -286,21 +286,6 @@ export default function TopUsers() {
                   )}
                 </div>
               </div>
-
-              {/* Filter Options */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">{t('topUsers.filterBy')}</label>
-                <select
-                  value={filterBy}
-                  onChange={(e) => setFilterBy(e.target.value as FilterOption)}
-                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
-                >
-                  <option value="all">{t('topUsers.filterOptions.allProfessionals')}</option>
-                  <option value="top-rated">{t('topUsers.filterOptions.topRated')}</option>
-                  <option value="most-viewed">{t('topUsers.filterOptions.mostViewed')}</option>
-                  <option value="recent">{t('topUsers.filterOptions.recent')}</option>
-                </select>
-              </div>
             </div>
           )}
         </div>
@@ -312,7 +297,7 @@ export default function TopUsers() {
               displayed: displayedUsers.length,
               total: sortedUsers.length
             })}
-            {(searchTerm || filterBy !== 'all') && (
+            {searchTerm && (
               <span className="text-golden-400"> {t('topUsers.filtered')}</span>
             )}
           </p>

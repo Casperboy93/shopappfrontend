@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import UserCard from '../user/UserCard';
@@ -8,7 +8,7 @@ import { MOROCCAN_CITIES } from '../../consts/cities';
 import { JOB_TYPES } from '../../consts/jobs';
 import type { User } from '../../types/user';
 
-type SortOption = 'rating' | 'views' | 'phoneViews' | 'newest';
+type SortOption = 'random' | 'rating' | 'views' | 'phoneViews' | 'newest';
 type FilterOption = 'all' | 'top-rated' | 'most-viewed' | 'recent';
 
 export default function TopUsers() {
@@ -17,11 +17,12 @@ export default function TopUsers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('rating');
+  const [sortBy, setSortBy] = useState<SortOption>('random'); // default to random
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [showCount, setShowCount] = useState(8);
   const [showFilters, setShowFilters] = useState(false);
-  
+  const [shuffleNonce, setShuffleNonce] = useState(0); // triggers re-shuffle on demand
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function TopUsers() {
       setLoading(true);
       setError(null);
       const response = await api.get('/users/all-subs');
-      
+
       if (Array.isArray(response.data)) {
         setUsers(response.data);
       } else {
@@ -49,80 +50,103 @@ export default function TopUsers() {
     }
   };
 
-  // Filter and search users
+  // ---- Helpers ----
+  const fisherYatesShuffle = useCallback(<T,>(arr: T[]): T[] => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }, []);
+
+  // Filter & search users
   const filteredUsers = useMemo(() => {
     let filtered = users.filter(user => {
-      // Helper function to check if search term matches any translation of a city or job
-      const matchesTranslatedCity = (searchTerm: string) => {
+      // handle missing string fields gracefully
+      const firstName = (user.firstName || '').toLowerCase();
+      const lastName = (user.lastName || '').toLowerCase();
+      const city = (user.city || '').toLowerCase();
+      const job = (user.job || '').toLowerCase();
+      const query = (searchTerm || '').toLowerCase();
+
+      const matchesTranslatedCity = (term: string) => {
+        const q = term.toLowerCase();
         return MOROCCAN_CITIES.some(cityKey => {
-          const translatedCity = t(cityKey).toLowerCase();
-          return translatedCity.includes(searchTerm.toLowerCase()) && 
-                 (user.city.toLowerCase().includes(cityKey.replace('cities.', '')) || 
-                  user.city.toLowerCase().includes(translatedCity));
+          const translatedCity = (t(cityKey) || '').toLowerCase();
+          const rawKey = cityKey.replace('cities.', '').toLowerCase();
+          return translatedCity.includes(q) && (city.includes(rawKey) || city.includes(translatedCity));
         });
       };
-      
-      const matchesTranslatedJob = (searchTerm: string) => {
+
+      const matchesTranslatedJob = (term: string) => {
+        const q = term.toLowerCase();
         return JOB_TYPES.some(jobKey => {
-          const translatedJob = t(jobKey).toLowerCase();
-          return translatedJob.includes(searchTerm.toLowerCase()) && 
-                 (user.job.toLowerCase().includes(jobKey.replace('jobs.', '')) || 
-                  user.job.toLowerCase().includes(translatedJob));
+          const translatedJob = (t(jobKey) || '').toLowerCase();
+          const rawKey = jobKey.replace('jobs.', '').toLowerCase();
+          return translatedJob.includes(q) && (job.includes(rawKey) || job.includes(translatedJob));
         });
       };
-      
-      const matchesSearch = searchTerm === '' || 
-        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.job.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        matchesTranslatedCity(searchTerm) ||
-        matchesTranslatedJob(searchTerm);
-      
+
+      const matchesSearch =
+        query === '' ||
+        firstName.includes(query) ||
+        lastName.includes(query) ||
+        city.includes(query) ||
+        job.includes(query) ||
+        matchesTranslatedCity(query) ||
+        matchesTranslatedJob(query);
+
       return matchesSearch;
     });
 
     // Apply filters
     switch (filterBy) {
       case 'top-rated':
-        filtered = filtered.filter(user => user.rating >= 4.5);
+        filtered = filtered.filter(u => (u.rating ?? 0) >= 4.5);
         break;
       case 'most-viewed':
-        filtered = filtered.filter(user => user.views >= 100);
+        filtered = filtered.filter(u => (u.views ?? 0) >= 100);
         break;
-      case 'recent':
+      case 'recent': {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        filtered = filtered.filter(user => 
-          user.createdAt && new Date(user.createdAt) >= thirtyDaysAgo
-        );
+        filtered = filtered.filter(u => u.createdAt && new Date(u.createdAt) >= thirtyDaysAgo);
         break;
+      }
       default:
         break;
     }
 
     return filtered;
-  }, [users, searchTerm, filterBy]);
+  }, [users, searchTerm, filterBy, t]);
 
-  // Sort users
+  // Sort or shuffle users
   const sortedUsers = useMemo(() => {
+    if (sortBy === 'random') {
+      // include shuffleNonce so the Shuffle button can reshuffle
+      return fisherYatesShuffle(filteredUsers);
+    }
+
     return [...filteredUsers].sort((a, b) => {
       switch (sortBy) {
         case 'rating':
-          return b.rating - a.rating;
+          return (b.rating ?? 0) - (a.rating ?? 0);
         case 'views':
-          return b.views - a.views;
+          return (b.views ?? 0) - (a.views ?? 0);
         case 'phoneViews':
-          return b.phoneViews - a.phoneViews;
-        case 'newest':
-          const aDate = new Date(a.createdAt || 0).getTime();
-          const bDate = new Date(b.createdAt || 0).getTime();
+          return (b.phoneViews ?? 0) - (a.phoneViews ?? 0);
+        case 'newest': {
+          const aDate = new Date(a.createdAt ?? 0).getTime();
+          const bDate = new Date(b.createdAt ?? 0).getTime();
           return bDate - aDate;
+        }
         default:
-          return b.rating - a.rating;
+          return (b.rating ?? 0) - (a.rating ?? 0);
       }
     });
-  }, [filteredUsers, sortBy]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredUsers, sortBy, fisherYatesShuffle, shuffleNonce]);
 
   const displayedUsers = sortedUsers.slice(0, showCount);
 
@@ -132,6 +156,11 @@ export default function TopUsers() {
 
   const handleLoadMore = () => {
     setShowCount(prev => prev + 8);
+  };
+
+  const handleShuffleAgain = () => {
+    // increase nonce to re-run useMemo and reshuffle
+    setShuffleNonce(n => n + 1);
   };
 
   if (loading) {
@@ -175,7 +204,7 @@ export default function TopUsers() {
             <span className="text-white">{t('topUsers.title.professionals')}</span>
           </h2>
           <p className="text-gray-400 text-lg mb-6">{t('topUsers.subtitle')}</p>
-          
+
           {/* Stats */}
           <div className="flex justify-center gap-8 mb-8">
             <div className="text-center">
@@ -184,7 +213,7 @@ export default function TopUsers() {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-emerald-400">
-                {users.filter(u => u.rating >= 4.5).length}
+                {users.filter(u => (u.rating ?? 0) >= 4.5).length}
               </div>
               <div className="text-sm text-gray-400">{t('topUsers.stats.topRated')}</div>
             </div>
@@ -232,16 +261,30 @@ export default function TopUsers() {
               {/* Sort Options */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">{t('topUsers.sortBy')}</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
-                >
-                  <option value="rating">{t('topUsers.sortOptions.highestRating')}</option>
-                  <option value="views">{t('topUsers.sortOptions.mostViews')}</option>
-                  <option value="phoneViews">{t('topUsers.sortOptions.mostPhoneViews')}</option>
-                  <option value="newest">{t('topUsers.sortOptions.newest')}</option>
-                </select>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+                    className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
+                  >
+                    <option value="random">{t('topUsers.sortOptions.random') || 'Random'}</option>
+                    <option value="rating">{t('topUsers.sortOptions.highestRating')}</option>
+                    <option value="views">{t('topUsers.sortOptions.mostViews')}</option>
+                    <option value="phoneViews">{t('topUsers.sortOptions.mostPhoneViews')}</option>
+                    <option value="newest">{t('topUsers.sortOptions.newest')}</option>
+                  </select>
+
+                  {sortBy === 'random' && (
+                    <button
+                      type="button"
+                      onClick={handleShuffleAgain}
+                      title={t('topUsers.shuffleAgain') || 'Shuffle again'}
+                      className="shrink-0 px-3 py-2 rounded-lg border bg-dark-800/50 border-golden-600/30 text-white hover:border-golden-500 transition-colors"
+                    >
+                      🔀
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Filter Options */}
@@ -265,9 +308,9 @@ export default function TopUsers() {
         {/* Results Info */}
         <div className="text-center mb-6 sm:mb-8 px-4">
           <p className="text-gray-400 text-sm sm:text-base">
-            {t('topUsers.showingResults', { 
-              displayed: displayedUsers.length, 
-              total: sortedUsers.length 
+            {t('topUsers.showingResults', {
+              displayed: displayedUsers.length,
+              total: sortedUsers.length
             })}
             {(searchTerm || filterBy !== 'all') && (
               <span className="text-golden-400"> {t('topUsers.filtered')}</span>
@@ -279,13 +322,14 @@ export default function TopUsers() {
         {displayedUsers.length === 0 ? (
           <div className="text-center py-8 sm:py-12 px-4">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-400 mb-2">
-              {searchTerm || filterBy !== 'all' ? t('topUsers.noResults.noProfessionalsMatch') : t('topUsers.noResults.noProfessionalsFound')}
+              {searchTerm || filterBy !== 'all'
+                ? t('topUsers.noResults.noProfessionalsMatch')
+                : t('topUsers.noResults.noProfessionalsFound')}
             </h3>
             <p className="text-gray-500 mb-4 text-sm sm:text-base">
               {searchTerm || filterBy !== 'all'
                 ? t('topUsers.noResults.tryAdjusting')
-                : t('topUsers.noResults.checkBackLater')
-              }
+                : t('topUsers.noResults.checkBackLater')}
             </p>
             {(searchTerm || filterBy !== 'all') && (
               <button
@@ -317,7 +361,7 @@ export default function TopUsers() {
                   {t('topUsers.loadMore', { remaining: sortedUsers.length - showCount })}
                 </button>
               )}
-              
+
               <button
                 onClick={handleViewAll}
                 className="btn-golden-enhanced px-6 sm:px-8 py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base block sm:inline-block w-full sm:w-auto"

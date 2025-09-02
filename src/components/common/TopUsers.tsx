@@ -267,7 +267,7 @@ export default function TopUsers() {
                     onChange={(e) => setSortBy(e.target.value as SortOption)}
                     className="w-full bg-dark-800/50 border border-golden-600/30 rounded-lg px-3 sm:px-4 py-2 text-white focus:border-golden-500 focus:outline-none transition-colors backdrop-blur text-sm sm:text-base"
                   >
-                    <option value="random">{t('topUsers.sortOptions.random') || 'Random'}</option>
+                    <option value="random">{t('topUsers.sortOptions.random')}</option>
                     <option value="rating">{t('topUsers.sortOptions.highestRating')}</option>
                     <option value="views">{t('topUsers.sortOptions.mostViews')}</option>
                     <option value="phoneViews">{t('topUsers.sortOptions.mostPhoneViews')}</option>
@@ -278,7 +278,7 @@ export default function TopUsers() {
                     <button
                       type="button"
                       onClick={handleShuffleAgain}
-                      title={t('topUsers.shuffleAgain') || 'Shuffle again'}
+                      title={t('topUsers.shuffleAgain')}
                       className="shrink-0 px-3 py-2 rounded-lg border bg-dark-800/50 border-golden-600/30 text-white hover:border-golden-500 transition-colors"
                     >
                       🔀

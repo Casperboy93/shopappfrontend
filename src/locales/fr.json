@@ -541,6 +541,7 @@
     "citiesCovered": "Villes couvertes"
   },
   "sortOptions": {
+    "random": "Aléatoire",
     "rating": "Note",
     "mostViews": "Plus de vues",
     "mostPhoneViews": "Plus de vues téléphone",
@@ -554,6 +555,7 @@
     "mostViewed": "Plus vus",
     "recent": "Récents"
   },
+  "shuffleAgain": "Mélanger à nouveau",
   "actions": {
     "loadMore": "Charger plus",
     "viewAll": "Voir tous les professionnels",

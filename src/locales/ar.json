@@ -121,6 +121,7 @@
       "citiesCovered": "المدن المغطاة"
     },
     "sortOptions": {
+      "random": "عشوائي",
       "rating": "التقييم",
       "mostViews": "المشاهدات",
       "mostPhoneViews": "مشاهدات الهاتف",
@@ -134,6 +135,7 @@
       "mostViewed": "الأكثر مشاهدة",
       "recent": "الأحدث"
     },
+    "shuffleAgain": "خلط مرة أخرى",
     "actions": {
       "loadMore": "تحميل المزيد",
       "viewAll": "عرض جميع المحترفين",

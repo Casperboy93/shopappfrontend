@@ -555,6 +555,7 @@
         "citiesCovered": "Cities Covered"
       },
       "sortOptions": {
+        "random": "Random",
         "rating": "Rating",
         "mostViews": "Most Views",
         "mostPhoneViews": "Most Phone Views",
@@ -568,6 +569,7 @@
         "mostViewed": "Most Viewed",
         "recent": "Recent"
       },
+      "shuffleAgain": "Shuffle again",
       "actions": {
         "loadMore": "Load More",
         "viewAll": "View All Professionals",

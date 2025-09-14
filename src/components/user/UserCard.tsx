@@ -125,8 +125,8 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
           </div>
         </div>
 
-        {/* Stats Row */}
-        <div className="flex justify-between items-center text-xs text-gray-400 mb-3">
+        {/* Stats Row - Commented out but functionality preserved */}
+        {/* <div className="flex justify-between items-center text-xs text-gray-400 mb-3">
           <div className="flex items-center gap-1">
             <FaEye className="text-emerald-custom-400" />
             <span>{currentViews}</span>
@@ -135,10 +135,7 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
             <FaPhoneAlt className="text-golden-400" />
             <span>{user.phoneViews || 0}</span>
           </div>
-          {/* <div className="text-gray-400">
-            <span className="text-xs">/5.0</span>
-          </div> */}
-        </div>
+        </div> */}
 
         {/* Description */}
         <div className="mb-4">

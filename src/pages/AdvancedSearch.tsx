@@ -255,7 +255,7 @@ export default function AdvancedSearch() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-2 flex-wrap">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
@@ -264,19 +264,92 @@ export default function AdvancedSearch() {
               {t('advancedSearch.pagination.previous')}
             </button>
             
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === page
-                    ? 'bg-golden-500 text-dark-900'
-                    : 'bg-dark-800 border border-golden-600/30 text-white hover:border-golden-500'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
+            {/* Smart pagination logic */}
+            {(() => {
+              const pages = [];
+              
+              // Always show first page
+              if (currentPage > 2) {
+                pages.push(
+                  <button
+                    key={1}
+                    onClick={() => setCurrentPage(1)}
+                    className="px-4 py-2 bg-dark-800 border border-golden-600/30 text-white hover:border-golden-500 rounded-lg transition-colors"
+                  >
+                    1
+                  </button>
+                );
+                
+                // Add ellipsis if there's a gap
+                if (currentPage > 3) {
+                  pages.push(
+                    <span key="ellipsis-start" className="px-2 py-2 text-gray-400">
+                      ...
+                    </span>
+                  );
+                }
+              }
+              
+              // Show previous page if exists
+              if (currentPage > 1) {
+                pages.push(
+                  <button
+                    key={currentPage - 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    className="px-4 py-2 bg-dark-800 border border-golden-600/30 text-white hover:border-golden-500 rounded-lg transition-colors"
+                  >
+                    {currentPage - 1}
+                  </button>
+                );
+              }
+              
+              // Show current page
+              pages.push(
+                <button
+                  key={currentPage}
+                  className="px-4 py-2 bg-golden-500 text-dark-900 rounded-lg"
+                >
+                  {currentPage}
+                </button>
+              );
+              
+              // Show next page if exists
+              if (currentPage < totalPages) {
+                pages.push(
+                  <button
+                    key={currentPage + 1}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    className="px-4 py-2 bg-dark-800 border border-golden-600/30 text-white hover:border-golden-500 rounded-lg transition-colors"
+                  >
+                    {currentPage + 1}
+                  </button>
+                );
+              }
+              
+              // Always show last page if not already shown
+              if (currentPage < totalPages - 1) {
+                // Add ellipsis if there's a gap
+                if (currentPage < totalPages - 2) {
+                  pages.push(
+                    <span key="ellipsis-end" className="px-2 py-2 text-gray-400">
+                      ...
+                    </span>
+                  );
+                }
+                
+                pages.push(
+                  <button
+                    key={totalPages}
+                    onClick={() => setCurrentPage(totalPages)}
+                    className="px-4 py-2 bg-dark-800 border border-golden-600/30 text-white hover:border-golden-500 rounded-lg transition-colors"
+                  >
+                    {totalPages}
+                  </button>
+                );
+              }
+              
+              return pages;
+            })()}
             
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaMapMarkerAlt, FaStar, FaEye, FaPhoneAlt, FaSpinner } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaStar, FaSpinner } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { MOROCCAN_CITIES } from '../../consts/cities';
 import { JOB_TYPES } from '../../consts/jobs';
@@ -16,7 +16,7 @@ export default function UserCard({ user, onViewIncrement }: UserCardProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentViews, setCurrentViews] = useState(user.views || 0);
+  const [, setCurrentViews] = useState(user.views || 0);
 
   // Helper function to get translated city name
   const getTranslatedCity = (cityValue: string) => {
